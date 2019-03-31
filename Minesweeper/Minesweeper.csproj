@@ -50,6 +50,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Gui\BitmapsResources.cs" />
+    <Compile Include="Gui\GraphicsConstants.cs" />
     <Compile Include="Gui\MinesweeperForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,6 +147,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\question.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine212.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

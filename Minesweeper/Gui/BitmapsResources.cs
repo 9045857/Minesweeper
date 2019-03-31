@@ -9,6 +9,8 @@ namespace Minesweeper.Gui
 {
     class BitmapsResources
     {
+        public Point bitmapLeftTopPoint = new Point(GraphicsConstants.LeftBitmapXCordinate, GraphicsConstants.TopBitmapYCordinate);
+
         public Bitmap[] bitmapsNumbers = new Bitmap[]
         {
             Properties.Resources.number1_2,
@@ -27,6 +29,6 @@ namespace Minesweeper.Gui
 
         public Bitmap mine = new Bitmap(Properties.Resources.mine3);
 
-        //public Bitmap mine = new Bitmap(Properties.Resources.mine3);
+        public Bitmap mineRemovel = new Bitmap(Properties.Resources.mine3Removel);
     }
 }

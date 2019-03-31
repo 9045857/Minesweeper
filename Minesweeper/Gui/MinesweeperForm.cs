@@ -44,7 +44,7 @@ namespace Minesweeper.Gui
             myBrush.Dispose();
             formGraphics.Dispose();
 
-            CellDraw cellDraw = new CellDraw(panel3,0,0,1,1);
+            CellDraw cellDraw = new CellDraw(panel3,0,0,1,1, new BitmapsResources());
             cellDraw.DrawCell();
 
 

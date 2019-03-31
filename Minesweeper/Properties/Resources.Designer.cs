@@ -133,6 +133,16 @@ namespace Minesweeper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap mine3Removel {
+            get {
+                object obj = ResourceManager.GetObject("mine3Removel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap number1 {
             get {
                 object obj = ResourceManager.GetObject("number1", resourceCulture);
