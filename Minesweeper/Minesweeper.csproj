@@ -49,6 +49,7 @@
     <Compile Include="Gui\ButtonCell.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Gui\BitmapsResources.cs" />
     <Compile Include="Gui\MinesweeperForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,6 +98,54 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\mine2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\number2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\number21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine211.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\number211.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\number2111.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\number5_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\number6_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\number7_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\number8_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\happySmile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\happySmile1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\happySmile2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\flag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\question.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

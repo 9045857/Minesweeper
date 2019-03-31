@@ -14,7 +14,7 @@ namespace Minesweeper.Gui
     {
         private int xRight;
         private int yTop;
-        private int length = 20;
+        private int length = 21;
         private int rowIndex;
         private int colIndex;
         private Control control;
@@ -258,9 +258,9 @@ namespace Minesweeper.Gui
 
         private void DrawMineCell()
         {
-           DrawPressedCellBorder();//вроде рисует
+          // DrawPressedCellBorder();//вроде рисует
 
-         //   DrawUpCellWithBorder();//в чем разница со следующим?
+           DrawUpCellWithBorder();//в чем разница со следующим?
                                    // DrawCellWithBorder();// на удаление
 
           //  DrawMine();
@@ -310,9 +310,9 @@ namespace Minesweeper.Gui
 
             //pictureBox.Image= ResizeImage(Properties.Resources.mine,minePictuteLength,minePictuteLength);
 
-            Image image = Properties.Resources.mine2;
+            Bitmap image = Properties.Resources.flag;//question;//mine31;
 
-
+            image.MakeTransparent();
             
             graphic.DrawImage(image, new Point(2, 2));
 
