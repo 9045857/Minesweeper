@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Minesweeper.Gui;
 using System.Drawing.Drawing2D;
+using Minesweeper.Logic;
 
 namespace Minesweeper.Gui
 {
@@ -14,28 +15,39 @@ namespace Minesweeper.Gui
     {
         private int xRight;
         private int yTop;
-        private int rowIndex;
-        private int colIndex;
+
         private Control control;
 
-        private int length = GraphicsConstants.CellLengthInPixels;//21 пиксел
+        private readonly Cell cell;
+
+        private readonly int length = GraphicsConstants.CellLengthInPixels;//21 пиксел
         private BitmapsResources bitmaps;
 
-
-        public CellDraw(Control control, int xRight, int yTop, int rowIndex, int colIndex, BitmapsResources bitmapsResources)
+        public CellDraw(Cell cell, Control control, BitmapsResources bitmapsResources)
         {
-            this.xRight = xRight;
-            this.yTop = yTop;
+            this.xRight = GetTopLeftCoordinate(cell.ColIndex, length); 
+            this.yTop = GetTopLeftCoordinate(cell.RowIndex, length);
 
-            this.rowIndex = rowIndex;
-            this.colIndex = colIndex;
             this.control = control;
 
+            this.cell = cell;
+
             this.bitmaps = bitmapsResources;
+
+            //  DrawUpCellBorder();
         }
 
-        public void DrawUpCellBorder()
+        private static int GetTopLeftCoordinate(int index,int length)
         {
+            int nextPixelAfterPreviewCell = 1;
+            return index * (length + nextPixelAfterPreviewCell);
+        }
+
+        public static void DrawStartCell(Control control, int rowIndex, int colIndex, int length)
+        {
+            int yTop = GetTopLeftCoordinate(rowIndex,length);
+            int xRight = GetTopLeftCoordinate(colIndex, length);
+
             int borderPixelsDepth = GraphicsConstants.CellBorderWidthInPixels;
 
             SolidBrush cellBrush = new SolidBrush(control.BackColor);
@@ -65,6 +77,39 @@ namespace Minesweeper.Gui
             graphics.Dispose();
         }
 
+        public void DrawUpCellBorder()
+        {
+            DrawStartCell(control, xRight, yTop, length);
+
+            //int borderPixelsDepth = GraphicsConstants.CellBorderWidthInPixels;
+
+            //SolidBrush cellBrush = new SolidBrush(control.BackColor);
+
+            //int penPixelsWidth = 1;
+
+            //Pen penLeftTop = new Pen(Color.White, penPixelsWidth);
+            //Pen penRightBottom = new Pen(Color.Gray, penPixelsWidth);
+
+            //Graphics graphics;
+            //graphics = control.CreateGraphics();
+
+            //for (int i = 0; i < borderPixelsDepth; i++)
+            //{
+            //    graphics.DrawLine(penLeftTop, xRight + i, yTop + i, xRight + i, yTop + length - i);
+            //    graphics.DrawLine(penLeftTop, xRight + i, yTop + i, xRight + length - i, yTop + i);
+
+            //    graphics.DrawLine(penRightBottom, xRight + length - i, yTop + i, xRight + length - i, yTop + length - i);
+            //    graphics.DrawLine(penRightBottom, xRight + i, yTop + length - i, xRight + length - i, yTop + length - i);
+            //}
+
+            //graphics.FillRectangle(cellBrush, new Rectangle(xRight + borderPixelsDepth, yTop + borderPixelsDepth, length - 2 * borderPixelsDepth + 1, length - 2 * borderPixelsDepth + 1));
+
+            //penLeftTop.Dispose();
+            //penRightBottom.Dispose();
+            //cellBrush.Dispose();
+            //graphics.Dispose();
+        }
+
         private void DrawColorCellDownBorder(SolidBrush cellBrush)
         {
             Graphics graphic = control.CreateGraphics();
@@ -92,7 +137,7 @@ namespace Minesweeper.Gui
 
             Graphics graphics = control.CreateGraphics();
             graphics.DrawImage(image, bitmaps.bitmapLeftTopPoint);
-             
+
             graphics.Dispose();
         }
 
@@ -105,7 +150,7 @@ namespace Minesweeper.Gui
 
             Graphics graphics = control.CreateGraphics();
             graphics.DrawImage(image, bitmaps.bitmapLeftTopPoint);
-                        
+
             graphics.Dispose();
         }
 
@@ -166,7 +211,7 @@ namespace Minesweeper.Gui
 
             cellBrush.Dispose();
 
-            if (number==0)
+            if (number == 0)
             {
                 return;
             }

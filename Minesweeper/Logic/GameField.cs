@@ -25,6 +25,19 @@ namespace Minesweeper.Logic
             this.colCount = colCount;
 
             this.mineCount = mineCount;
+
+           // CreateCells();
+          }
+
+        private void CreateCells()//вероятно лишний метод
+        {
+            for (int i = 0; i < rowCount; i++)
+            {
+                for (int j=0;j<colCount;j++)
+                {
+                    cells[i, j] = new Cell(i,j);
+                }
+            }
         }
 
         private void FillMineCells(int startRow, int startCol)

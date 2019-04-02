@@ -46,10 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Gui\ButtonCell.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Gui\BitmapsResources.cs" />
+    <Compile Include="Gui\CellIndexes.cs" />
     <Compile Include="Gui\GraphicsConstants.cs" />
     <Compile Include="Gui\MinesweeperForm.cs">
       <SubType>Form</SubType>
@@ -58,6 +56,7 @@
       <DependentUpon>MinesweeperForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui\CellDraw.cs" />
+    <Compile Include="Gui\MineswepperGame.cs" />
     <Compile Include="Logic\Cell.cs" />
     <Compile Include="Logic\GameField.cs" />
     <Compile Include="Program.cs" />
