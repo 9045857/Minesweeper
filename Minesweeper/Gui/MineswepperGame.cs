@@ -20,7 +20,7 @@ namespace Minesweeper.Gui
 
         private readonly Cell[,] cells;
         private CellDraw[,] cellDraws;
-        private readonly BitmapsResources bitmapsResources=new BitmapsResources();
+        private readonly BitmapsResources bitmaps = new BitmapsResources();
 
         private int RestMinesCount { get; set; }
         private int CheckedMinesCount { get; set; }
@@ -49,17 +49,27 @@ namespace Minesweeper.Gui
         {
             int cellLength = GraphicsConstants.CellLengthInPixels;
             int nextPixelForStartPoint = 1;
+
             int controlWidth = colCount * (cellLength + nextPixelForStartPoint) + control.Margin.Right + control.Margin.Left;
             int controlHeight = rowCount * (cellLength + nextPixelForStartPoint) + control.Margin.Bottom + control.Margin.Top;
 
+            Control panelParent = control.Parent;
+            panelParent.Width = controlWidth+panelParent.Margin.Right+ panelParent.Margin.Left;
+            panelParent.  Height = controlHeight+ panelParent.Margin.Top+ panelParent.Margin.Bottom;
+
+             
+
             control.Width = controlWidth;
             control.Height = controlHeight;
+
+
+
 
             for (int i = 0; i < rowCount; i++)
             {
                 for (int j = 0; j < colCount; j++)
                 {
-                    CellDraw.DrawStartCell(control, i, j, cellLength);
+                    CellDraw.DrawStartCell(control, i, j, cellLength, new BitmapsResources());
                 }
             }
         }

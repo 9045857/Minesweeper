@@ -14,18 +14,18 @@ namespace Minesweeper.Gui
 {
     public partial class MainForm : Form
     {
+        private BitmapsResources bitmaps = new BitmapsResources();
+
+        private int currentRowIndex;
+        private int currentColIndex;
+
+
+
         public MainForm()
         {
             InitializeComponent();
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-
-
-        }
-
+            
 
         private void DrawStartArea()
         {
@@ -38,30 +38,10 @@ namespace Minesweeper.Gui
 
             GameField gameField = new GameField(rowCount, colCount, mineCount);
 
-            MineswepperGame game = new MineswepperGame(gameField.cells, mineCount, panel3);
+            MineswepperGame game = new MineswepperGame(gameField.cells, mineCount, gameAreaPanel);
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-            DrawStartArea();
-
-            //System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Red);
-            //System.Drawing.Graphics formGraphics;
-            //formGraphics = this.CreateGraphics();
-            //formGraphics.FillRectangle(myBrush, new Rectangle(0, 0, 200, 300));
-            //myBrush.Dispose();
-            //formGraphics.Dispose();
-
-            //CellDraw cellDraw = new CellDraw(panel3,0,0,1,1, new BitmapsResources());
-            //cellDraw.DrawCell();
-
-
-
-
-
-        }
-
+      
         private void panel3_MouseClick(object sender, MouseEventArgs e)
         {
             OnMouseClickGameArea();
@@ -73,7 +53,7 @@ namespace Minesweeper.Gui
 
             //this.Text = text;
 
-            Point point = panel3.PointToClient(Cursor.Position);
+            Point point = gameAreaPanel.PointToClient(Cursor.Position);
             Text = point.ToString();
 
         }
@@ -90,6 +70,60 @@ namespace Minesweeper.Gui
             int colIndex = e.Location.X / GraphicsConstants.CellLengthInPixels;
 
             label1.Text = rowIndex + " " + colIndex;
+
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+            tableLayoutPanel1.RowStyles[0].Height = 70;
+
+
+            DrawStartArea();
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            BitmapsResources bitmaps = new BitmapsResources();
+
+            int cellLength = GraphicsConstants.CellLengthInPixels;
+            int nextPixelForStartPoint = 1;
+
+            int colCount = 3;
+            int rowCount = 5;
+
+            int controlWidth = colCount * (cellLength + nextPixelForStartPoint)- nextPixelForStartPoint + panel1.Margin.Right + panel1.Margin.Left;
+            int controlHeight = rowCount * (cellLength +nextPixelForStartPoint)- nextPixelForStartPoint + panel1.Margin.Bottom + panel1.Margin.Top;
+                      
+            panel1.Width = controlWidth;
+            panel1.Height = controlHeight;
+
+            Bitmap bitmap = bitmaps.cellStart;
+
+            Graphics graphics=panel1.CreateGraphics();
+            
+            for (int i = 0; i < rowCount; i++)
+            {
+                for (int j = 0; j < colCount; j++)
+                {
+                    int yTop= i * (cellLength + nextPixelForStartPoint);
+                    int xRight = j * (cellLength + nextPixelForStartPoint);
+
+                    graphics.DrawImage(bitmap,xRight,yTop);
+                }
+            }
+
+            graphics.Dispose();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
 
         }
     }

@@ -91,9 +91,6 @@
     <Folder Include="TextUi\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\mine.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\1.png" />
   </ItemGroup>
   <ItemGroup>
@@ -142,13 +139,94 @@
     <None Include="Resources\happySmile2.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\mine212.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\attantionSmileButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\crySmileButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field8.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\flag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mineBombed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mineFalse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pressedSmileButton.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\question.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\mine212.png" />
+    <None Include="Resources\smileButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StartButton.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
