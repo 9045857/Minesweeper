@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Minesweeper.Logic;
+using System.Drawing;
 
 namespace Minesweeper.Gui
 {
@@ -50,28 +51,34 @@ namespace Minesweeper.Gui
             int cellLength = GraphicsConstants.CellLengthInPixels;
             int nextPixelForStartPoint = 1;
 
-            int controlWidth = colCount * (cellLength + nextPixelForStartPoint) + control.Margin.Right + control.Margin.Left;
-            int controlHeight = rowCount * (cellLength + nextPixelForStartPoint) + control.Margin.Bottom + control.Margin.Top;
-
-            Control panelParent = control.Parent;
-            panelParent.Width = controlWidth+panelParent.Margin.Right+ panelParent.Margin.Left;
-            panelParent.  Height = controlHeight+ panelParent.Margin.Top+ panelParent.Margin.Bottom;
-
-             
+            int controlWidth = colCount * (cellLength + nextPixelForStartPoint) - nextPixelForStartPoint + control.Margin.Right + control.Margin.Left;
+            int controlHeight = rowCount * (cellLength + nextPixelForStartPoint) - nextPixelForStartPoint + control.Margin.Bottom + control.Margin.Top;
 
             control.Width = controlWidth;
             control.Height = controlHeight;
+                        
+            BitmapsResources bitmaps = new BitmapsResources();
+            Bitmap bitmap = bitmaps.cellStart;
 
+            Bitmap tempBmp = new Bitmap(controlWidth, controlHeight);
 
+            Graphics grph = Graphics.FromImage(tempBmp);
+            
 
 
             for (int i = 0; i < rowCount; i++)
             {
                 for (int j = 0; j < colCount; j++)
                 {
-                    CellDraw.DrawStartCell(control, i, j, cellLength, new BitmapsResources());
+                    int yTop = i * (cellLength + nextPixelForStartPoint);
+                    int xRight = j * (cellLength + nextPixelForStartPoint);
+                    grph.DrawImage(bitmap, xRight, yTop);
                 }
             }
+
+            control.CreateGraphics().DrawImage(tempBmp, 0, 0);
+            bitmap.Dispose();
+            tempBmp.Dispose();
         }
 
 

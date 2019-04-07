@@ -25,7 +25,7 @@ namespace Minesweeper.Gui
         {
             InitializeComponent();
         }
-            
+
 
         private void DrawStartArea()
         {
@@ -41,7 +41,7 @@ namespace Minesweeper.Gui
             MineswepperGame game = new MineswepperGame(gameField.cells, mineCount, gameAreaPanel);
         }
 
-      
+
         private void panel3_MouseClick(object sender, MouseEventArgs e)
         {
             OnMouseClickGameArea();
@@ -81,41 +81,72 @@ namespace Minesweeper.Gui
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
-            tableLayoutPanel1.RowStyles[0].Height = 70;
+            //  tableLayoutPanel1.RowStyles[0].Height = 70;
 
 
-            DrawStartArea();
+            //DrawStartArea();
+
+            //tableLayoutPanel1.ColumnStyles[0].Width = 300;
+            
+            //tableLayoutPanel1.RowStyles[1].SizeType = SizeType.Absolute;
+            //tableLayoutPanel1.RowStyles[1].Height = 300;
+
+            //tableLayoutPanel1.Size = ;
+                      
+
+            //  gameAreaPanel.Dock = DockStyle.None;
+
+            // MineswepperGame.DrawStartField(gameAreaPanel, 3, 5);
+
+            //  this.Height = tableLayoutPanel1.Bottom;// - SystemInformation.CaptionHeight; 
+
+            //tableLayoutPanel1.RowStyles[1].Height = gameAreaPanel.Height;
+
+            tableLayoutPanel1.Width = gameAreaPanel.Width;
+
+            //timeAndNewGamePanel.Width = gameAreaPanel.Width;
+
+            this.Width = tableLayoutPanel1.Width;
+            this.Height = tableLayoutPanel1.Height + menuStrip1.Height;// + SystemInformation.CaptionHeight;
+
+            //tableLayoutPanel1.Refresh();//?
+
+           // MessageBox.Show(tableLayoutPanel1.Height.ToString() + "+" + menuStrip1.Height.ToString() + "+" + SystemInformation.CaptionHeight + "+" + "=" + Height.ToString());
+            
+            MineswepperGame.DrawStartField(gameAreaPanel, 3, 5);
+
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+
+
+
+
+        private void DrawStartPanelWithCells(Panel panel, int colCount, int rowCount)
         {
             BitmapsResources bitmaps = new BitmapsResources();
 
             int cellLength = GraphicsConstants.CellLengthInPixels;
             int nextPixelForStartPoint = 1;
 
-            int colCount = 3;
-            int rowCount = 5;
+            int controlWidth = colCount * (cellLength + nextPixelForStartPoint) - nextPixelForStartPoint + panel.Margin.Right + panel.Margin.Left;
+            int controlHeight = rowCount * (cellLength + nextPixelForStartPoint) - nextPixelForStartPoint + panel.Margin.Bottom + panel.Margin.Top;
 
-            int controlWidth = colCount * (cellLength + nextPixelForStartPoint)- nextPixelForStartPoint + panel1.Margin.Right + panel1.Margin.Left;
-            int controlHeight = rowCount * (cellLength +nextPixelForStartPoint)- nextPixelForStartPoint + panel1.Margin.Bottom + panel1.Margin.Top;
-                      
-            panel1.Width = controlWidth;
-            panel1.Height = controlHeight;
+            panel.Width = controlWidth;
+            panel.Height = controlHeight;
 
             Bitmap bitmap = bitmaps.cellStart;
 
-            Graphics graphics=panel1.CreateGraphics();
-            
+            Graphics graphics = panel.CreateGraphics();
+
             for (int i = 0; i < rowCount; i++)
             {
                 for (int j = 0; j < colCount; j++)
                 {
-                    int yTop= i * (cellLength + nextPixelForStartPoint);
+                    int yTop = i * (cellLength + nextPixelForStartPoint);
                     int xRight = j * (cellLength + nextPixelForStartPoint);
 
-                    graphics.DrawImage(bitmap,xRight,yTop);
+                    graphics.DrawImage(bitmap, xRight, yTop);
                 }
             }
 
@@ -123,6 +154,11 @@ namespace Minesweeper.Gui
         }
 
         private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gameAreaPanel_Paint(object sender, PaintEventArgs e)
         {
 
         }
