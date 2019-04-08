@@ -127,6 +127,9 @@
   <data name="smileButton2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\smileButton2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="attantionSmileButton31" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\attantionSmileButton31.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="StartButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\StartButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -142,8 +145,11 @@
   <data name="StartButton3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\StartButton3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="smileButton311" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\smileButton311.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="field03" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\field03.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="smileButton31" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\smileButton31.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="mineBombed3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\mineBombed3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -154,25 +160,49 @@
   <data name="field33" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\field33.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="mine3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mine3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="field12" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\field12.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="field43" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\field43.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="mine3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mine3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="smileButton3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\smileButton3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="smileButton31" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\smileButton31.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="field43" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\field43.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="field03" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\field03.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="smileButton311" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\smileButton311.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="attantionSmileButton31" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\attantionSmileButton31.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="clock0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clock0.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="clock1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clock1.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="clock2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clock2.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="clock3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clock3.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="clock4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clock4.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="clock5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clock5.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="clock6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clock6.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="clock7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clock7.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="clock8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clock8.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="clock9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clock9.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

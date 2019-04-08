@@ -38,7 +38,7 @@ namespace Minesweeper.Gui
 
             GameField gameField = new GameField(rowCount, colCount, mineCount);
 
-            MineswepperGame game = new MineswepperGame(gameField.cells, mineCount, gameAreaPanel);
+       //ERROr     MineswepperGame game = new MineswepperGame(gameField.cells, mineCount, gameAreaPanel);
         }
 
 
@@ -53,8 +53,8 @@ namespace Minesweeper.Gui
 
             //this.Text = text;
 
-            Point point = gameAreaPanel.PointToClient(Cursor.Position);
-            Text = point.ToString();
+            //Point point = gameAreaPanel.PointToClient(Cursor.Position);
+            //Text = point.ToString();
 
         }
 
@@ -64,12 +64,7 @@ namespace Minesweeper.Gui
 
         private void panel3_MouseMove(object sender, MouseEventArgs e)
         {
-            //label1.Text = e.Location.X + ":" + e.Location.Y;
 
-            int rowIndex = e.Location.Y / GraphicsConstants.CellLengthInPixels;
-            int colIndex = e.Location.X / GraphicsConstants.CellLengthInPixels;
-
-            label1.Text = rowIndex + " " + colIndex;
 
         }
 
@@ -81,39 +76,7 @@ namespace Minesweeper.Gui
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
-            //  tableLayoutPanel1.RowStyles[0].Height = 70;
-
-
-            //DrawStartArea();
-
-            //tableLayoutPanel1.ColumnStyles[0].Width = 300;
             
-            //tableLayoutPanel1.RowStyles[1].SizeType = SizeType.Absolute;
-            //tableLayoutPanel1.RowStyles[1].Height = 300;
-
-            //tableLayoutPanel1.Size = ;
-                      
-
-            //  gameAreaPanel.Dock = DockStyle.None;
-
-            // MineswepperGame.DrawStartField(gameAreaPanel, 3, 5);
-
-            //  this.Height = tableLayoutPanel1.Bottom;// - SystemInformation.CaptionHeight; 
-
-            //tableLayoutPanel1.RowStyles[1].Height = gameAreaPanel.Height;
-
-            tableLayoutPanel1.Width = gameAreaPanel.Width;
-
-            //timeAndNewGamePanel.Width = gameAreaPanel.Width;
-
-            this.Width = tableLayoutPanel1.Width;
-            this.Height = tableLayoutPanel1.Height + menuStrip1.Height;// + SystemInformation.CaptionHeight;
-
-            //tableLayoutPanel1.Refresh();//?
-
-           // MessageBox.Show(tableLayoutPanel1.Height.ToString() + "+" + menuStrip1.Height.ToString() + "+" + SystemInformation.CaptionHeight + "+" + "=" + Height.ToString());
-            
-            MineswepperGame.DrawStartField(gameAreaPanel, 3, 5);
 
 
         }

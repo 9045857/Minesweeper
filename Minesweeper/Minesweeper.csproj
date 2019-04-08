@@ -56,6 +56,7 @@
       <DependentUpon>MinesweeperForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui\CellDraw.cs" />
+    <Compile Include="Gui\MineswepperGameTMP.cs" />
     <Compile Include="Gui\MineswepperGame.cs" />
     <Compile Include="Logic\Cell.cs" />
     <Compile Include="Logic\GameField.cs" />
@@ -66,18 +67,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -89,60 +90,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="TextUi\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\mine2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\number2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\11.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\number21.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\mine21.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\mine211.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\number211.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\number2111.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\number5_2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\number6_2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\number7_2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\number8_2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\happySmile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\happySmile1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\happySmile2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\mine212.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\attantionSmileButton.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\clock0.png" />
@@ -175,25 +122,73 @@
     <None Include="Resources\clock9.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\crySmileButton.png" />
+    <None Include="Resources\clock0.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\field0.png" />
+    <None Include="Resources\clock1.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\field1.png" />
+    <None Include="Resources\clock2.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\field2.png" />
+    <None Include="Resources\clock3.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\field3.png" />
+    <None Include="Resources\clock4.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\field4.png" />
+    <None Include="Resources\clock5.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\field5.png" />
+    <None Include="Resources\clock6.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock7.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock8.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock9.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field03.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field23.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field33.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field43.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field53.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mineBombed3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pressedSmileButton31.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StartButton3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileButtonAttantion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileButtonCry.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\field6.png" />
@@ -205,28 +200,16 @@
     <None Include="Resources\field8.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\flag.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\mine.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\mineBombed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\mineFalse.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pressedSmileButton.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\question.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\smileButton.png" />
+    <None Include="Resources\question1.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\StartButton.png" />
+    <None Include="Resources\smileButtonPressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine31.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

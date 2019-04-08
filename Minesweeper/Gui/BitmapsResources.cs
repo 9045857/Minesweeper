@@ -11,15 +11,15 @@ namespace Minesweeper.Gui
     {
         public Bitmap[] minesNearCount = new Bitmap[]
         {
-            Properties.Resources.field0,
-            Properties.Resources.field1,
-            Properties.Resources.field2,
-            Properties.Resources.field3,
-            Properties.Resources.field4,
-            Properties.Resources.field5,
-            Properties.Resources.field6,
-            Properties.Resources.field7,
-            Properties.Resources.field8
+            Properties.Resources.cell0,
+            Properties.Resources.cell1,
+            Properties.Resources.cell2,
+            Properties.Resources.cell3,
+            Properties.Resources.cell4,
+            Properties.Resources.cell5,
+            Properties.Resources.cell6,
+            Properties.Resources.cell7,
+            Properties.Resources.cell8
         };
 
         public Bitmap[] numbers = new Bitmap[]

@@ -137,5 +137,35 @@
   <ItemGroup>
     <None Include="Resources\attantionSmileButton31.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock0.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock2.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock3.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock4.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock5.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock6.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock7.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock8.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock9.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
