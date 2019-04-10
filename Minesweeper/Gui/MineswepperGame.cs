@@ -81,12 +81,26 @@ namespace Minesweeper.Gui
                     //pictureBox.MouseClick += new MouseEventHandler(CellPictureBox_MouseClick);
                     //pictureBox.MouseLeave += new EventHandler(CellPictureBox_MouseLeave);
 
+                    pictureBox.MouseUp += new MouseEventHandler(CellPictureBox_MouseUp);
+
                     pictureBox.MouseDown += new MouseEventHandler(CellPictureBox_MouseDown);
 
                     cellsPictures[i, j] = pictureBox;
                 }
             }
         }
+
+
+
+        private void CellPictureBox_MouseUp(object sender, EventArgs e)
+        {
+            (sender as PictureBox).Image = bitmapsResources.cellStart;
+
+            // TODO нужно занести сюда кнопки и часы pictureBox2.Image = WindowsFormsApp1.Properties.Resources.smileButton31;
+
+
+        }
+
 
 
         private void CellPictureBox_MouseLeave(object sender, EventArgs e)
