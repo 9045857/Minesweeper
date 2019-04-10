@@ -173,6 +173,16 @@ namespace Minesweeper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap clock000 {
+            get {
+                object obj = ResourceManager.GetObject("clock000", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap clock1 {
             get {
                 object obj = ResourceManager.GetObject("clock1", resourceCulture);
@@ -323,9 +333,9 @@ namespace Minesweeper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap smileButtonAttantion {
+        internal static System.Drawing.Bitmap smileButtonAttention {
             get {
-                object obj = ResourceManager.GetObject("smileButtonAttantion", resourceCulture);
+                object obj = ResourceManager.GetObject("smileButtonAttention", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

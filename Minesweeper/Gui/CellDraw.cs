@@ -87,7 +87,7 @@ namespace Minesweeper.Gui
         
         public void DrawMineFalse()
         {
-            DrawCellImage(bitmaps.mineFalse);
+            DrawCellImage(bitmaps.mineError);
         }
 
         public void DrawCellNearMinesCount(int number)

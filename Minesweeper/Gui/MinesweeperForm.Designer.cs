@@ -1,6 +1,6 @@
 ﻿namespace Minesweeper.Gui
 {
-    partial class MainForm
+    partial class mainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,153 +29,156 @@
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.beginerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.averageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.professionalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.userToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.GameInfoTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.mineCountPictureBox = new System.Windows.Forms.PictureBox();
-            this.newGameButtonPictureBox = new System.Windows.Forms.PictureBox();
-            this.timePictureBox = new System.Windows.Forms.PictureBox();
-            this.menuStrip1.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.GameInfoTableLayoutPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mineCountPictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.newGameButtonPictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.timePictureBox)).BeginInit();
+            this.toolStripMenuItemNew = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemLow = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMiddle = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemHigh = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemUser = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelInfo = new System.Windows.Forms.Panel();
+            this.tableLayoutPanelInfo = new System.Windows.Forms.TableLayoutPanel();
+            this.pictureBoxMinesCount = new System.Windows.Forms.PictureBox();
+            this.pictureBoxSmileButton = new System.Windows.Forms.PictureBox();
+            this.pictureBoxTime = new System.Windows.Forms.PictureBox();
+            this.panelGame = new System.Windows.Forms.Panel();
+            this.panelInfo.SuspendLayout();
+            this.tableLayoutPanelInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMinesCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSmileButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTime)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(414, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(238, 24);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
-            // newToolStripMenuItem
+            // toolStripMenuItemNew
             // 
-            this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.beginerToolStripMenuItem,
-            this.averageToolStripMenuItem,
-            this.professionalToolStripMenuItem,
-            this.userToolStripMenuItem});
-            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(101, 24);
-            this.newToolStripMenuItem.Text = "Новая игра";
+            this.toolStripMenuItemNew.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemLow,
+            this.toolStripMenuItemMiddle,
+            this.toolStripMenuItemHigh,
+            this.toolStripMenuItemUser});
+            this.toolStripMenuItemNew.Name = "toolStripMenuItemNew";
+            this.toolStripMenuItemNew.Size = new System.Drawing.Size(101, 24);
+            this.toolStripMenuItemNew.Text = "Новая игра";
             // 
-            // beginerToolStripMenuItem
+            // toolStripMenuItemLow
             // 
-            this.beginerToolStripMenuItem.Name = "beginerToolStripMenuItem";
-            this.beginerToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.beginerToolStripMenuItem.Text = "Новичок";
+            this.toolStripMenuItemLow.Name = "toolStripMenuItemLow";
+            this.toolStripMenuItemLow.Size = new System.Drawing.Size(214, 26);
+            this.toolStripMenuItemLow.Text = "Новичок";
             // 
-            // panel1
+            // toolStripMenuItemMiddle
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(this.GameInfoTableLayoutPanel);
-            this.panel1.Location = new System.Drawing.Point(6, 31);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(402, 72);
-            this.panel1.TabIndex = 8;
+            this.toolStripMenuItemMiddle.Name = "toolStripMenuItemMiddle";
+            this.toolStripMenuItemMiddle.Size = new System.Drawing.Size(214, 26);
+            this.toolStripMenuItemMiddle.Text = "Средний";
             // 
-            // panel2
+            // toolStripMenuItemHigh
             // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel2.Location = new System.Drawing.Point(6, 109);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(402, 211);
-            this.panel2.TabIndex = 9;
+            this.toolStripMenuItemHigh.Name = "toolStripMenuItemHigh";
+            this.toolStripMenuItemHigh.Size = new System.Drawing.Size(214, 26);
+            this.toolStripMenuItemHigh.Text = "Профессионал";
             // 
-            // averageToolStripMenuItem
+            // toolStripMenuItemUser
             // 
-            this.averageToolStripMenuItem.Name = "averageToolStripMenuItem";
-            this.averageToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.averageToolStripMenuItem.Text = "Средний";
+            this.toolStripMenuItemUser.Name = "toolStripMenuItemUser";
+            this.toolStripMenuItemUser.Size = new System.Drawing.Size(214, 26);
+            this.toolStripMenuItemUser.Text = "Пользовательский";
             // 
-            // professionalToolStripMenuItem
+            // panelInfo
             // 
-            this.professionalToolStripMenuItem.Name = "professionalToolStripMenuItem";
-            this.professionalToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.professionalToolStripMenuItem.Text = "Профессионал";
+            this.panelInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelInfo.Controls.Add(this.tableLayoutPanelInfo);
+            this.panelInfo.Location = new System.Drawing.Point(6, 31);
+            this.panelInfo.Name = "panelInfo";
+            this.panelInfo.Size = new System.Drawing.Size(227, 60);
+            this.panelInfo.TabIndex = 8;
             // 
-            // userToolStripMenuItem
+            // tableLayoutPanelInfo
             // 
-            this.userToolStripMenuItem.Name = "userToolStripMenuItem";
-            this.userToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.userToolStripMenuItem.Text = "Пользовательский";
+            this.tableLayoutPanelInfo.ColumnCount = 3;
+            this.tableLayoutPanelInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanelInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelInfo.Controls.Add(this.pictureBoxMinesCount, 0, 0);
+            this.tableLayoutPanelInfo.Controls.Add(this.pictureBoxSmileButton, 1, 0);
+            this.tableLayoutPanelInfo.Controls.Add(this.pictureBoxTime, 2, 0);
+            this.tableLayoutPanelInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanelInfo.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanelInfo.Name = "tableLayoutPanelInfo";
+            this.tableLayoutPanelInfo.RowCount = 1;
+            this.tableLayoutPanelInfo.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelInfo.Size = new System.Drawing.Size(223, 56);
+            this.tableLayoutPanelInfo.TabIndex = 0;
             // 
-            // GameInfoTableLayoutPanel
+            // pictureBoxMinesCount
             // 
-            this.GameInfoTableLayoutPanel.ColumnCount = 3;
-            this.GameInfoTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.GameInfoTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.GameInfoTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.GameInfoTableLayoutPanel.Controls.Add(this.mineCountPictureBox, 0, 0);
-            this.GameInfoTableLayoutPanel.Controls.Add(this.newGameButtonPictureBox, 1, 0);
-            this.GameInfoTableLayoutPanel.Controls.Add(this.timePictureBox, 2, 0);
-            this.GameInfoTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GameInfoTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.GameInfoTableLayoutPanel.Name = "GameInfoTableLayoutPanel";
-            this.GameInfoTableLayoutPanel.RowCount = 1;
-            this.GameInfoTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.GameInfoTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.GameInfoTableLayoutPanel.Size = new System.Drawing.Size(398, 68);
-            this.GameInfoTableLayoutPanel.TabIndex = 0;
+            this.pictureBoxMinesCount.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pictureBoxMinesCount.Image = global::Minesweeper.Properties.Resources.clock000;
+            this.pictureBoxMinesCount.Location = new System.Drawing.Point(3, 3);
+            this.pictureBoxMinesCount.Name = "pictureBoxMinesCount";
+            this.pictureBoxMinesCount.Size = new System.Drawing.Size(74, 50);
+            this.pictureBoxMinesCount.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxMinesCount.TabIndex = 0;
+            this.pictureBoxMinesCount.TabStop = false;
             // 
-            // mineCountPictureBox
+            // pictureBoxSmileButton
             // 
-            this.mineCountPictureBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.mineCountPictureBox.Location = new System.Drawing.Point(3, 3);
-            this.mineCountPictureBox.Name = "mineCountPictureBox";
-            this.mineCountPictureBox.Size = new System.Drawing.Size(100, 62);
-            this.mineCountPictureBox.TabIndex = 0;
-            this.mineCountPictureBox.TabStop = false;
+            this.pictureBoxSmileButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBoxSmileButton.Image = global::Minesweeper.Properties.Resources.smileButton;
+            this.pictureBoxSmileButton.Location = new System.Drawing.Point(89, 3);
+            this.pictureBoxSmileButton.Name = "pictureBoxSmileButton";
+            this.pictureBoxSmileButton.Size = new System.Drawing.Size(44, 50);
+            this.pictureBoxSmileButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxSmileButton.TabIndex = 1;
+            this.pictureBoxSmileButton.TabStop = false;
             // 
-            // newGameButtonPictureBox
+            // pictureBoxTime
             // 
-            this.newGameButtonPictureBox.Location = new System.Drawing.Point(177, 3);
-            this.newGameButtonPictureBox.Name = "newGameButtonPictureBox";
-            this.newGameButtonPictureBox.Size = new System.Drawing.Size(44, 50);
-            this.newGameButtonPictureBox.TabIndex = 1;
-            this.newGameButtonPictureBox.TabStop = false;
+            this.pictureBoxTime.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pictureBoxTime.Image = global::Minesweeper.Properties.Resources.clock000;
+            this.pictureBoxTime.Location = new System.Drawing.Point(146, 3);
+            this.pictureBoxTime.Name = "pictureBoxTime";
+            this.pictureBoxTime.Size = new System.Drawing.Size(74, 50);
+            this.pictureBoxTime.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxTime.TabIndex = 2;
+            this.pictureBoxTime.TabStop = false;
             // 
-            // timePictureBox
+            // panelGame
             // 
-            this.timePictureBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.timePictureBox.Location = new System.Drawing.Point(295, 3);
-            this.timePictureBox.Name = "timePictureBox";
-            this.timePictureBox.Size = new System.Drawing.Size(100, 62);
-            this.timePictureBox.TabIndex = 2;
-            this.timePictureBox.TabStop = false;
+            this.panelGame.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelGame.Location = new System.Drawing.Point(6, 100);
+            this.panelGame.Name = "panelGame";
+            this.panelGame.Size = new System.Drawing.Size(227, 211);
+            this.panelGame.TabIndex = 9;
             // 
-            // MainForm
+            // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(414, 394);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(238, 327);
+            this.Controls.Add(this.panelGame);
+            this.Controls.Add(this.panelInfo);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "MainForm";
-            this.Text = "Form1";
+            this.MinimumSize = new System.Drawing.Size(256, 374);
+            this.Name = "mainForm";
+            this.Text = "Сапер";
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.GameInfoTableLayoutPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mineCountPictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.newGameButtonPictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.timePictureBox)).EndInit();
+            this.panelInfo.ResumeLayout(false);
+            this.tableLayoutPanelInfo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMinesCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSmileButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTime)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -183,17 +186,17 @@
 
         #endregion
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem beginerToolStripMenuItem;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.ToolStripMenuItem averageToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem professionalToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem userToolStripMenuItem;
-        private System.Windows.Forms.TableLayoutPanel GameInfoTableLayoutPanel;
-        private System.Windows.Forms.PictureBox mineCountPictureBox;
-        private System.Windows.Forms.PictureBox newGameButtonPictureBox;
-        private System.Windows.Forms.PictureBox timePictureBox;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemNew;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemLow;
+        private System.Windows.Forms.Panel panelInfo;
+        private System.Windows.Forms.Panel panelGame;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMiddle;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemHigh;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemUser;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelInfo;
+        private System.Windows.Forms.PictureBox pictureBoxMinesCount;
+        private System.Windows.Forms.PictureBox pictureBoxSmileButton;
+        private System.Windows.Forms.PictureBox pictureBoxTime;
     }
 }
 

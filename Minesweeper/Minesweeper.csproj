@@ -92,6 +92,51 @@
     <Folder Include="TextUi\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\field03.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field23.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field33.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field43.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field53.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mineBombed3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StartButton3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\question.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\question1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine31.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\clock0.png" />
   </ItemGroup>
   <ItemGroup>
@@ -122,66 +167,6 @@
     <None Include="Resources\clock9.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\clock0.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\clock1.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\clock2.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\clock3.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\clock4.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\clock5.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\clock6.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\clock7.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\clock8.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\clock9.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\field03.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\field13.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\field23.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\field33.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\field43.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\field53.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\mine3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\mineBombed3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pressedSmileButton31.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\StartButton3.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\smileButton.png" />
   </ItemGroup>
   <ItemGroup>
@@ -191,25 +176,10 @@
     <None Include="Resources\smileButtonCry.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\field6.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\field7.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\field8.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\question.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\question1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\smileButtonPressed.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\mine31.png" />
+    <None Include="Resources\clock000.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

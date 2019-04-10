@@ -12,7 +12,7 @@ using Minesweeper.Logic;
 
 namespace Minesweeper.Gui
 {
-    public partial class MainForm : Form
+    public partial class mainForm : Form
     {
         private BitmapsResources bitmaps = new BitmapsResources();
 
@@ -21,7 +21,7 @@ namespace Minesweeper.Gui
 
 
 
-        public MainForm()
+        public mainForm()
         {
             InitializeComponent();
         }
@@ -68,9 +68,13 @@ namespace Minesweeper.Gui
 
         }
 
+        private MineswepperGame mineswepperGame;
+
         private void MainForm_Load(object sender, EventArgs e)
         {
 
+            mineswepperGame = new MineswepperGame(10,15,16);//начинающий
+            mineswepperGame.DrawStartArea(panelGame,panelInfo, pictureBoxSmileButton, pictureBoxMinesCount,pictureBoxTime);
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -122,6 +126,11 @@ namespace Minesweeper.Gui
         }
 
         private void gameAreaPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
         }
