@@ -55,7 +55,6 @@
             this.menuStrip1.Size = new System.Drawing.Size(238, 24);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
-            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // toolStripMenuItemNew
             // 
@@ -139,6 +138,7 @@
             this.pictureBoxSmileButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBoxSmileButton.TabIndex = 1;
             this.pictureBoxSmileButton.TabStop = false;
+            this.pictureBoxSmileButton.Click += new System.EventHandler(this.pictureBoxSmileButton_Click);
             // 
             // pictureBoxTime
             // 

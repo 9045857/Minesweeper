@@ -8,103 +8,65 @@ namespace Minesweeper.Logic
 {
     class Cell
     {
-        private enum Status// TODO завязка на енум неправильная. Переделать.
+        public bool isMineInCellSet;
+
+        public enum MarkOnTopCell
         {
-            Unpressed = 0,
-            Pressed = 1,
-            Flag = 2,
-            Question = 3
+            Empty = 0,
+            Flag = 1,
+            Question = 2
         }
 
-        private Status status;
+        public MarkOnTopCell markOnTop;
 
-        //public Cell()
-        //{
-        //    status = Status.Unpressed;
-        //}
+        public int RowIndex { get; private set; }
+        public int ColIndex { get; private set; }
 
-        public Cell(int rowIndex,int colIndex)
+        public Cell(int rowIndex, int colIndex)
         {
+            isMineInCellSet = false;
+
             RowIndex = rowIndex;
             ColIndex = colIndex;
 
-            //status = Status.Unpressed;
-
             IsPressed = false;
+
+            markOnTop = MarkOnTopCell.Empty;
+
+            //IsFlag = false;
+            //IsQuestion = false;
         }
 
-        //public bool isUnpressed
-        //{
-        //    get
-        //    {
-        //        return status == Status.Unpressed;
-        //    }
-        //    set
-        //    {
-        //        if (value)
-        //        {
-        //            status = Status.Unpressed;
-        //        }
-        //    }
-        //}
+        public bool IsPressed { get; set; }// много используется в логике
 
-        public bool IsPressed { get; set; }
+        public bool IsMineHere { get; set; }
 
-        //public bool isPressed
-        //{
-        //    get
-        //    {
-        //        return status == Status.Pressed;
-        //    }
-        //    set
-        //    {
-        //        if (value)
-        //        {
-        //            status = Status.Pressed;
-        //        }
-        //    }
-        //}
+        public int MineNearCount { get; set; }
+        // public int MineNearCheckedCount { get; set; }// в чем отличие?
 
-        //public bool isFlag
-        //{
-        //    get
-        //    {
-        //        return status == Status.Flag;
-        //    }
-        //    set
-        //    {
-        //        if (value)
-        //        {
-        //            status = Status.Flag;
-        //        }
-        //    }
-        //}
-
-        public bool isQuestion
+        public void Mark()
         {
-            get
+            if (!IsPressed)
             {
-                return status == Status.Question;
-            }
-            set
-            {
-                if (value)
+                switch (markOnTop)
                 {
-                    status = Status.Question;
+                    case MarkOnTopCell.Empty:
+                        markOnTop = MarkOnTopCell.Flag;
+                        break;
+
+                    case MarkOnTopCell.Flag:
+                        markOnTop = MarkOnTopCell.Question;
+                        break;
+
+                    case MarkOnTopCell.Question:
+                        markOnTop = MarkOnTopCell.Empty;
+                        break;
                 }
             }
         }
 
-        public bool IsMineHere { get; set; }
+        //public bool IsFlag { get; set; }
 
-        public bool IsFlag { get; set; }
-
-        public int MineNearCount { get; set; }
-
-        public int MineNearCheckedCount { get; set; }
-
-        public int RowIndex { get; private set; }
-
-        public int ColIndex { get; private set; }
+        //public bool IsQuestion { get; set; }
     }
 }

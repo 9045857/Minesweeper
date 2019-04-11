@@ -55,11 +55,13 @@
     <Compile Include="Gui\MinesweeperForm.Designer.cs">
       <DependentUpon>MinesweeperForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\CellDraw.cs" />
+    <Compile Include="Gui\CellDraw.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Gui\MineswepperGameTMP.cs" />
-    <Compile Include="Gui\MineswepperGame.cs" />
+    <Compile Include="Gui\GameGraphics.cs" />
     <Compile Include="Logic\Cell.cs" />
-    <Compile Include="Logic\GameField.cs" />
+    <Compile Include="Logic\GameLogic.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Gui\MinesweeperForm.resx">
