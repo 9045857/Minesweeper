@@ -10,6 +10,16 @@ namespace Minesweeper.Logic
     {
         public bool isMineInCellSet;
 
+        public enum MarkOnBottomCell
+        {            
+            MineNearCount = 0,
+            Mine = 1,
+            MineBombed = 2,
+            MineError=3,
+            Question=4,
+            Empty=5
+        }
+
         public enum MarkOnTopCell
         {
             Empty = 0,
@@ -17,6 +27,7 @@ namespace Minesweeper.Logic
             Question = 2
         }
 
+        public MarkOnBottomCell markOnBottom;
         public MarkOnTopCell markOnTop;
 
         public int RowIndex { get; private set; }

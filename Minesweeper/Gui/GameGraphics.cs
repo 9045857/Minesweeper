@@ -106,9 +106,25 @@ namespace Minesweeper.Gui
                     int rowIndex = element.RowIndex;
                     int columnIndex = element.ColIndex;
 
-                    int minesCountBitmapIndex = element.MineNearCount;
+                    switch (element.markOnBottom)
+                    {
+                        case Cell.MarkOnBottomCell.Mine:
+                            cells[rowIndex, columnIndex].Image = bitmapsResources.mine;
+                            break;
 
-                    cells[rowIndex, columnIndex].Image = bitmapsResources.minesNearCount[minesCountBitmapIndex];
+                        case Cell.MarkOnBottomCell.MineBombed:
+                            cells[rowIndex, columnIndex].Image = bitmapsResources.mineBombed;
+                            break;
+
+                        case Cell.MarkOnBottomCell.MineError:
+                            cells[rowIndex, columnIndex].Image = bitmapsResources.mineError;
+                            break;
+
+                        case Cell.MarkOnBottomCell.MineNearCount:
+                            int minesCountBitmapIndex = element.MineNearCount;
+                            cells[rowIndex, columnIndex].Image = bitmapsResources.minesNearCount[minesCountBitmapIndex];
+                            break;
+                    }
                 }
             }
         }
@@ -117,31 +133,15 @@ namespace Minesweeper.Gui
         {
             if (e.Button == MouseButtons.Left)
             {
-                //isLeftMouseButtonDown = false;
+                int rowIndex = (sender as CellDraw).rowIndex;
+                int columnIndex = (sender as CellDraw).columnIndex;
 
-                if (!gameLogic.AreMinesSet)
+                if (gameLogic.cells[rowIndex, columnIndex].markOnTop != Cell.MarkOnTopCell.Flag)
                 {
-                    int rowIndex = (sender as CellDraw).rowIndex;
-                    int columnIndex = (sender as CellDraw).columnIndex;
-
-
-                    //if (gameLogic.cells[rowIndex, columnIndex].markOnTop == Cell.MarkOnTopCell.Flag)
-                    //{
-                    //    return;
-                    //}
-
-
-                    List<Cell> pressingCells = gameLogic.GetOpenCellsNearPressed(rowIndex, columnIndex);//TODO 
+                    List<Cell> pressingCells = gameLogic.GetOpenCellsAfterPress(rowIndex, columnIndex);
 
                     PressCellsList(pressingCells);
-
-
                 }
-                //else
-                //{
-                //    //игра, проверка
-
-                //}
             }
 
             // TODO самый важный метод нужно как-то передать в логику индексы нажатых кнопок и обратно получить список индексов для открытия
