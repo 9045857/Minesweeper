@@ -183,5 +183,8 @@
   <ItemGroup>
     <None Include="Resources\clock000.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconMine.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

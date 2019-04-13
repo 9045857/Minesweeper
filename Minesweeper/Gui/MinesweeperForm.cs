@@ -83,7 +83,7 @@ namespace Minesweeper.Gui
 
         private void pictureBoxSmileButton_Click(object sender, EventArgs e)
         {           
-            NewMethod();
+            //NewMethod();
         }
 
         //private void pictureBox1_Click(object sender, EventArgs e)

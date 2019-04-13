@@ -71,24 +71,6 @@ namespace Minesweeper.Gui
                     int xRight = j * length;
                     int yTop = i * length;
 
-                    ///*PictureBox*/ pictureBox = new PictureBox();
-
-                    //pictureBox.Parent = gamePanel;
-                    //pictureBox.Location = new Point(xRight, yTop);
-                    //pictureBox.Height = length;
-                    //pictureBox.Width = length;
-                    //pictureBox.Name = "cellPictureBox_" + i + "_" + j;
-                    //pictureBox.Image = cellStart;
-
-                    ////TODO прописать события для стартовых иконок
-                    //pictureBox.MouseMove += new MouseEventHandler(CellPictureBox_MouseMove);
-                    ////pictureBox.MouseClick += new MouseEventHandler(CellPictureBox_MouseClick);
-                    ////pictureBox.MouseLeave += new EventHandler(CellPictureBox_MouseLeave);
-
-                    //pictureBox.MouseUp += new MouseEventHandler(CellPictureBox_MouseUp);
-
-                    //pictureBox.MouseDown += new MouseEventHandler(CellPictureBox_MouseDown);
-
                     CellDraw cellDraw = new CellDraw();
 
                     cellDraw.Parent = gamePanel;
@@ -104,10 +86,9 @@ namespace Minesweeper.Gui
                     //TODO прописать события для стартовых иконок
                     //cellDraw.MouseMove += new MouseEventHandler(CellPictureBox_MouseMove);
                     //cellDraw.MouseClick += new MouseEventHandler(CellcellDraw_MouseClick);
-                    //cellDraw.MouseLeave += new EventHandler(CellcellDraw_MouseLeave);
 
+                    //cellDraw.MouseLeave += new EventHandler(CellPictureBox_MouseLeave);
                     cellDraw.MouseUp += new MouseEventHandler(CellPictureBox_MouseUp);
-
                     cellDraw.MouseDown += new MouseEventHandler(CellPictureBox_MouseDown);
 
                     cells[i, j] = cellDraw;
@@ -118,14 +99,17 @@ namespace Minesweeper.Gui
 
         private void PressCellsList(List<Cell> cellsList)
         {
-            foreach (Cell element in cellsList)
+            if (cellsList.Count != 0)
             {
-                int rowIndex = element.RowIndex;
-                int columnIndex = element.ColIndex;
+                foreach (Cell element in cellsList)
+                {
+                    int rowIndex = element.RowIndex;
+                    int columnIndex = element.ColIndex;
 
-                int minesCountBitmapIndex = element.MineNearCount;
+                    int minesCountBitmapIndex = element.MineNearCount;
 
-                cells[rowIndex, columnIndex].Image = bitmapsResources.minesNearCount[minesCountBitmapIndex];
+                    cells[rowIndex, columnIndex].Image = bitmapsResources.minesNearCount[minesCountBitmapIndex];
+                }
             }
         }
 
@@ -133,26 +117,24 @@ namespace Minesweeper.Gui
         {
             if (e.Button == MouseButtons.Left)
             {
+                //isLeftMouseButtonDown = false;
+
                 if (!gameLogic.AreMinesSet)
                 {
                     int rowIndex = (sender as CellDraw).rowIndex;
                     int columnIndex = (sender as CellDraw).columnIndex;
 
-                    
 
-                    if (gameLogic.cells[rowIndex, columnIndex].markOnTop == Cell.MarkOnTopCell.Flag)
-                    {
-                      //  MessageBox.Show(rowIndex + " : " + columnIndex);
-                        return;
-                    }
+                    //if (gameLogic.cells[rowIndex, columnIndex].markOnTop == Cell.MarkOnTopCell.Flag)
+                    //{
+                    //    return;
+                    //}
 
-                  //  MessageBox.Show(rowIndex + " : " + columnIndex);
 
                     List<Cell> pressingCells = gameLogic.GetOpenCellsNearPressed(rowIndex, columnIndex);//TODO 
 
                     PressCellsList(pressingCells);
 
-                    // areMinesSet = true;
 
                 }
                 //else
@@ -170,15 +152,27 @@ namespace Minesweeper.Gui
 
         private void CellPictureBox_MouseLeave(object sender, EventArgs e)
         {
-            // (sender as PictureBox).Image = bitmapsResources.cellStart;
-
-            // TODO нужно занести сюда кнопки и часы pictureBox2.Image = WindowsFormsApp1.Properties.Resources.smileButton31;
-
-
         }
+
+        //private bool isLeftMouseButtonDown;
 
         private void CellPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Left)
+            {
+                //isLeftMouseButtonDown = true;
+
+                int rowIndex = (sender as CellDraw).rowIndex;
+                int columnIndex = (sender as CellDraw).columnIndex;
+
+                Cell cell = gameLogic.cells[rowIndex, columnIndex];
+
+                if (!cell.IsPressed && cell.markOnTop != Cell.MarkOnTopCell.Flag)
+                {
+                    (sender as CellDraw).Image = bitmapsResources.minesNearCount[0];//TODO вариант с вопросом нужно отдельно сделать
+                }
+            }
+
             if (e.Button == MouseButtons.Right)
             {
                 int rowIndex = (sender as CellDraw).rowIndex;

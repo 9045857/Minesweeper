@@ -52,18 +52,22 @@ namespace Minesweeper.Logic
 
         public List<Cell> GetOpenCellsNearPressed(int rowIndex, int columnIndex)
         {
-            // List<Cell> resultCells;
+            List<Cell> resultCells = new List<Cell>();
 
-            //if (!isGameContinue)
-            //{
-            //    return null;
-            //}
-
-
-            if (cells[rowIndex, columnIndex].markOnTop != Cell.MarkOnTopCell.Flag)
+            if (cells[rowIndex, columnIndex].markOnTop != Cell.MarkOnTopCell.Flag && !cells[rowIndex, columnIndex].IsPressed)
             {
                 if (AreMinesSet)//попал в вопрос или мину, исходя из этого нужно статус ячейки в том числе менять
                 {
+                    if (cells[rowIndex, columnIndex].IsMineHere)
+                    {
+                        //resultCells = GetLooseGame();// раскрываем всю доску кроме правильно отмеченных
+                     //   resultCells = GetAllCellsAfteMinePress(rowIndex, columnIndex);
+                        isGameContinue = false;
+                    }
+                    else
+                    {
+                        resultCells = GetOpenCellsNear(rowIndex, columnIndex);
+                    }
                 }
                 else
                 {
@@ -71,17 +75,15 @@ namespace Minesweeper.Logic
 
                     StartGame(rowIndex, columnIndex);
 
-                    return GetOpenCellsNear(rowIndex, columnIndex);
+                    resultCells = GetOpenCellsNear(rowIndex, columnIndex);
                 }
             }
 
-            return null;
+            return resultCells;
         }
 
         private void StartGame(int startRow, int startCol)
         {
-            //MessageBox.Show("into StartGame");
-
             FillStartEmptyArea(startRow, startCol);//проверено
 
             FillMineCells(startRow, startCol);//проверено
@@ -89,14 +91,10 @@ namespace Minesweeper.Logic
             FillEmptyCells();
 
             FillMinesCountNearCells();
-
-            //MessageBox.Show("out StartGame");
         }
 
         private void FillMineCells(int startRow, int startCol)
         {
-          //  MessageBox.Show("into FillMineCells");
-
             Random random = new Random();
 
             for (int i = 0; i < minesCount; i++)
@@ -110,32 +108,24 @@ namespace Minesweeper.Logic
                     colIndex = random.Next(columnCount);
                 }
 
-                // cells[rowIndex, colIndex] = new Cell(rowIndex, colIndex);
                 cells[rowIndex, colIndex].isMineInCellSet = true;
                 cells[rowIndex, colIndex].IsMineHere = true;
             }
-
-           // MessageBox.Show("out FillMineCells");
         }
 
         private void FillEmptyCells()
         {
-          //  MessageBox.Show("into FillEmptyCells");
-
             for (int i = 0; i < rowCount; i++)
             {
                 for (int j = 0; j < columnCount; j++)
                 {
                     if (!cells[i, j].isMineInCellSet)
                     {
-                        //  cells[i, j] = new Cell(i, j);
                         cells[i, j].isMineInCellSet = true;
                         cells[i, j].IsMineHere = false;
                     }
                 }
             }
-
-         //   MessageBox.Show("out FillEmptyCells");
         }
 
         private int GetMinesNearCellCount(int rowIndex, int colIndex)
@@ -167,8 +157,6 @@ namespace Minesweeper.Logic
 
         private void FillMinesCountNearCells()
         {
-           // MessageBox.Show("into FillMinesCountNearCells");
-
             for (int i = 0; i < rowCount; i++)
             {
                 for (int j = 0; j < columnCount; j++)
@@ -179,15 +167,10 @@ namespace Minesweeper.Logic
                     }
                 }
             }
-
-          //  MessageBox.Show("out FillMinesCountNearCells");
-
         }
 
         private void FillStartEmptyArea(int startRow, int startCol)
         {
-           // MessageBox.Show("into FillEmptyArea");
-
             int indentFromStartCell = 1;
             int borderCorrection = 1;
 
@@ -201,13 +184,10 @@ namespace Minesweeper.Logic
             {
                 for (int j = starColIndex; j <= endColIndex; j++)
                 {
-                    //cells[i, j] = new Cell(i, j);
                     cells[i, j].isMineInCellSet = true;
                     cells[i, j].IsMineHere = false;
                 }
             }
-
-        //    MessageBox.Show("out FillEmptyArea");
         }
 
         private void FillQueueAndListAndPressEmptyAndNearCells(Queue<Cell> queue, List<Cell> cellsList)
@@ -230,13 +210,10 @@ namespace Minesweeper.Logic
             {
                 for (int j = starColIndex; j <= endColIndex; j++)
                 {
-                    if (!cells[i, j].IsPressed)
+                    if (!cells[i, j].IsPressed && cells[i, j].markOnTop != Cell.MarkOnTopCell.Flag)
                     {
-                        if (cells[i, j].markOnTop != Cell.MarkOnTopCell.Flag)
-                        {
-                            cells[i, j].IsPressed = true;
-                            cellsList.Add(cells[i, j]);  //Внесение в список
-                        }
+                        cells[i, j].IsPressed = true;
+                        cellsList.Add(cells[i, j]);
 
                         if (cells[i, j].MineNearCount == 0)
                         {
@@ -271,20 +248,8 @@ namespace Minesweeper.Logic
 
         private List<Cell> GetOpenCellsNear(int rowIndex, int colIndex)//TODO этот метод должен выдавать список
         {
-            //if (cells[rowIndex, colIndex].IsMineHere)// возможно лучше сделать отдельный метод
-            //{
-            //    List<Cell> cellsList = new List<Cell>();
-
-            //    //TODO массив всех оставшихся ячеек с логикой ошибки и неправильных
-
-            //    isGameContinue = false;
-
-            //    return cellsList;// список всех
-            //}
-
             if (cells[rowIndex, colIndex].MineNearCount == 0)
             {
-             //   MessageBox.Show("мин рядом нет");
                 return GetPressAreaWithoutMinesNearEmptyCell(rowIndex, colIndex);//сделано вроде нормально
             }
             else
@@ -297,18 +262,5 @@ namespace Minesweeper.Logic
                 return cellsList;
             }
         }
-
-        //public void MarkFlag(int rowIndex, int colIndex)
-        //{
-        //    cells[rowIndex, colIndex].IsFlag = true;
-        //}
-
-
-        //public void MarkMine(int rowIndex, int colIndex)
-        //{
-        //    cells[rowIndex, colIndex].IsMineHere = true;
-        //}
-
-
     }
 }
