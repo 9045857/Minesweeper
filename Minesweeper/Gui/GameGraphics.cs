@@ -79,7 +79,7 @@ namespace Minesweeper.Gui
                     cellDraw.rowIndex = i;
                     cellDraw.columnIndex = j;
 
-                    //TODO прописать события для стартовых иконок
+
                     //cellDraw.MouseMove += new MouseEventHandler(CellPictureBox_MouseMove);
                     //cellDraw.MouseClick += new MouseEventHandler(CellcellDraw_MouseClick);
 
@@ -177,7 +177,16 @@ namespace Minesweeper.Gui
 
                 if (!cell.IsPressed && cell.markOnTop != Cell.MarkOnTopCell.Flag)
                 {
-                    (sender as CellDraw).Image = bitmapsResources.minesNearCount[0];//TODO вариант с вопросом нужно отдельно сделать
+                    switch (cell.markOnTop)
+                    {
+                        case Cell.MarkOnTopCell.Question:
+                            (sender as CellDraw).Image = bitmapsResources.questionPressCell;
+                            break;
+
+                        case Cell.MarkOnTopCell.Empty:
+                            (sender as CellDraw).Image = bitmapsResources.minesNearCount[0];
+                            break;
+                    }                   
                 }
             }
 

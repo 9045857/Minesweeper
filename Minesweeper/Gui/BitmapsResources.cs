@@ -39,7 +39,9 @@ namespace Minesweeper.Gui
         };
 
         public Bitmap flag = new Bitmap(Properties.Resources.flag);
+
         public Bitmap question = new Bitmap(Properties.Resources.question);
+        public Bitmap questionPressCell = new Bitmap(Properties.Resources.questionPressCell);
 
         public Bitmap mine = new Bitmap(Properties.Resources.mine);
         public Bitmap mineError = new Bitmap(Properties.Resources.mineError);
