@@ -14,14 +14,12 @@ namespace Minesweeper.Gui
     {
         private readonly BitmapsResources bitmapsResources = new BitmapsResources();
 
-        private int rowCount;
-        private int columnCount;
-        private int minesCount;
+        private readonly int rowCount;
+        private readonly int columnCount;
+        private readonly int minesCount;
 
-        private bool areMinesSet;//индикатор, что создана новая игра логического блока
         private GameLogic gameLogic;
 
-        // private PictureBox[,] cellsPictures;
         private CellDraw[,] cells;
 
         private PictureBox smileButtonImage;
@@ -37,8 +35,6 @@ namespace Minesweeper.Gui
             this.minesCount = minesCount;
 
             gameLogic = new GameLogic(rowCount, columnCount, minesCount);
-
-            // areMinesSet = false;
         }
 
         private void DrawStartGamePanel(Panel gamePanel)
@@ -96,8 +92,7 @@ namespace Minesweeper.Gui
             }
         }
 
-
-        private void PressCellsList(List<Cell> cellsList)
+        private void PressCellsList(List<Cell> cellsList)//TODO переименовать
         {
             if (cellsList.Count != 0)
             {
@@ -106,24 +101,36 @@ namespace Minesweeper.Gui
                     int rowIndex = element.RowIndex;
                     int columnIndex = element.ColIndex;
 
-                    switch (element.markOnBottom)
+                    if (element.IsPressed)
                     {
-                        case Cell.MarkOnBottomCell.Mine:
-                            cells[rowIndex, columnIndex].Image = bitmapsResources.mine;
-                            break;
+                        switch (element.markOnBottom)
+                        {
+                            case Cell.MarkOnBottomCell.Mine:
+                                cells[rowIndex, columnIndex].Image = bitmapsResources.mine;
+                                break;
 
-                        case Cell.MarkOnBottomCell.MineBombed:
-                            cells[rowIndex, columnIndex].Image = bitmapsResources.mineBombed;
-                            break;
+                            case Cell.MarkOnBottomCell.MineBombed:
+                                cells[rowIndex, columnIndex].Image = bitmapsResources.mineBombed;
+                                break;
 
-                        case Cell.MarkOnBottomCell.MineError:
-                            cells[rowIndex, columnIndex].Image = bitmapsResources.mineError;
-                            break;
+                            case Cell.MarkOnBottomCell.MineError:
+                                cells[rowIndex, columnIndex].Image = bitmapsResources.mineError;
+                                break;
 
-                        case Cell.MarkOnBottomCell.MineNearCount:
-                            int minesCountBitmapIndex = element.MineNearCount;
-                            cells[rowIndex, columnIndex].Image = bitmapsResources.minesNearCount[minesCountBitmapIndex];
-                            break;
+                            case Cell.MarkOnBottomCell.MineNearCount:
+                                int minesCountBitmapIndex = element.MineNearCount;
+                                cells[rowIndex, columnIndex].Image = bitmapsResources.minesNearCount[minesCountBitmapIndex];
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (element.markOnTop)
+                        {
+                            case Cell.MarkOnTopCell.Flag:
+                                cells[rowIndex, columnIndex].Image = bitmapsResources.flag;
+                                break;
+                        }
                     }
                 }
             }
@@ -131,6 +138,11 @@ namespace Minesweeper.Gui
 
         private void CellPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
+            if (!gameLogic.IsGameContinue)
+            {
+                return;
+            }
+
             if (e.Button == MouseButtons.Left)
             {
                 int rowIndex = (sender as CellDraw).rowIndex;
@@ -143,25 +155,21 @@ namespace Minesweeper.Gui
                     PressCellsList(pressingCells);
                 }
             }
-
-            // TODO самый важный метод нужно как-то передать в логику индексы нажатых кнопок и обратно получить список индексов для открытия
-
         }
-
-
 
         private void CellPictureBox_MouseLeave(object sender, EventArgs e)
         {
         }
 
-        //private bool isLeftMouseButtonDown;
-
         private void CellPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
+            if (!gameLogic.IsGameContinue)
+            {
+                return;
+            }
+
             if (e.Button == MouseButtons.Left)
             {
-                //isLeftMouseButtonDown = true;
-
                 int rowIndex = (sender as CellDraw).rowIndex;
                 int columnIndex = (sender as CellDraw).columnIndex;
 
@@ -180,44 +188,31 @@ namespace Minesweeper.Gui
 
                 Cell cell = gameLogic.cells[rowIndex, columnIndex];
 
-                cell.Mark();
+                gameLogic.Mark(cell);
 
-                if (!cell.IsPressed)
+                switch (cell.markOnTop)
                 {
-                    switch (cell.markOnTop)
-                    {
-                        case Cell.MarkOnTopCell.Flag:
-                            (sender as CellDraw).Image = bitmapsResources.flag;
-                            break;
+                    case Cell.MarkOnTopCell.Flag:
+                        (sender as CellDraw).Image = bitmapsResources.flag;
+                        break;
 
-                        case Cell.MarkOnTopCell.Question:
-                            (sender as CellDraw).Image = bitmapsResources.question;
-                            break;
+                    case Cell.MarkOnTopCell.Question:
+                        (sender as CellDraw).Image = bitmapsResources.question;
+                        break;
 
-                        case Cell.MarkOnTopCell.Empty:
-                            (sender as CellDraw).Image = bitmapsResources.cellStart;
-                            break;
-                    }
+                    case Cell.MarkOnTopCell.Empty:
+                        (sender as CellDraw).Image = bitmapsResources.cellStart;
+                        break;
                 }
             }
-
-            // TODO нужно занести сюда кнопки и часы pictureBox2.Image = WindowsFormsApp1.Properties.Resources.smileButton31;
         }
 
         private void CellPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            //if ((sender as PictureBox).Image == bitmapsResources.cellStart && e.LeftButton == MouseButtonState.Pressed)
-            //{
-            //    (sender as PictureBox).Image = bitmapsResources.minesNearCount[0];
-            //    smileButtonImage.Image = bitmapsResources.smileButtonAttention;
-            //}
-
-
-            // TODO сделать что бы при нажатой левой клавише был эфект притопляемости
 
         }
 
-        private Bitmap GetBitmapNumericDisplay(int number)//число не должно превышать 999
+        private Bitmap GetBitmapNumericDisplay(int number)
         {
             int hundred = 100;
             int ten = 10;
@@ -259,10 +254,13 @@ namespace Minesweeper.Gui
             this.minesCountImage.Image = GetBitmapNumericDisplay(minesCount);
         }
 
-        public void DrawStartArea(Panel gamePanel, Panel infoPanel, PictureBox smileButtonImage, PictureBox minesCountImage, PictureBox timeImage)
+        public void DrawStartArea(Panel gamePanel)
         {
-            DrawStartGamePanel(gamePanel);
+            DrawStartGamePanel(gamePanel);           
+        }
 
+        public void DrawInfoArea(Panel infoPanel, PictureBox smileButtonImage, PictureBox minesCountImage, PictureBox timeImage)
+        {
             DrawInfoPanel(infoPanel, smileButtonImage, minesCountImage, timeImage);
         }
     }

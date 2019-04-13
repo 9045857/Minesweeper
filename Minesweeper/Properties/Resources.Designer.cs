@@ -73,6 +73,16 @@ namespace Minesweeper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cell01 {
+            get {
+                object obj = ResourceManager.GetObject("cell01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cell1 {
             get {
                 object obj = ResourceManager.GetObject("cell1", resourceCulture);
@@ -156,6 +166,16 @@ namespace Minesweeper.Properties {
         internal static System.Drawing.Bitmap cellStart {
             get {
                 object obj = ResourceManager.GetObject("cellStart", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cellStart1 {
+            get {
+                object obj = ResourceManager.GetObject("cellStart1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

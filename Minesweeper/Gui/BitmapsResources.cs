@@ -11,7 +11,9 @@ namespace Minesweeper.Gui
     {
         public Bitmap[] minesNearCount = new Bitmap[]
         {
-            Properties.Resources.cell0,
+            //Properties.Resources.cell0,
+            Properties.Resources.cell01,
+
             Properties.Resources.cell1,
             Properties.Resources.cell2,
             Properties.Resources.cell3,
@@ -43,7 +45,8 @@ namespace Minesweeper.Gui
         public Bitmap mineError = new Bitmap(Properties.Resources.mineError);
         public Bitmap mineBombed = new Bitmap(Properties.Resources.mineBombed);
 
-        public Bitmap cellStart = new Bitmap(Properties.Resources.cellStart);
+        public Bitmap cellStart = new Bitmap(Properties.Resources.cellStart1);
+        //public Bitmap cellStart =new Bitmap(Properties.Resources.cellStart);
 
         public Bitmap smileButton = new Bitmap(Properties.Resources.smileButton);
         public Bitmap smileButtonPressed = new Bitmap(Properties.Resources.smileButtonPressed);

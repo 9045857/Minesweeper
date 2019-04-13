@@ -11,13 +11,13 @@ namespace Minesweeper.Logic
         public bool isMineInCellSet;
 
         public enum MarkOnBottomCell
-        {            
+        {
             MineNearCount = 0,
             Mine = 1,
             MineBombed = 2,
-            MineError=3,
-            Question=4,
-            Empty=5
+            MineError = 3,
+            Question = 4,
+            Empty = 5
         }
 
         public enum MarkOnTopCell
@@ -43,41 +43,12 @@ namespace Minesweeper.Logic
             IsPressed = false;
 
             markOnTop = MarkOnTopCell.Empty;
-
-            //IsFlag = false;
-            //IsQuestion = false;
         }
 
-        public bool IsPressed { get; set; }// много используется в логике
+        public bool IsPressed { get; set; }
 
         public bool IsMineHere { get; set; }
 
         public int MineNearCount { get; set; }
-        // public int MineNearCheckedCount { get; set; }// в чем отличие?
-
-        public void Mark()
-        {
-            if (!IsPressed)
-            {
-                switch (markOnTop)
-                {
-                    case MarkOnTopCell.Empty:
-                        markOnTop = MarkOnTopCell.Flag;
-                        break;
-
-                    case MarkOnTopCell.Flag:
-                        markOnTop = MarkOnTopCell.Question;
-                        break;
-
-                    case MarkOnTopCell.Question:
-                        markOnTop = MarkOnTopCell.Empty;
-                        break;
-                }
-            }
-        }
-
-        //public bool IsFlag { get; set; }
-
-        //public bool IsQuestion { get; set; }
     }
 }

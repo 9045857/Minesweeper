@@ -186,5 +186,11 @@
   <ItemGroup>
     <None Include="Resources\IconMine.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StartButton31.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field031.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

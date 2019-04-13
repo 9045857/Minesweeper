@@ -11,14 +11,34 @@ namespace Minesweeper.Logic
     {
         public Cell[,] cells;
 
-        private int rowCount;
-        private int columnCount;
-        private int minesCount;
+        private readonly int rowCount;
+        private readonly int columnCount;
+        public int MinesCount { get; private set; }
+
+        public int MarkedMinesCount { get; private set; }
+        public int FoundMinesCount { get; private set; }
+
+        private int pressedCellsCount;
+
+        private int PressedCellsAndFoundMinesCount
+        {
+            get
+            {
+                return pressedCellsCount + FoundMinesCount;
+            }
+        }
 
         public bool AreMinesSet { get; private set; }
 
-        public bool isGameContinue;
+        private bool isGameContionueAfterPressedCell;
 
+        public bool IsGameContinue
+        {
+            get
+            {
+                return rowCount * columnCount != PressedCellsAndFoundMinesCount && isGameContionueAfterPressedCell;
+            }
+        }
 
         public GameLogic(int rowCount, int columnCount, int minesCount)
         {
@@ -27,10 +47,15 @@ namespace Minesweeper.Logic
 
             cells = CreateCells(rowCount, columnCount);
 
-            this.minesCount = minesCount;
+            this.MinesCount = minesCount;
 
             AreMinesSet = false;
-            isGameContinue = true;
+            isGameContionueAfterPressedCell = true;
+
+            MarkedMinesCount = 0;
+            FoundMinesCount = 0;
+
+            pressedCellsCount = 0;
         }
 
         private Cell[,] CreateCells(int rowCount, int columnCount)
@@ -48,15 +73,55 @@ namespace Minesweeper.Logic
             return cells;
         }
 
+        public void Mark(Cell cell)
+        {
+            if (!IsGameContinue)
+            {
+                return;
+            }
+
+            if (!cell.IsPressed)
+            {
+                switch (cell.markOnTop)
+                {
+                    case Cell.MarkOnTopCell.Empty:
+                        cell.markOnTop = Cell.MarkOnTopCell.Flag;
+
+                        MarkedMinesCount++;
+
+                        if (cell.IsMineHere)
+                        {
+                            FoundMinesCount++;
+                        }
+                        break;
+
+                    case Cell.MarkOnTopCell.Flag:
+                        cell.markOnTop = Cell.MarkOnTopCell.Question;
+
+                        MarkedMinesCount--;
+
+                        if (cell.IsMineHere)
+                        {
+                            FoundMinesCount--;
+                        }
+                        break;
+
+                    case Cell.MarkOnTopCell.Question:
+                        cell.markOnTop = Cell.MarkOnTopCell.Empty;
+                        break;
+                }
+            }
+        }
+
         private List<Cell> GetRemainingCellsAfteMinePress(int rowIndex, int columnIndex)
         {
             List<Cell> cellsList = new List<Cell>();
-                    
+
             cells[rowIndex, columnIndex].IsPressed = true;
             cells[rowIndex, columnIndex].markOnBottom = Cell.MarkOnBottomCell.MineBombed;
             cellsList.Add(cells[rowIndex, columnIndex]);
 
-            for (int i = 0; i < rowCount;i++)
+            for (int i = 0; i < rowCount; i++)
             {
                 for (int j = 0; j < columnCount; j++)
                 {
@@ -68,7 +133,7 @@ namespace Minesweeper.Logic
                             cells[i, j].markOnBottom = Cell.MarkOnBottomCell.MineError;
                             cellsList.Add(cells[i, j]);
                         }
-                        else if (cells[i, j].IsMineHere&& cells[i, j].markOnTop != Cell.MarkOnTopCell.Flag)
+                        else if (cells[i, j].IsMineHere && cells[i, j].markOnTop != Cell.MarkOnTopCell.Flag)
                         {
                             cells[i, j].IsPressed = true;
                             cells[i, j].markOnBottom = Cell.MarkOnBottomCell.Mine;
@@ -85,15 +150,19 @@ namespace Minesweeper.Logic
         {
             List<Cell> resultCells = new List<Cell>();
 
+            if (!isGameContionueAfterPressedCell)
+            {
+                return resultCells;
+            }
+
             if (cells[rowIndex, columnIndex].markOnTop != Cell.MarkOnTopCell.Flag && !cells[rowIndex, columnIndex].IsPressed)
             {
-                if (AreMinesSet)//попал в вопрос или мину, исходя из этого нужно статус ячейки в том числе менять
+                if (AreMinesSet)
                 {
                     if (cells[rowIndex, columnIndex].IsMineHere)
                     {
-                        //resultCells = GetLooseGame();// раскрываем всю доску кроме правильно отмеченных
                         resultCells = GetRemainingCellsAfteMinePress(rowIndex, columnIndex);
-                        isGameContinue = false;
+                        isGameContionueAfterPressedCell = false;
                     }
                     else
                     {
@@ -115,9 +184,9 @@ namespace Minesweeper.Logic
 
         private void StartGame(int startRow, int startCol)
         {
-            FillStartEmptyArea(startRow, startCol);//проверено
+            FillStartEmptyArea(startRow, startCol);
 
-            FillMineCells(startRow, startCol);//проверено
+            FillMineCells(startRow, startCol);
 
             FillEmptyCells();
 
@@ -128,7 +197,7 @@ namespace Minesweeper.Logic
         {
             Random random = new Random();
 
-            for (int i = 0; i < minesCount; i++)
+            for (int i = 0; i < MinesCount; i++)
             {
                 int rowIndex = random.Next(rowCount);
                 int colIndex = random.Next(columnCount);
@@ -245,6 +314,7 @@ namespace Minesweeper.Logic
                     {
                         cells[i, j].IsPressed = true;
                         cells[i, j].markOnBottom = Cell.MarkOnBottomCell.MineNearCount;
+                        pressedCellsCount++;
 
                         cellsList.Add(cells[i, j]);
 
@@ -265,9 +335,10 @@ namespace Minesweeper.Logic
             int currentRowIndex = rowIndex;
             int currentColIndex = colIndex;
 
-            Cell currentCell = cells[currentRowIndex, currentColIndex];//TODO ?????
+            Cell currentCell = cells[currentRowIndex, currentColIndex];
             currentCell.IsPressed = true;
             currentCell.markOnBottom = Cell.MarkOnBottomCell.MineNearCount;
+            pressedCellsCount++;
 
             queueOpeningArea.Enqueue(currentCell);
             cellsList.Add(currentCell);
@@ -280,19 +351,50 @@ namespace Minesweeper.Logic
             return cellsList;
         }
 
-        private List<Cell> GetOpenCellsNear(int rowIndex, int colIndex)//TODO этот метод должен выдавать список
+        private void MarkLastMinedCellsIfAllAnotherPressed(List<Cell> cellsList)
+        {
+            int cellsCount = rowCount * columnCount;
+            int unpressedCellsCount = cellsCount - pressedCellsCount;
+
+            if (MinesCount == unpressedCellsCount)
+            {
+                for (int i = 0; i < rowCount; i++)
+                {
+                    for (int j = 0; j < columnCount; j++)
+                    {
+                        if (!cells[i, j].IsPressed)
+                        {
+                            cells[i, j].markOnTop = Cell.MarkOnTopCell.Flag;
+                            cellsList.Add(cells[i, j]);
+                            FoundMinesCount++;
+                        }
+                    }
+                }
+
+                isGameContionueAfterPressedCell = false;
+            }
+        }
+
+        private List<Cell> GetOpenCellsNear(int rowIndex, int colIndex)
         {
             if (cells[rowIndex, colIndex].MineNearCount == 0)
             {
-                return GetPressAreaWithoutMinesNearEmptyCell(rowIndex, colIndex);//сделано вроде нормально
+                List<Cell> cellsList = GetPressAreaWithoutMinesNearEmptyCell(rowIndex, colIndex);
+
+                MarkLastMinedCellsIfAllAnotherPressed(cellsList);
+
+                return cellsList;
             }
             else
             {
                 cells[rowIndex, colIndex].IsPressed = true;
                 cells[rowIndex, colIndex].markOnBottom = Cell.MarkOnBottomCell.MineNearCount;
+                pressedCellsCount++;
 
-                List <Cell> cellsList = new List<Cell>();
+                List<Cell> cellsList = new List<Cell>();
                 cellsList.Add(cells[rowIndex, colIndex]);
+
+                MarkLastMinedCellsIfAllAnotherPressed(cellsList);
 
                 return cellsList;
             }
