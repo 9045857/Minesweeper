@@ -117,35 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="timerGame.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>152, 17</value>
-  </metadata>
-  <metadata name="menuStripGame.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA
-        AAD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP//
-        /wD///8A////AP///wD///8A////AP///wD///8A////AIs9SP+LPUj/////AP///wD///8A////AP//
-        /wD///8A////AP///wD///8A////AP///wD///8A////AP///wCLPUj/iz1I/////wD///8A////AP//
-        /wD///8A////AP///wD///8A////AP///wCLPUj/////AIs9SP+LPUj/iz1I/4s9SP+LPUj/iz1I////
-        /wCLPUj/////AP///wD///8A////AP///wD///8A////AIs9SP+LPUj/iz1I/4s9SP+LPUj/iz1I/4s9
-        SP+LPUj/////AP///wD///8A////AP///wD///8A////AIs9SP+LPUj/iz1I/4s9SP+LPUj/iz1I/4s9
-        SP+LPUj/iz1I/4s9SP////8A////AP///wD///8A////AP///wCLPUj/iz1I/4s9SP+LPUj/iz1I/4s9
-        SP+LPUj/iz1I/4s9SP+LPUj/////AP///wD///8A////AIs9SP+LPUj/iz1I/4s9SP+LPUj/iz1I/4s9
-        SP+LPUj/iz1I/4s9SP+LPUj/iz1I/4s9SP+LPUj/////AP///wCLPUj/iz1I/4s9SP+LPUj/iz1I/4s9
-        SP+LPUj/iz1I/4s9SP+LPUj/iz1I/4s9SP+LPUj/iz1I/////wD///8A////AP///wCLPUj/iz1I////
-        ////////iz1I/4s9SP+LPUj/iz1I/4s9SP+LPUj/////AP///wD///8A////AP///wD///8Aiz1I/4s9
-        SP///////////4s9SP+LPUj/iz1I/4s9SP+LPUj/iz1I/////wD///8A////AP///wD///8A////AP//
-        /wCLPUj/iz1I/4s9SP+LPUj/iz1I/4s9SP+LPUj/iz1I/////wD///8A////AP///wD///8A////AP//
-        /wCLPUj/////AIs9SP+LPUj/iz1I/4s9SP+LPUj/iz1I/////wCLPUj/////AP///wD///8A////AP//
-        /wD///8A////AP///wD///8A////AIs9SP+LPUj/////AP///wD///8A////AP///wD///8A////AP//
-        /wD///8A////AP///wD///8A////AP///wCLPUj/iz1I/////wD///8A////AP///wD///8A////AP//
-        /wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP//
-        /wD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAA==
-</value>
-  </data>
 </root>

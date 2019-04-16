@@ -279,7 +279,7 @@ namespace WindowsFormsApp1
             currentTime = minTime;
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
             if (currentTime >= maxTime)
             {

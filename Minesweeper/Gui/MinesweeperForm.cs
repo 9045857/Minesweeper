@@ -15,6 +15,7 @@ namespace Minesweeper.Gui
     public partial class mainForm : Form
     {
         private BitmapsResources bitmaps = new BitmapsResources();
+        private FormNewGameOptions formNewGameOptions = new FormNewGameOptions();
 
         public mainForm()
         {
@@ -23,21 +24,32 @@ namespace Minesweeper.Gui
 
         private GameGraphics mineswepperGame;
 
+
         private void MainForm_Load(object sender, EventArgs e)
         {
-            NewMethod();
+            LoadNewGame();
         }
 
-        private void NewMethod()
+        private void LoadNewGame()
         {
-            mineswepperGame = new GameGraphics(9, 9, 10);//начинающий
+            int rowCount = formNewGameOptions.RowCount;
+            int columnCount= formNewGameOptions.ColumnCount;
+            int minesCount= formNewGameOptions.MinesCount ;
+
+            mineswepperGame = new GameGraphics(rowCount, columnCount, minesCount);
+         
             mineswepperGame.DrawStartArea(panelGame);
-            mineswepperGame.DrawInfoArea(panelInfo, pictureBoxSmileButton, pictureBoxMinesCount, pictureBoxTime);
+            mineswepperGame.DrawInfoArea(panelInfo, pictureBoxSmileButton, pictureBoxMinesCount, pictureBoxTime,timerGame);
         }
 
-        private void pictureBoxSmileButton_Click(object sender, EventArgs e)
-        {           
-            //NewMethod();
-        }        
+        private void toolStripMenuItemNew_Click(object sender, EventArgs e)
+        {
+            formNewGameOptions.ShowDialog();
+        }
+
+        private void toolStripMenuItemAbout_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(GameOptionsConstants.GetAboutText());
+        }
     }
 }

@@ -35,13 +35,16 @@ namespace Minesweeper.Logic
 
         public Cell(int rowIndex, int colIndex)
         {
-            isMineInCellSet = false;
-
             RowIndex = rowIndex;
             ColIndex = colIndex;
 
-            IsPressed = false;
+            SetBeginConditions();
+        }
 
+        public void SetBeginConditions()
+        {
+            isMineInCellSet = false;
+            IsPressed = false;
             markOnTop = MarkOnTopCell.Empty;
         }
 

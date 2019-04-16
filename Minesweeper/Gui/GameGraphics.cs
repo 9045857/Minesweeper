@@ -26,6 +26,10 @@ namespace Minesweeper.Gui
         private PictureBox timeImage;
         private PictureBox minesCountImage;
 
+        private Timer gameTimer;
+        int currentGameTime;
+        private readonly int maxTime = 999;
+
         private int panelsWidth;
 
         private bool isMouseLeftButtonDown;
@@ -37,6 +41,8 @@ namespace Minesweeper.Gui
             this.rowCount = rowCount;
             this.columnCount = columnCount;
             this.minesCount = minesCount;
+
+            currentGameTime = 0;
 
             gameLogic = new GameLogic(rowCount, columnCount, minesCount);
         }
@@ -92,6 +98,31 @@ namespace Minesweeper.Gui
                     cellDraw.MouseDown += new MouseEventHandler(CellPictureBox_MouseDown);
 
                     cells[i, j] = cellDraw;
+                }
+            }
+        }
+
+        private void RestartDislays()
+        {
+            int startTime = 0;
+            timeImage.Image = GetBitmapNumericDisplay(startTime);
+
+            minesCountImage.Image = GetBitmapNumericDisplay(minesCount);
+
+            gameTimer.Enabled = false;
+            currentGameTime = 0;
+        }
+
+        private void RestartGame()
+        {
+            gameLogic.RestartGame();
+            RestartDislays();
+
+            for (int i = 0; i < rowCount; i++)
+            {
+                for (int j = 0; j < columnCount; j++)
+                {
+                    cells[i, j].Image = bitmapsResources.cellStart;
                 }
             }
         }
@@ -154,20 +185,48 @@ namespace Minesweeper.Gui
             {
                 SetMouseButtonsDownFalse();
                 PressCellsNearRightLeftMouseButtonsUp(gameLogic.cells[rowIndex, columnIndex]);
+
+                SetTimerFalseIfGameFinish();
+                DrawSmileButtonIfCellUp();
             }
             else if (e.Button == MouseButtons.Left)
             {
                 SetMouseButtonsDownFalse();
-                               
+
                 if (gameLogic.cells[rowIndex, columnIndex].markOnTop != Cell.MarkOnTopCell.Flag)
                 {
-                    List<Cell> pressingCells = gameLogic.GetOpenCellsAfterPress(rowIndex, columnIndex); 
+                    SetTimerTrueIfGameBegin();
+
+                    List<Cell> pressingCells = gameLogic.GetOpenCellsAfterPress(rowIndex, columnIndex);
                     PressCellsList(pressingCells);
+
+                    SetTimerFalseIfGameFinish();
+                    SetRemainigMinesCountIfGameOver();
+
+                    DrawSmileButtonIfCellUp();
                 }
             }
             else if (e.Button == MouseButtons.Right)
             {
                 SetMouseButtonsDownFalse();
+                SetTimerFalseIfGameFinish();
+                DrawSmileButtonIfCellUp();
+            }
+        }
+
+        private void SetTimerTrueIfGameBegin()
+        {
+            if (!gameLogic.AreMinesSet)
+            {
+                gameTimer.Enabled = true;
+            }
+        }
+
+        private void SetTimerFalseIfGameFinish()
+        {
+            if (!gameLogic.IsGameContinue)
+            {
+                gameTimer.Enabled = false;
             }
         }
 
@@ -221,6 +280,8 @@ namespace Minesweeper.Gui
                     PressCellsList(pressingCells);
                 }
 
+                SetRemainigMinesCountIfGameOver();
+
                 cellsNearRightLeftMouseButtons.Clear();
             }
             else if (cellsNearRightLeftMouseButtons.Count != 0)
@@ -234,6 +295,15 @@ namespace Minesweeper.Gui
                 }
 
                 cellsNearRightLeftMouseButtons.Clear();
+            }
+        }
+
+        private void SetRemainigMinesCountIfGameOver()
+        {
+            if (!gameLogic.IsGameContinue && gameLogic.isDontExploded)
+            {
+                int remaingMines = 0;
+                minesCountImage.Image = GetBitmapNumericDisplay(remaingMines);
             }
         }
 
@@ -271,7 +341,13 @@ namespace Minesweeper.Gui
                 }
             }
         }
-               
+
+        private void DrawRemainingMinesCountAfterMarkOnDispley()
+        {
+            int remainingMinesCountAfterMark = gameLogic.MinesCount - gameLogic.MarkedMinesCount;
+            minesCountImage.Image = GetBitmapNumericDisplay(remainingMinesCountAfterMark);
+        }
+
         private void CellPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
             if (!gameLogic.IsGameContinue)
@@ -291,11 +367,13 @@ namespace Minesweeper.Gui
 
                     if (isMouseRightButtonDown)
                     {
+                        DrawSmileButtonIfCellDown();
                         PressCellsNearRightLeftMouseButtonsDown(cell);
                     }
                 }
                 else if (!cell.IsPressed && cell.markOnTop != Cell.MarkOnTopCell.Flag)
                 {
+                    DrawSmileButtonIfCellDown();
                     DrawOnBottomCellAfterMouseDown(sender as CellDraw, cell);
                 }
             }
@@ -308,14 +386,15 @@ namespace Minesweeper.Gui
 
                     if (isMouseLeftButtonDown)
                     {
+                        DrawSmileButtonIfCellDown();
                         PressCellsNearRightLeftMouseButtonsDown(cell);
                     }
                 }
                 else if (!cell.IsPressed)
                 {
                     gameLogic.Mark(cell);
-
                     DrawOnTopCellAfterMouseUp((sender as CellDraw), cell);
+                    DrawRemainingMinesCountAfterMarkOnDispley();
                 }
             }
         }
@@ -354,12 +433,6 @@ namespace Minesweeper.Gui
 
         private Bitmap GetBitmapNumericDisplay(int number)
         {
-            int hundred = 100;
-            int ten = 10;
-            int hundredRank = number / hundred;
-            int tenRank = (number - hundredRank * hundred) / ten;
-            int unitRank = number - hundredRank * hundred - tenRank * ten;
-
             int numbersCount = 3;
             int numberWidth = bitmapsResources.numbers[0].Width;
             int numberHeight = bitmapsResources.numbers[0].Height;
@@ -367,31 +440,126 @@ namespace Minesweeper.Gui
             int bitmapWidth = numbersCount * numberWidth;
             int bitmapHeight = numberHeight;
 
-            Bitmap bitmap = new Bitmap(bitmapWidth, bitmapHeight);
+            Bitmap resultBitmap = new Bitmap(bitmapWidth, bitmapHeight);
 
-            using (Graphics graphics = Graphics.FromImage(bitmap))
+            int minNumber = -99;
+            int maxNumber = 999;
+
+            if (number < minNumber || number > maxNumber)
             {
-                Bitmap bitmapHandredRank = bitmapsResources.numbers[hundredRank];
-                Bitmap bitmapTenRank = bitmapsResources.numbers[tenRank];
-                Bitmap bitmapUnitRank = bitmapsResources.numbers[unitRank];
+                Bitmap minusBitmap = bitmapsResources.clockMinus;
 
+                using (Graphics graphics = Graphics.FromImage(resultBitmap))
+                {
+                    graphics.DrawImage(minusBitmap, new Rectangle(0, 0, numberWidth, numberHeight));
+                    graphics.DrawImage(minusBitmap, new Rectangle(numberWidth, 0, numberWidth, numberHeight));
+                    graphics.DrawImage(minusBitmap, new Rectangle(numberWidth + numberWidth, 0, numberWidth, numberHeight));
+                }
+
+                return resultBitmap;
+            }
+
+            int hundred = 100;
+            int ten = 10;
+            int hundredRank = number / hundred;
+            int tenRank = (number - hundredRank * hundred) / ten;
+            int unitRank = number - hundredRank * hundred - tenRank * ten;//TODO check this on correct
+
+            Bitmap bitmapHandredRank;
+            Bitmap bitmapTenRank;
+            Bitmap bitmapUnitRank;
+
+            if (number >= 0)
+            {
+                bitmapHandredRank = bitmapsResources.numbers[hundredRank];
+                bitmapTenRank = bitmapsResources.numbers[tenRank];
+                bitmapUnitRank = bitmapsResources.numbers[unitRank];
+            }
+            else
+            {
+                bitmapHandredRank = bitmapsResources.clockMinus;
+                bitmapTenRank = bitmapsResources.numbers[Math.Abs(tenRank)];
+                bitmapUnitRank = bitmapsResources.numbers[Math.Abs(unitRank)];
+            }
+
+            using (Graphics graphics = Graphics.FromImage(resultBitmap))
+            {
                 graphics.DrawImage(bitmapHandredRank, new Rectangle(0, 0, numberWidth, numberHeight));
                 graphics.DrawImage(bitmapTenRank, new Rectangle(numberWidth, 0, numberWidth, numberHeight));
                 graphics.DrawImage(bitmapUnitRank, new Rectangle(numberWidth + numberWidth, 0, numberWidth, numberHeight));
             }
 
-            return bitmap;
+            return resultBitmap;
         }
 
-        private void DrawInfoPanel(Panel infoPanel, PictureBox smileButtonImage, PictureBox minesCountImage, PictureBox timeImage)
+        private void GameTimer_Tick(object sender, EventArgs e)
+        {
+            if (currentGameTime >= maxTime)
+            {
+                gameTimer.Enabled = false;
+                gameLogic.FinishGame();
+
+                return;
+            }
+
+            currentGameTime++;
+            timeImage.Image = GetBitmapNumericDisplay(currentGameTime);
+        }
+
+        private void DrawSmileButtonIfCellDown()
+        {
+            smileButtonImage.Image = bitmapsResources.smileButtonAttention;
+        }
+
+        private void DrawSmileButtonIfCellUp()
+        {
+            if (gameLogic.isDontExploded)
+            {
+                smileButtonImage.Image = bitmapsResources.smileButton;
+            }
+            else
+            {
+                smileButtonImage.Image = bitmapsResources.smileButtonCry;
+            }
+        }
+
+        private void DrawInfoPanel(Panel infoPanel, PictureBox smileButtonImage, PictureBox minesCountImage, PictureBox timeImage, Timer timer)
         {
             infoPanel.Width = panelsWidth;
 
             this.smileButtonImage = smileButtonImage;
-            this.timeImage = timeImage;
-            this.minesCountImage = minesCountImage;
+            this.smileButtonImage.Image = bitmapsResources.smileButton;
+            smileButtonImage.MouseUp += new MouseEventHandler(SmileButtonPictureBox_MouseUp);
+            smileButtonImage.MouseDown += new MouseEventHandler(SmileButtonPictureBox_MouseDown);
 
+            this.timeImage = timeImage;
+            int startTime = 0;
+            this.timeImage.Image = GetBitmapNumericDisplay(startTime);
+
+            this.minesCountImage = minesCountImage;
             this.minesCountImage.Image = GetBitmapNumericDisplay(minesCount);
+
+            gameTimer = timer;
+            gameTimer.Interval = 1000;
+            gameTimer.Enabled = false;
+            gameTimer.Tick += new EventHandler(GameTimer_Tick);
+        }
+
+        private void SmileButtonPictureBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                smileButtonImage.Image = bitmapsResources.smileButton;
+                RestartGame();
+            }
+        }
+
+        private void SmileButtonPictureBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                smileButtonImage.Image = bitmapsResources.smileButtonPressed;
+            }
         }
 
         public void DrawStartArea(Panel gamePanel)
@@ -399,9 +567,9 @@ namespace Minesweeper.Gui
             DrawStartGamePanel(gamePanel);
         }
 
-        public void DrawInfoArea(Panel infoPanel, PictureBox smileButtonImage, PictureBox minesCountImage, PictureBox timeImage)
+        public void DrawInfoArea(Panel infoPanel, PictureBox smileButtonImage, PictureBox minesCountImage, PictureBox timeImage, Timer timer)
         {
-            DrawInfoPanel(infoPanel, smileButtonImage, minesCountImage, timeImage);
+            DrawInfoPanel(infoPanel, smileButtonImage, minesCountImage, timeImage, timer);
         }
     }
 }

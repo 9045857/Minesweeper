@@ -24,6 +24,8 @@ namespace Minesweeper.Gui
             Properties.Resources.cell8
         };
 
+        public Bitmap clockMinus = new Bitmap(Properties.Resources.clockMinus);
+
         public Bitmap[] numbers = new Bitmap[]
         {
             Properties.Resources.clock0,

@@ -11,8 +11,8 @@ namespace Minesweeper.Logic
     {
         public Cell[,] cells;
 
-        private readonly int rowCount;
-        private readonly int columnCount;
+        private  int rowCount;
+        private  int columnCount;
         public int MinesCount { get; private set; }
 
         public int MarkedMinesCount { get; private set; }
@@ -30,13 +30,14 @@ namespace Minesweeper.Logic
 
         public bool AreMinesSet { get; private set; }
 
-        private bool isGameContionueAfterPressedCell;
+        public bool isDontExploded;
+        private bool isNotFinishGame;
 
         public bool IsGameContinue
         {
             get
             {
-                return rowCount * columnCount != PressedCellsAndFoundMinesCount && isGameContionueAfterPressedCell;
+                return rowCount * columnCount != PressedCellsAndFoundMinesCount && isDontExploded&& isNotFinishGame;
             }
         }
 
@@ -49,13 +50,56 @@ namespace Minesweeper.Logic
 
             this.MinesCount = minesCount;
 
+            SetBeginConditions();
+        }
+
+        private void SetBeginConditions()
+        {
             AreMinesSet = false;
-            isGameContionueAfterPressedCell = true;
+            isDontExploded = true;
+            isNotFinishGame = true;
 
             MarkedMinesCount = 0;
             FoundMinesCount = 0;
 
             pressedCellsCount = 0;
+        }
+
+        public void RestartGame()
+        {
+            SetBeginConditions();
+
+            for (int i=0;i<rowCount;i++)
+            {
+                for (int j=0;j<columnCount;j++)
+                {
+                    cells[i, j].SetBeginConditions();
+                }
+            }
+        }
+
+        public void RestartGame(int rowCount, int columnCount, int minesCount)
+        {
+            SetBeginConditions();
+
+            this.rowCount = rowCount;
+            this.columnCount = columnCount;
+
+            this.MinesCount = minesCount;
+
+            for (int i = 0; i < rowCount; i++)
+            {
+                for (int j = 0; j < columnCount; j++)
+                {
+                    cells[i, j].SetBeginConditions();
+                }
+            }
+        }
+
+
+        public void FinishGame()
+        {
+            isNotFinishGame = false;
         }
 
         private Cell[,] CreateCells(int rowCount, int columnCount)
@@ -150,7 +194,7 @@ namespace Minesweeper.Logic
         {
             List<Cell> resultCells = new List<Cell>();
 
-            if (!isGameContionueAfterPressedCell)
+            if (!isDontExploded)
             {
                 return resultCells;
             }
@@ -162,7 +206,7 @@ namespace Minesweeper.Logic
                     if (cells[rowIndex, columnIndex].IsMineHere)
                     {
                         resultCells = GetRemainingCellsAfteMinePress(rowIndex, columnIndex);
-                        isGameContionueAfterPressedCell = false;
+                        isDontExploded = false;
                     }
                     else
                     {
@@ -371,7 +415,7 @@ namespace Minesweeper.Logic
                     }
                 }
 
-                isGameContionueAfterPressedCell = false;
+                isNotFinishGame = false;
             }
         }
 
