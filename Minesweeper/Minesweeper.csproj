@@ -66,6 +66,7 @@
     <Compile Include="Gui\GameOptionsConstants.cs" />
     <Compile Include="Logic\Cell.cs" />
     <Compile Include="Logic\GameLogic.cs" />
+    <Compile Include="Logic\GameLogicConstants.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Gui\MinesweeperForm.resx">

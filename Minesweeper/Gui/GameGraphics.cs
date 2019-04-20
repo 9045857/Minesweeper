@@ -14,9 +14,9 @@ namespace Minesweeper.Gui
     {
         private readonly BitmapsResources bitmapsResources = new BitmapsResources();
 
-        private readonly int rowCount;
-        private readonly int columnCount;
-        private readonly int minesCount;
+        private  int rowCount;
+        private  int columnCount;
+        private  int minesCount;
 
         private GameLogic gameLogic;
 
@@ -45,6 +45,32 @@ namespace Minesweeper.Gui
             currentGameTime = 0;
 
             gameLogic = new GameLogic(rowCount, columnCount, minesCount);
+        }
+
+        private void ClearAndDrawStartPanelGame()
+        {
+            Panel panel = cells[0, 0].Parent as Panel;
+            panel.Controls.Clear();
+
+            DrawStartGamePanel(panel);
+        }
+
+        private void RestartGame(int rowCount, int columnCount, int minesCount)
+        {
+            if (this.rowCount == rowCount && this.columnCount == columnCount && this.minesCount == minesCount)
+            {
+                RestartGame();
+                return;
+            }
+
+            this.rowCount = rowCount;
+            this.columnCount = columnCount;
+            this.minesCount = minesCount;
+
+            gameLogic.RestartGame(rowCount, columnCount, minesCount);
+            RestartDislays();
+
+            ClearAndDrawStartPanelGame();            
         }
 
         private void DrawStartGamePanel(Panel gamePanel)
@@ -126,6 +152,8 @@ namespace Minesweeper.Gui
                 }
             }
         }
+
+
 
         private void PressCellsList(List<Cell> cellsList)//TODO переименовать
         {
@@ -300,7 +328,7 @@ namespace Minesweeper.Gui
 
         private void SetRemainigMinesCountIfGameOver()
         {
-            if (!gameLogic.IsGameContinue && gameLogic.isDontExploded)
+            if (!gameLogic.IsGameContinue && !gameLogic.isExploded)
             {
                 int remaingMines = 0;
                 minesCountImage.Image = GetBitmapNumericDisplay(remaingMines);
@@ -513,7 +541,7 @@ namespace Minesweeper.Gui
 
         private void DrawSmileButtonIfCellUp()
         {
-            if (gameLogic.isDontExploded)
+            if (!gameLogic.isExploded)
             {
                 smileButtonImage.Image = bitmapsResources.smileButton;
             }

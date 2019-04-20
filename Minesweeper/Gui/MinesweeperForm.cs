@@ -45,11 +45,15 @@ namespace Minesweeper.Gui
         private void toolStripMenuItemNew_Click(object sender, EventArgs e)
         {
             formNewGameOptions.ShowDialog();
+
+            //нужно какое-то условие что все гуд и можно запускать перезапуск
+
+            LoadNewGame();
         }
 
         private void toolStripMenuItemAbout_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(GameOptionsConstants.GetAboutText());
+            MessageBox.Show(GameLogicConstants.GetAboutGameText());
         }
     }
 }

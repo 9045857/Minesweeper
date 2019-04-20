@@ -9,10 +9,21 @@ namespace Minesweeper.Logic
 {
     class GameLogic
     {
+
+        public enum GameLevel
+        {
+            Low = 0,
+            Medium = 1,
+            High = 2,
+            Custom = 3
+        }
+
+        public GameLevel gameLevel;
+
         public Cell[,] cells;
 
-        private  int rowCount;
-        private  int columnCount;
+        private int rowCount;
+        private int columnCount;
         public int MinesCount { get; private set; }
 
         public int MarkedMinesCount { get; private set; }
@@ -30,34 +41,123 @@ namespace Minesweeper.Logic
 
         public bool AreMinesSet { get; private set; }
 
-        public bool isDontExploded;
-        private bool isNotFinishGame;
+        public bool isExploded;
+        private bool isFinishGame;
 
         public bool IsGameContinue
         {
             get
             {
-                return rowCount * columnCount != PressedCellsAndFoundMinesCount && isDontExploded&& isNotFinishGame;
+                return rowCount * columnCount != PressedCellsAndFoundMinesCount && !isExploded && !isFinishGame;
             }
         }
 
+        public GameLevel GetGameLevel(int rowCount, int columnCount, int minesCount)
+        {
+            if (rowCount == GameLogicConstants.LowLevelRowCount && columnCount == GameLogicConstants.LowLevelColumnCount && minesCount == GameLogicConstants.LowLevelMinesCount)
+            {
+                return GameLevel.Low;
+            }
+
+            if (rowCount == GameLogicConstants.MediumLevelRowCount && columnCount == GameLogicConstants.MediumLevelColumnCount && minesCount == GameLogicConstants.MediumLevelMinesCount)
+            {
+                return GameLevel.Medium;
+            }
+
+            if (rowCount == GameLogicConstants.HighLevelRowCount && columnCount == GameLogicConstants.HighLevelColumnCount && minesCount == GameLogicConstants.HighLevelMinesCount)
+            {
+                return GameLevel.High;
+            }
+
+            return GameLevel.Custom;
+        }
+
+        private int GetRowCount(GameLevel gameLevel)
+        {
+            switch (gameLevel)
+            {
+                case GameLevel.Low:
+                    return GameLogicConstants.LowLevelRowCount;
+
+                case GameLevel.Medium:
+                    return GameLogicConstants.MediumLevelRowCount;
+
+                case GameLevel.High:
+                    return GameLogicConstants.HighLevelRowCount;
+
+                default:
+                    return GameLogicConstants.LowLevelRowCount;
+            }
+        }
+
+        private int GetColumnCount(GameLevel gameLevel)
+        {
+            switch (gameLevel)
+            {
+                case GameLevel.Low:
+                    return GameLogicConstants.LowLevelColumnCount;
+
+                case GameLevel.Medium:
+                    return GameLogicConstants.MediumLevelColumnCount;
+
+                case GameLevel.High:
+                    return GameLogicConstants.HighLevelMinesCount;
+
+                default:
+                    return GameLogicConstants.LowLevelMinesCount;
+            }
+        }
+
+        private int GetMinesCount(GameLevel gameLevel)
+        {
+            switch (gameLevel)
+            {
+                case GameLevel.Low:
+                    return GameLogicConstants.LowLevelMinesCount;
+
+                case GameLevel.Medium:
+                    return GameLogicConstants.MediumLevelMinesCount;
+
+                case GameLevel.High:
+                    return GameLogicConstants.HighLevelMinesCount;
+
+                default:
+                    return GameLogicConstants.LowLevelMinesCount;
+            }
+        }
+
+
         public GameLogic(int rowCount, int columnCount, int minesCount)
         {
+            gameLevel = GetGameLevel(rowCount, columnCount, minesCount);
+
             this.rowCount = rowCount;
             this.columnCount = columnCount;
-
-            cells = CreateCells(rowCount, columnCount);
-
             this.MinesCount = minesCount;
 
+            FillCellsAndSetBeginConditions(rowCount, columnCount);
+        }
+
+        private void FillCellsAndSetBeginConditions(int rowCount, int columnCount)
+        {
+            cells = CreateCells(rowCount, columnCount);
             SetBeginConditions();
+        }
+
+        public GameLogic(GameLevel gameLevel)
+        {
+            this.rowCount = GetRowCount(gameLevel);
+            this.columnCount = GetColumnCount(gameLevel);
+            this.MinesCount = GetMinesCount(gameLevel);
+
+            FillCellsAndSetBeginConditions(rowCount, columnCount);
         }
 
         private void SetBeginConditions()
         {
             AreMinesSet = false;
-            isDontExploded = true;
-            isNotFinishGame = true;
+            isExploded = false;
+            isFinishGame = false;
 
             MarkedMinesCount = 0;
             FoundMinesCount = 0;
@@ -69,24 +169,6 @@ namespace Minesweeper.Logic
         {
             SetBeginConditions();
 
-            for (int i=0;i<rowCount;i++)
-            {
-                for (int j=0;j<columnCount;j++)
-                {
-                    cells[i, j].SetBeginConditions();
-                }
-            }
-        }
-
-        public void RestartGame(int rowCount, int columnCount, int minesCount)
-        {
-            SetBeginConditions();
-
-            this.rowCount = rowCount;
-            this.columnCount = columnCount;
-
-            this.MinesCount = minesCount;
-
             for (int i = 0; i < rowCount; i++)
             {
                 for (int j = 0; j < columnCount; j++)
@@ -96,10 +178,35 @@ namespace Minesweeper.Logic
             }
         }
 
+        public void RestartGame(int rowCount, int columnCount, int minesCount)
+        {
+            GameLevel gameLevel = GetGameLevel(rowCount, columnCount, minesCount);
+
+            if (this.gameLevel == gameLevel && (gameLevel == GameLevel.Low || gameLevel == GameLevel.Medium || gameLevel == GameLevel.High))
+            {
+                RestartGame();
+                return;
+            }
+
+            this.rowCount = rowCount;
+            this.columnCount = columnCount;
+            this.MinesCount = minesCount;
+
+            FillCellsAndSetBeginConditions(rowCount, columnCount);
+        }
+
+        public void RestartGame(GameLevel gameLevel)
+        {
+            this.rowCount = GetRowCount(gameLevel);
+            this.columnCount = GetColumnCount(gameLevel);
+            this.MinesCount = GetMinesCount(gameLevel);
+
+            RestartGame(rowCount, columnCount, MinesCount);
+        }
 
         public void FinishGame()
         {
-            isNotFinishGame = false;
+            isFinishGame = true;
         }
 
         private Cell[,] CreateCells(int rowCount, int columnCount)
@@ -194,7 +301,7 @@ namespace Minesweeper.Logic
         {
             List<Cell> resultCells = new List<Cell>();
 
-            if (!isDontExploded)
+            if (isExploded)
             {
                 return resultCells;
             }
@@ -206,7 +313,7 @@ namespace Minesweeper.Logic
                     if (cells[rowIndex, columnIndex].IsMineHere)
                     {
                         resultCells = GetRemainingCellsAfteMinePress(rowIndex, columnIndex);
-                        isDontExploded = false;
+                        isExploded = true;
                     }
                     else
                     {
@@ -415,7 +522,7 @@ namespace Minesweeper.Logic
                     }
                 }
 
-                isNotFinishGame = false;
+                isFinishGame = true;
             }
         }
 
@@ -442,6 +549,11 @@ namespace Minesweeper.Logic
 
                 return cellsList;
             }
+        }
+
+        public string GetTextAboutGame()
+        {
+            return GameLogicConstants.GetAboutGameText();
         }
     }
 }

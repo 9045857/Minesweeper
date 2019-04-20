@@ -105,6 +105,10 @@ namespace Minesweeper.Gui
                 }
             }
 
+            //int rowCount = RowCount;
+            //int columnCount = ColumnCount;
+            //int minesCount = MinesCount;
+                       
             Close();
         }
 
