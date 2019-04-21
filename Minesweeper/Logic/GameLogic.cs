@@ -11,8 +11,9 @@ namespace Minesweeper.Logic
     {
         public Cell[,] cells;
 
-        private  int rowCount;
-        private  int columnCount;
+        public  int RowCount { get; private set; }
+        public  int ColumnCount { get; private set; }
+
         public int MinesCount { get; private set; }
 
         public int MarkedMinesCount { get; private set; }
@@ -37,14 +38,14 @@ namespace Minesweeper.Logic
         {
             get
             {
-                return rowCount * columnCount != PressedCellsAndFoundMinesCount && isDontExploded&& isNotFinishGame;
+                return RowCount * ColumnCount != PressedCellsAndFoundMinesCount && isDontExploded&& isNotFinishGame;
             }
         }
 
         public GameLogic(int rowCount, int columnCount, int minesCount)
         {
-            this.rowCount = rowCount;
-            this.columnCount = columnCount;
+            this.RowCount = rowCount;
+            this.ColumnCount = columnCount;
 
             cells = CreateCells(rowCount, columnCount);
 
@@ -69,9 +70,9 @@ namespace Minesweeper.Logic
         {
             SetBeginConditions();
 
-            for (int i=0;i<rowCount;i++)
+            for (int i=0;i<RowCount;i++)
             {
-                for (int j=0;j<columnCount;j++)
+                for (int j=0;j<ColumnCount;j++)
                 {
                     cells[i, j].SetBeginConditions();
                 }
@@ -82,8 +83,8 @@ namespace Minesweeper.Logic
         {
             SetBeginConditions();
 
-            this.rowCount = rowCount;
-            this.columnCount = columnCount;
+            this.RowCount = rowCount;
+            this.ColumnCount = columnCount;
 
             this.MinesCount = minesCount;
 
@@ -165,9 +166,9 @@ namespace Minesweeper.Logic
             cells[rowIndex, columnIndex].markOnBottom = Cell.MarkOnBottomCell.MineBombed;
             cellsList.Add(cells[rowIndex, columnIndex]);
 
-            for (int i = 0; i < rowCount; i++)
+            for (int i = 0; i < RowCount; i++)
             {
-                for (int j = 0; j < columnCount; j++)
+                for (int j = 0; j < ColumnCount; j++)
                 {
                     if (!cells[i, j].IsPressed)
                     {
@@ -243,13 +244,13 @@ namespace Minesweeper.Logic
 
             for (int i = 0; i < MinesCount; i++)
             {
-                int rowIndex = random.Next(rowCount);
-                int colIndex = random.Next(columnCount);
+                int rowIndex = random.Next(RowCount);
+                int colIndex = random.Next(ColumnCount);
 
                 while (cells[rowIndex, colIndex].isMineInCellSet)
                 {
-                    rowIndex = random.Next(rowCount);
-                    colIndex = random.Next(columnCount);
+                    rowIndex = random.Next(RowCount);
+                    colIndex = random.Next(ColumnCount);
                 }
 
                 cells[rowIndex, colIndex].isMineInCellSet = true;
@@ -259,9 +260,9 @@ namespace Minesweeper.Logic
 
         private void FillEmptyCells()
         {
-            for (int i = 0; i < rowCount; i++)
+            for (int i = 0; i < RowCount; i++)
             {
-                for (int j = 0; j < columnCount; j++)
+                for (int j = 0; j < ColumnCount; j++)
                 {
                     if (!cells[i, j].isMineInCellSet)
                     {
@@ -278,10 +279,10 @@ namespace Minesweeper.Logic
             int borderCorrection = 1;
 
             int starRowIndex = rowIndex - indentFromInnerCell < 0 ? 0 : rowIndex - indentFromInnerCell;
-            int endRowIndex = rowIndex + indentFromInnerCell == rowCount ? rowCount - borderCorrection : rowIndex + indentFromInnerCell;
+            int endRowIndex = rowIndex + indentFromInnerCell == RowCount ? RowCount - borderCorrection : rowIndex + indentFromInnerCell;
 
             int starColIndex = colIndex - indentFromInnerCell < 0 ? 0 : colIndex - indentFromInnerCell;
-            int endColIndex = colIndex + indentFromInnerCell == columnCount ? columnCount - borderCorrection : colIndex + indentFromInnerCell;
+            int endColIndex = colIndex + indentFromInnerCell == ColumnCount ? ColumnCount - borderCorrection : colIndex + indentFromInnerCell;
 
             int minesAroundCount = 0;
 
@@ -301,9 +302,9 @@ namespace Minesweeper.Logic
 
         private void FillMinesCountNearCells()
         {
-            for (int i = 0; i < rowCount; i++)
+            for (int i = 0; i < RowCount; i++)
             {
-                for (int j = 0; j < columnCount; j++)
+                for (int j = 0; j < ColumnCount; j++)
                 {
                     if (!cells[i, j].IsMineHere)
                     {
@@ -319,10 +320,10 @@ namespace Minesweeper.Logic
             int borderCorrection = 1;
 
             int starRowIndex = startRow - indentFromStartCell < 0 ? 0 : startRow - indentFromStartCell;
-            int endRowIndex = startRow + indentFromStartCell == rowCount ? rowCount - borderCorrection : startRow + indentFromStartCell;
+            int endRowIndex = startRow + indentFromStartCell == RowCount ? RowCount - borderCorrection : startRow + indentFromStartCell;
 
             int starColIndex = startCol - indentFromStartCell < 0 ? 0 : startCol - indentFromStartCell;
-            int endColIndex = startCol + indentFromStartCell == columnCount ? columnCount - borderCorrection : startCol + indentFromStartCell;
+            int endColIndex = startCol + indentFromStartCell == ColumnCount ? ColumnCount - borderCorrection : startCol + indentFromStartCell;
 
             for (int i = starRowIndex; i <= endRowIndex; i++)
             {
@@ -345,10 +346,10 @@ namespace Minesweeper.Logic
             int borderCorrection = 1;
 
             int starRowIndex = rowIndex - indentFromFirstCell < 0 ? 0 : rowIndex - indentFromFirstCell;
-            int endRowIndex = rowIndex + indentFromFirstCell == rowCount ? rowCount - borderCorrection : rowIndex + indentFromFirstCell;
+            int endRowIndex = rowIndex + indentFromFirstCell == RowCount ? RowCount - borderCorrection : rowIndex + indentFromFirstCell;
 
             int starColIndex = colIndex - indentFromFirstCell < 0 ? 0 : colIndex - indentFromFirstCell;
-            int endColIndex = colIndex + indentFromFirstCell == columnCount ? columnCount - borderCorrection : colIndex + indentFromFirstCell;
+            int endColIndex = colIndex + indentFromFirstCell == ColumnCount ? ColumnCount - borderCorrection : colIndex + indentFromFirstCell;
 
             for (int i = starRowIndex; i <= endRowIndex; i++)
             {
@@ -397,14 +398,14 @@ namespace Minesweeper.Logic
 
         private void MarkLastMinedCellsIfAllAnotherPressed(List<Cell> cellsList)
         {
-            int cellsCount = rowCount * columnCount;
+            int cellsCount = RowCount * ColumnCount;
             int unpressedCellsCount = cellsCount - pressedCellsCount;
 
             if (MinesCount == unpressedCellsCount)
             {
-                for (int i = 0; i < rowCount; i++)
+                for (int i = 0; i < RowCount; i++)
                 {
-                    for (int j = 0; j < columnCount; j++)
+                    for (int j = 0; j < ColumnCount; j++)
                     {
                         if (!cells[i, j].IsPressed)
                         {

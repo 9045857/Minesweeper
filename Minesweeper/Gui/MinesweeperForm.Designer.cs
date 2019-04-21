@@ -1,6 +1,6 @@
 ﻿namespace Minesweeper.Gui
 {
-    partial class mainForm
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,13 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelInfo = new System.Windows.Forms.Panel();
             this.tableLayoutPanelInfo = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBoxMinesCount = new System.Windows.Forms.PictureBox();
             this.pictureBoxSmileButton = new System.Windows.Forms.PictureBox();
             this.pictureBoxTime = new System.Windows.Forms.PictureBox();
             this.panelGame = new System.Windows.Forms.Panel();
+            this.pictureBoxGameArea = new System.Windows.Forms.PictureBox();
             this.timerGame = new System.Windows.Forms.Timer(this.components);
             this.menuStripGame = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItemMain = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,6 +51,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMinesCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSmileButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTime)).BeginInit();
+            this.panelGame.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGameArea)).BeginInit();
             this.menuStripGame.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -115,10 +118,19 @@
             // panelGame
             // 
             this.panelGame.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelGame.Controls.Add(this.pictureBoxGameArea);
             this.panelGame.Location = new System.Drawing.Point(6, 100);
             this.panelGame.Name = "panelGame";
             this.panelGame.Size = new System.Drawing.Size(227, 211);
             this.panelGame.TabIndex = 9;
+            // 
+            // pictureBoxGameArea
+            // 
+            this.pictureBoxGameArea.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxGameArea.Name = "pictureBoxGameArea";
+            this.pictureBoxGameArea.Size = new System.Drawing.Size(100, 50);
+            this.pictureBoxGameArea.TabIndex = 0;
+            this.pictureBoxGameArea.TabStop = false;
             // 
             // timerGame
             // 
@@ -149,19 +161,19 @@
             // toolStripMenuItemNew
             // 
             this.toolStripMenuItemNew.Name = "toolStripMenuItemNew";
-            this.toolStripMenuItemNew.Size = new System.Drawing.Size(216, 26);
+            this.toolStripMenuItemNew.Size = new System.Drawing.Size(128, 26);
             this.toolStripMenuItemNew.Text = "Новая";
             this.toolStripMenuItemNew.Click += new System.EventHandler(this.toolStripMenuItemNew_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(213, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(125, 6);
             // 
             // toolStripMenuItemExit
             // 
             this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
-            this.toolStripMenuItemExit.Size = new System.Drawing.Size(216, 26);
+            this.toolStripMenuItemExit.Size = new System.Drawing.Size(128, 26);
             this.toolStripMenuItemExit.Text = "Выход";
             // 
             // toolStripMenuItemInfo
@@ -176,17 +188,17 @@
             // toolStripMenuItemHighScore
             // 
             this.toolStripMenuItemHighScore.Name = "toolStripMenuItemHighScore";
-            this.toolStripMenuItemHighScore.Size = new System.Drawing.Size(216, 26);
+            this.toolStripMenuItemHighScore.Size = new System.Drawing.Size(214, 26);
             this.toolStripMenuItemHighScore.Text = "Таблица рекордов";
             // 
             // toolStripMenuItemAbout
             // 
             this.toolStripMenuItemAbout.Name = "toolStripMenuItemAbout";
-            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(216, 26);
+            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(214, 26);
             this.toolStripMenuItemAbout.Text = "Об игре";
             this.toolStripMenuItemAbout.Click += new System.EventHandler(this.toolStripMenuItemAbout_Click);
             // 
-            // mainForm
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
@@ -202,7 +214,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(256, 374);
-            this.Name = "mainForm";
+            this.Name = "MainForm";
             this.Text = " Сапёр";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.panelInfo.ResumeLayout(false);
@@ -210,6 +222,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMinesCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSmileButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTime)).EndInit();
+            this.panelGame.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGameArea)).EndInit();
             this.menuStripGame.ResumeLayout(false);
             this.menuStripGame.PerformLayout();
             this.ResumeLayout(false);
@@ -233,6 +247,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemInfo;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemHighScore;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAbout;
+        private System.Windows.Forms.PictureBox pictureBoxGameArea;
     }
 }
 

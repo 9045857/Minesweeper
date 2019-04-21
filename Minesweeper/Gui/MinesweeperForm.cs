@@ -12,12 +12,12 @@ using Minesweeper.Logic;
 
 namespace Minesweeper.Gui
 {
-    public partial class mainForm : Form
+    public partial class MainForm : Form
     {
         private BitmapsResources bitmaps = new BitmapsResources();
         private FormNewGameOptions formNewGameOptions = new FormNewGameOptions();
 
-        public mainForm()
+        public MainForm()
         {
             InitializeComponent();
         }       
@@ -38,7 +38,7 @@ namespace Minesweeper.Gui
 
             mineswepperGame = new GameGraphics(rowCount, columnCount, minesCount);
          
-            mineswepperGame.DrawStartArea(panelGame);
+            mineswepperGame.DrawStartArea(pictureBoxGameArea /*panelGame*/);
             mineswepperGame.DrawInfoArea(panelInfo, pictureBoxSmileButton, pictureBoxMinesCount, pictureBoxTime,timerGame);
         }
 

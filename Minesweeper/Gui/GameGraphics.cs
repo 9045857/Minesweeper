@@ -13,12 +13,17 @@ namespace Minesweeper.Gui
     class GameGraphics
     {
         private readonly BitmapsResources bitmapsResources = new BitmapsResources();
+        private readonly int cellSideLength;
+
+        private PictureBox gameArea;
+
 
         private readonly int rowCount;
         private readonly int columnCount;
         private readonly int minesCount;
 
         private GameLogic gameLogic;
+        private GameAreaGraphics gameAreaGraphics;
 
         private CellDraw[,] cells;
 
@@ -42,25 +47,71 @@ namespace Minesweeper.Gui
             this.columnCount = columnCount;
             this.minesCount = minesCount;
 
+            cellSideLength = bitmapsResources.cellStart.Height;
+
             currentGameTime = 0;
 
             gameLogic = new GameLogic(rowCount, columnCount, minesCount);
         }
 
-        private void DrawStartGamePanel(Panel gamePanel)
+        private void DrawStartGamePanel(PictureBox gameAreaPictureBox/*Panel gamePanel*/)//передлываем на один рисунок
         {
-            cells = new CellDraw[rowCount, columnCount];
+            gameArea = gameAreaPictureBox;
+
+
+            //cells = new CellDraw[rowCount, columnCount];
 
             Bitmap cellStart = bitmapsResources.cellStart;
-            int length = cellStart.Height;
+            int length = cellSideLength;
 
             int panelHeight = rowCount * length;
             int panelWidth = columnCount * length;
+
+            //создаем и заполняем стартовую картинку для всего поля
+            Bitmap currentGameAreaBitmap = new Bitmap(panelWidth, panelHeight);
+
+            using (Graphics currentGameAreaGraphics = Graphics.FromImage(currentGameAreaBitmap))
+            {
+                for (int i = 0; i < rowCount; i++)
+                {
+                    for (int j = 0; j < columnCount; j++)
+                    {
+                        int xRight = j * length;
+                        int yTop = i * length;
+
+                        currentGameAreaGraphics.DrawImage(cellStart, xRight, yTop);
+
+                        //CellDraw cellDraw = new CellDraw();
+
+                        //cellDraw.Parent = gamePanel;
+                        //cellDraw.Location = new Point(xRight, yTop);
+                        //cellDraw.Height = length;
+                        //cellDraw.Width = length;
+                        //cellDraw.Name = "CellPictureBox_" + i + "_" + j;// нужно ли вообще имя?
+                        //cellDraw.Image = cellStart;
+
+                        //cellDraw.rowIndex = i;
+                        //cellDraw.columnIndex = j;
+
+
+                        ////cellDraw.MouseMove += new MouseEventHandler(CellPictureBox_MouseMove);
+                        ////cellDraw.MouseClick += new MouseEventHandler(CellcellDraw_MouseClick);
+
+                        ////cellDraw.MouseLeave += new EventHandler(CellPictureBox_MouseLeave);
+                        //cellDraw.MouseUp += new MouseEventHandler(CellPictureBox_MouseUp);
+                        //cellDraw.MouseDown += new MouseEventHandler(CellPictureBox_MouseDown);
+
+                        //cells[i, j] = cellDraw;
+                    }
+                }
+            }
 
             int onePixel = 1;
 
             int additionToPanelWidthForGoodDesign = 28;
             int additionToPanelHeightForGoodDesign = 127;
+
+            Panel gamePanel = gameArea.Parent as Panel;
 
             gamePanel.Parent.Width = panelWidth + additionToPanelWidthForGoodDesign;
             gamePanel.Parent.Height = panelHeight + additionToPanelHeightForGoodDesign;
@@ -70,37 +121,45 @@ namespace Minesweeper.Gui
 
             this.panelsWidth = gamePanel.Width;
 
-            for (int i = 0; i < rowCount; i++)
-            {
-                for (int j = 0; j < columnCount; j++)
-                {
-                    int xRight = j * length;
-                    int yTop = i * length;
+            gameArea.Size = new Size(panelWidth, panelHeight);
 
-                    CellDraw cellDraw = new CellDraw();
-
-                    cellDraw.Parent = gamePanel;
-                    cellDraw.Location = new Point(xRight, yTop);
-                    cellDraw.Height = length;
-                    cellDraw.Width = length;
-                    cellDraw.Name = "CellPictureBox_" + i + "_" + j;// нужно ли вообще имя?
-                    cellDraw.Image = cellStart;
-
-                    cellDraw.rowIndex = i;
-                    cellDraw.columnIndex = j;
-
-
-                    //cellDraw.MouseMove += new MouseEventHandler(CellPictureBox_MouseMove);
-                    //cellDraw.MouseClick += new MouseEventHandler(CellcellDraw_MouseClick);
-
-                    //cellDraw.MouseLeave += new EventHandler(CellPictureBox_MouseLeave);
-                    cellDraw.MouseUp += new MouseEventHandler(CellPictureBox_MouseUp);
-                    cellDraw.MouseDown += new MouseEventHandler(CellPictureBox_MouseDown);
-
-                    cells[i, j] = cellDraw;
-                }
-            }
+            gameArea.Image = currentGameAreaBitmap;
         }
+
+        private int GetCellRowIndex()
+        {
+            return gameArea.Height / cellSideLength;
+        }
+
+        private int GetCellColumnIndex()
+        {
+            return gameArea.Width / cellSideLength;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private void RestartDislays()
         {
@@ -525,7 +584,7 @@ namespace Minesweeper.Gui
 
         private void DrawInfoPanel(Panel infoPanel, PictureBox smileButtonImage, PictureBox minesCountImage, PictureBox timeImage, Timer timer)
         {
-            infoPanel.Width = panelsWidth;
+          //  infoPanel.Width = panelsWidth;//так как размер определятся формой, то эта ширина
 
             this.smileButtonImage = smileButtonImage;
             this.smileButtonImage.Image = bitmapsResources.smileButton;
@@ -562,9 +621,13 @@ namespace Minesweeper.Gui
             }
         }
 
-        public void DrawStartArea(Panel gamePanel)
+        public void DrawStartArea(PictureBox gameAreaPictureBox/*Panel gamePanel*/)
         {
-            DrawStartGamePanel(gamePanel);
+
+            gameAreaGraphics = new GameAreaGraphics(gameAreaPictureBox,gameLogic);
+           // DrawStartGamePanel(gameAreaPictureBox);
+
+
         }
 
         public void DrawInfoArea(Panel infoPanel, PictureBox smileButtonImage, PictureBox minesCountImage, PictureBox timeImage, Timer timer)
