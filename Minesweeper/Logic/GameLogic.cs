@@ -300,6 +300,38 @@ namespace Minesweeper.Logic
             return minesAroundCount;
         }
 
+
+        public int GetMarkedMinesNearCell(Cell cell)
+        {
+            int rowIndex = cell.RowIndex;
+            int columnIndex = cell.ColIndex;
+
+            int indentFromInnerCell = 1;
+            int borderCorrection = 1;
+
+            int starRowIndex = rowIndex - indentFromInnerCell < 0 ? 0 : rowIndex - indentFromInnerCell;
+            int endRowIndex = rowIndex + indentFromInnerCell == RowCount ? RowCount - borderCorrection : rowIndex + indentFromInnerCell;
+
+            int starColumnIndex = columnIndex - indentFromInnerCell < 0 ? 0 : columnIndex - indentFromInnerCell;
+            int endColumnIndex = columnIndex + indentFromInnerCell == ColumnCount ? ColumnCount - borderCorrection : columnIndex + indentFromInnerCell;
+
+            int minesMarkedAroundCount = 0;
+
+            for (int i = starRowIndex; i <= endRowIndex; i++)
+            {
+                for (int j = starColumnIndex; j <= endColumnIndex; j++)
+                {
+                    if (cells[i, j].markOnTop == Cell.MarkOnTopCell.Flag)
+                    {
+                        minesMarkedAroundCount++;
+                    }
+                }
+            }
+
+            return minesMarkedAroundCount;
+        }
+
+
         private void FillMinesCountNearCells()
         {
             for (int i = 0; i < RowCount; i++)

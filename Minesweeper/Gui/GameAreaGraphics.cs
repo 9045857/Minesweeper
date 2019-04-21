@@ -19,6 +19,7 @@ namespace Minesweeper.Gui
         private readonly int cellSideLength;
 
         GameLogic gameLogic;
+        List<Cell> cellsNearRightLeftMouseButtons = new List<Cell>();
 
         private int rowCount;
         private int columnCount;
@@ -40,8 +41,6 @@ namespace Minesweeper.Gui
             cellSideLength = bitmapsResources.cellStart.Height;
 
             CreateGameAreaPictureBox();
-
-            
         }
 
         private void CreateGameAreaPictureBox()
@@ -49,7 +48,7 @@ namespace Minesweeper.Gui
             DrawStartGamePanel();
 
             gameAreaPictureBox.MouseUp += new MouseEventHandler(GameAreaPictureBox_MouseUp);
-
+            gameAreaPictureBox.MouseDown += new MouseEventHandler(CellPictureBox_MouseDown);
 
         }
 
@@ -69,46 +68,204 @@ namespace Minesweeper.Gui
                 return;
             }
 
-            int rowIndex = GetMouseEventCellRowIndex(e);
-            int columnIndex = GetMouseEventCellColumnIndex(e);
-
-            if (isMouseLeftButtonDown && isMouseRightButtonDown)
+            using (Graphics currentGameAreaGraphics = Graphics.FromImage(gameAreaImage))
             {
-                SetMouseButtonsDownFalse();
-                //PressCellsNearRightLeftMouseButtonsUp(gameLogic.cells[rowIndex, columnIndex]);
 
-                //SetTimerFalseIfGameFinish();
-                //DrawSmileButtonIfCellUp();
-            }
-            else if (e.Button == MouseButtons.Left)
-            {
-                SetMouseButtonsDownFalse();
+                int rowIndex = GetMouseEventCellRowIndex(e);
+                int columnIndex = GetMouseEventCellColumnIndex(e);
 
-                if (gameLogic.cells[rowIndex, columnIndex].markOnTop != Cell.MarkOnTopCell.Flag)
+                if (isMouseLeftButtonDown && isMouseRightButtonDown)
                 {
-                    //SetTimerTrueIfGameBegin();
+                    SetMouseButtonsDownFalse();
+                    PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, gameLogic.cells[rowIndex, columnIndex]);
+
+                    //SetTimerFalseIfGameFinish();
+                    //DrawSmileButtonIfCellUp();
+                }
+                else if (e.Button == MouseButtons.Left)
+                {
+                    SetMouseButtonsDownFalse();
+
+                    if (gameLogic.cells[rowIndex, columnIndex].markOnTop != Cell.MarkOnTopCell.Flag)
+                    {
+                        //SetTimerTrueIfGameBegin();
+
+                        List<Cell> pressingCells = gameLogic.GetOpenCellsAfterPress(rowIndex, columnIndex);
+                        DrawCellsListAfterPress(pressingCells);
+
+                        // SetTimerFalseIfGameFinish();
+                        // SetRemainigMinesCountIfGameOver();
+
+                        // DrawSmileButtonIfCellUp();
+                    }
+                }
+                else if (e.Button == MouseButtons.Right)
+                {
+                    SetMouseButtonsDownFalse();
+                    //SetTimerFalseIfGameFinish();
+                    //DrawSmileButtonIfCellUp();
+                }
+
+                gameAreaPictureBox.Image = gameAreaImage;
+            }
+        }
+
+
+        private void CellPictureBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (!gameLogic.IsGameContinue)
+            {
+                return;
+            }
+
+            using (Graphics currentGameAreaGraphics = Graphics.FromImage(gameAreaImage))
+            {
+                int rowIndex = GetMouseEventCellRowIndex(e);
+                int columnIndex = GetMouseEventCellColumnIndex(e);
+
+                Cell cell = gameLogic.cells[rowIndex, columnIndex];
+
+                if (e.Button == MouseButtons.Left)
+                {
+                    if (cell.IsPressed && cell.MineNearCount != 0)
+                    {
+                        isMouseLeftButtonDown = true;
+
+                        if (isMouseRightButtonDown)
+                        {
+                            //DrawSmileButtonIfCellDown();
+                            PressCellsNearRightLeftMouseButtonsDown(currentGameAreaGraphics, cell);
+                        }
+                    }
+                    else if (!cell.IsPressed && cell.markOnTop != Cell.MarkOnTopCell.Flag)
+                    {
+                        //DrawSmileButtonIfCellDown();
+                        //DrawOnBottomCellAfterMouseDown(sender as CellDraw, cell);
+                    }
+                }
+
+                if (e.Button == MouseButtons.Right)
+                {
+                    if (cell.IsPressed && cell.MineNearCount != 0)
+                    {
+                        isMouseRightButtonDown = true;
+
+                        if (isMouseLeftButtonDown)
+                        {
+                            //DrawSmileButtonIfCellDown();
+                            PressCellsNearRightLeftMouseButtonsDown(currentGameAreaGraphics, cell);
+                        }
+                    }
+                    else if (!cell.IsPressed)
+                    {
+                        gameLogic.Mark(cell);
+
+                        Bitmap bitmap = GetMarkCell(cell);
+                        DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmap);
+
+
+                        //DrawRemainingMinesCountAfterMarkOnDispley();
+                    }
+
+
+                }
+
+                gameAreaPictureBox.Image = gameAreaImage;
+            }
+        }
+
+
+        private void PressCellsNearRightLeftMouseButtonsUp(Graphics currentGameAreaGraphics, Cell cell)
+        {
+            if (cellsNearRightLeftMouseButtons.Count != 0 && gameLogic.GetMarkedMinesNearCell(cell) == cell.MineNearCount)
+            {
+                foreach (Cell element in cellsNearRightLeftMouseButtons)
+                {
+                    int rowIndex = element.RowIndex;
+                    int columnIndex = element.ColIndex;
 
                     List<Cell> pressingCells = gameLogic.GetOpenCellsAfterPress(rowIndex, columnIndex);
+
                     DrawCellsListAfterPress(pressingCells);
-
-                    // SetTimerFalseIfGameFinish();
-                    // SetRemainigMinesCountIfGameOver();
-
-                    // DrawSmileButtonIfCellUp();
+                    // PressCellsList(pressingCells);
                 }
+
+                //SetRemainigMinesCountIfGameOver();
+
+                cellsNearRightLeftMouseButtons.Clear();
             }
-            else if (e.Button == MouseButtons.Right)
+            else if (cellsNearRightLeftMouseButtons.Count != 0)
             {
-                SetMouseButtonsDownFalse();
-                //SetTimerFalseIfGameFinish();
-                //DrawSmileButtonIfCellUp();
+                foreach (Cell element in cellsNearRightLeftMouseButtons)
+                {
+                    int rowIndex = element.RowIndex;
+                    int columnIndex = element.ColIndex;
+
+                    Bitmap bitmap = GetMarkCell(element);
+                    DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmap);
+                }
+
+                cellsNearRightLeftMouseButtons.Clear();
+            }
+        }
+
+
+        private void PressCellsNearRightLeftMouseButtonsDown(Graphics currentGameAreaGraphics, Cell cell)
+        {
+            int rowIndex = cell.RowIndex;
+            int columnIndex = cell.ColIndex;
+
+            int indentFromInnerCell = 1;
+            int borderCorrection = 1;
+
+            int starRowIndex = rowIndex - indentFromInnerCell < 0 ? 0 : rowIndex - indentFromInnerCell;
+            int endRowIndex = rowIndex + indentFromInnerCell == rowCount ? rowCount - borderCorrection : rowIndex + indentFromInnerCell;
+
+            int starColIndex = columnIndex - indentFromInnerCell < 0 ? 0 : columnIndex - indentFromInnerCell;
+            int endColIndex = columnIndex + indentFromInnerCell == columnCount ? columnCount - borderCorrection : columnIndex + indentFromInnerCell;
+
+            for (int i = starRowIndex; i <= endRowIndex; i++)
+            {
+                for (int j = starColIndex; j <= endColIndex; j++)
+                {
+                    if (!gameLogic.cells[i, j].IsPressed && gameLogic.cells[i, j].markOnTop != Cell.MarkOnTopCell.Flag)
+                    {
+                        cellsNearRightLeftMouseButtons.Add(gameLogic.cells[i, j]);
+
+                        if (gameLogic.cells[i, j].markOnTop == Cell.MarkOnTopCell.Question)
+                        {
+                            DrawCell(currentGameAreaGraphics, i, j, bitmapsResources.questionPressCell);
+                        }
+                        else
+                        {
+                            DrawCell(currentGameAreaGraphics, i, j, bitmapsResources.minesNearCount[0]);
+                        }
+                    }
+                }
             }
         }
 
 
 
 
-       
+        private Bitmap GetMarkCell(Cell cell)
+        {
+            switch (cell.markOnTop)
+            {
+                case Cell.MarkOnTopCell.Flag:
+                    return bitmapsResources.flag;
+
+                case Cell.MarkOnTopCell.Question:
+                    return bitmapsResources.question;
+
+                case Cell.MarkOnTopCell.Empty:
+                    return bitmapsResources.cellStart;
+
+                default:
+                    return bitmapsResources.cellStart;
+            }
+        }
+
 
 
 
@@ -123,9 +280,6 @@ namespace Minesweeper.Gui
                     {
                         int rowIndex = element.RowIndex;
                         int columnIndex = element.ColIndex;
-
-                        int xRight = columnIndex * cellSideLength;
-                        int yTop = rowIndex * cellSideLength;
 
                         if (element.IsPressed)
                         {
@@ -154,7 +308,7 @@ namespace Minesweeper.Gui
                                     break;
                             }
 
-                            DrawCell(currentGameAreaGraphics, xRight, yTop, bitmap);
+                            DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmap);
                         }
                         else
                         {
@@ -162,7 +316,7 @@ namespace Minesweeper.Gui
                             {
                                 case Cell.MarkOnTopCell.Flag:
                                     Bitmap bitmap = bitmapsResources.flag;
-                                    DrawCell(currentGameAreaGraphics, xRight, yTop, bitmap);
+                                    DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmap);
                                     break;
                             }
                         }
@@ -172,8 +326,11 @@ namespace Minesweeper.Gui
             }
         }
 
-        private void DrawCell(Graphics currentGameAreaGraphics, int xRight, int yTop, Bitmap bitmap)
+        private void DrawCell(Graphics currentGameAreaGraphics, int rowIndex, int columnIndex, Bitmap bitmap)
         {
+            int xRight = columnIndex * cellSideLength;
+            int yTop = rowIndex * cellSideLength;
+
             SolidBrush backFormColor = new SolidBrush(this.backFormColor);
             currentGameAreaGraphics.FillRectangle(backFormColor, xRight, yTop, cellSideLength, cellSideLength);
             currentGameAreaGraphics.DrawImage(bitmap, xRight, yTop, cellSideLength, cellSideLength);
@@ -225,16 +382,13 @@ namespace Minesweeper.Gui
         }
 
         private int GetMouseEventCellRowIndex(MouseEventArgs e)
-        {           
-                return e.Y / cellSideLength;           
+        {
+            return e.Y / cellSideLength;
         }
 
         private int GetMouseEventCellColumnIndex(MouseEventArgs e)
         {
             return e.X / cellSideLength;
         }
-
-       
-
     }
 }

@@ -215,6 +215,7 @@
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(256, 374);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " Сапёр";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.panelInfo.ResumeLayout(false);
