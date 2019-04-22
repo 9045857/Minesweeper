@@ -79,8 +79,8 @@ namespace Minesweeper.Gui
                     SetMouseButtonsDownFalse();
                     PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, gameLogic.cells[rowIndex, columnIndex]);
 
-                    //SetTimerFalseIfGameFinish();
-                    //DrawSmileButtonIfCellUp();
+                    //SetTimerFalseIfGameFinish();//имеет отношение к дисплею
+                    //DrawSmileButtonIfCellUp();//имеет отношение к дисплею
                 }
                 else if (e.Button == MouseButtons.Left)
                 {
@@ -88,22 +88,22 @@ namespace Minesweeper.Gui
 
                     if (gameLogic.cells[rowIndex, columnIndex].markOnTop != Cell.MarkOnTopCell.Flag)
                     {
-                        //SetTimerTrueIfGameBegin();
+                        //SetTimerTrueIfGameBegin();//имеет отношение к дисплею
 
                         List<Cell> pressingCells = gameLogic.GetOpenCellsAfterPress(rowIndex, columnIndex);
                         DrawCellsListAfterPress(pressingCells);
 
-                        // SetTimerFalseIfGameFinish();
-                        // SetRemainigMinesCountIfGameOver();
+                        // SetTimerFalseIfGameFinish();//имеет отношение к дисплею
+                        // SetRemainigMinesCountIfGameOver();//имеет отношение к дисплею
 
-                        // DrawSmileButtonIfCellUp();
+                        // DrawSmileButtonIfCellUp();//имеет отношение к дисплею
                     }
                 }
                 else if (e.Button == MouseButtons.Right)
                 {
                     SetMouseButtonsDownFalse();
-                    //SetTimerFalseIfGameFinish();
-                    //DrawSmileButtonIfCellUp();
+                    //SetTimerFalseIfGameFinish();//имеет отношение к дисплею
+                    //DrawSmileButtonIfCellUp();//имеет отношение к дисплею
                 }
 
                 gameAreaPictureBox.Image = gameAreaImage;
@@ -133,14 +133,14 @@ namespace Minesweeper.Gui
 
                         if (isMouseRightButtonDown)
                         {
-                            //DrawSmileButtonIfCellDown();
+                            //DrawSmileButtonIfCellDown();//имеет отношение к дисплею
                             PressCellsNearRightLeftMouseButtonsDown(currentGameAreaGraphics, cell);
                         }
                     }
                     else if (!cell.IsPressed && cell.markOnTop != Cell.MarkOnTopCell.Flag)
                     {
-                        //DrawSmileButtonIfCellDown();
-                        //DrawOnBottomCellAfterMouseDown(sender as CellDraw, cell);
+                        //DrawSmileButtonIfCellDown();//имеет отношение к дисплею
+                        //DrawOnBottomCellAfterMouseDown(sender as CellDraw, cell);//TODO
                     }
                 }
 
@@ -152,7 +152,7 @@ namespace Minesweeper.Gui
 
                         if (isMouseLeftButtonDown)
                         {
-                            //DrawSmileButtonIfCellDown();
+                            //DrawSmileButtonIfCellDown();//имеет отношение к дисплею
                             PressCellsNearRightLeftMouseButtonsDown(currentGameAreaGraphics, cell);
                         }
                     }
@@ -164,7 +164,7 @@ namespace Minesweeper.Gui
                         DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmap);
 
 
-                        //DrawRemainingMinesCountAfterMarkOnDispley();
+                        //DrawRemainingMinesCountAfterMarkOnDispley();//имеет отношение к дисплею
                     }
 
 
@@ -187,10 +187,9 @@ namespace Minesweeper.Gui
                     List<Cell> pressingCells = gameLogic.GetOpenCellsAfterPress(rowIndex, columnIndex);
 
                     DrawCellsListAfterPress(pressingCells);
-                    // PressCellsList(pressingCells);
                 }
 
-                //SetRemainigMinesCountIfGameOver();
+                //SetRemainigMinesCountIfGameOver();//имеет отношение к дисплею
 
                 cellsNearRightLeftMouseButtons.Clear();
             }
