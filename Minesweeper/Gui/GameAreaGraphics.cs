@@ -13,7 +13,7 @@ namespace Minesweeper.Gui
     {
         private PictureBox gameAreaPictureBox;
         private Bitmap gameAreaImage;
-        private Color backFormColor;
+        private readonly Color backFormColor;
 
         private readonly BitmapsResources bitmapsResources = new BitmapsResources();
         private readonly int cellSideLength;
@@ -48,18 +48,18 @@ namespace Minesweeper.Gui
             DrawStartGamePanel();
 
             gameAreaPictureBox.MouseUp += new MouseEventHandler(GameAreaPictureBox_MouseUp);
-            gameAreaPictureBox.MouseDown += new MouseEventHandler(CellPictureBox_MouseDown);
-
+            gameAreaPictureBox.MouseDown += new MouseEventHandler(GameAreaPictureBox_MouseDown);
         }
 
-
-        private void SetMouseButtonsDownFalse()
+        private bool AreBothMouseButtonsDown
         {
-            isMouseLeftButtonDown = false;
-            isMouseRightButtonDown = false;
+            get
+            {
+                return isMouseLeftButtonDown && isMouseRightButtonDown;
+            }
         }
 
-
+        private bool areBothMouseButtonDownAction;
 
         private void GameAreaPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
@@ -70,21 +70,34 @@ namespace Minesweeper.Gui
 
             using (Graphics currentGameAreaGraphics = Graphics.FromImage(gameAreaImage))
             {
-
                 int rowIndex = GetMouseEventCellRowIndex(e);
                 int columnIndex = GetMouseEventCellColumnIndex(e);
 
-                if (isMouseLeftButtonDown && isMouseRightButtonDown)
-                {
-                    SetMouseButtonsDownFalse();
-                    PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, gameLogic.cells[rowIndex, columnIndex]);
+                //    //SetTimerFalseIfGameFinish();//имеет отношение к дисплею стоит скорее всего не на своем месте
+                //    //DrawSmileButtonIfCellUp();//имеет отношение к дисплею стоит скорее всего не на своем месте
 
-                    //SetTimerFalseIfGameFinish();//имеет отношение к дисплею
-                    //DrawSmileButtonIfCellUp();//имеет отношение к дисплею
-                }
-                else if (e.Button == MouseButtons.Left)
+               if (e.Button == MouseButtons.Left)
                 {
-                    SetMouseButtonsDownFalse();
+                    if (AreBothMouseButtonsDown)
+                    {
+                        PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, gameLogic.cells[rowIndex, columnIndex]);
+                        isMouseLeftButtonDown = false;
+
+                        gameAreaPictureBox.Image = gameAreaImage;
+
+                        return;
+
+                        //SetTimerFalseIfGameFinish();//имеет отношение к дисплею
+                        //DrawSmileButtonIfCellUp();//имеет отношение к дисплею
+                    }
+                    else if (areBothMouseButtonDownAction)
+                    {
+                        areBothMouseButtonDownAction = false;
+                        isMouseLeftButtonDown = false;
+                        return;
+                    }
+
+                    isMouseLeftButtonDown = false;
 
                     if (gameLogic.cells[rowIndex, columnIndex].markOnTop != Cell.MarkOnTopCell.Flag)
                     {
@@ -98,20 +111,72 @@ namespace Minesweeper.Gui
 
                         // DrawSmileButtonIfCellUp();//имеет отношение к дисплею
                     }
+
+                    gameAreaPictureBox.Image = gameAreaImage;
                 }
                 else if (e.Button == MouseButtons.Right)
                 {
-                    SetMouseButtonsDownFalse();
+
+                    if (AreBothMouseButtonsDown)
+                    {
+                        PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, gameLogic.cells[rowIndex, columnIndex]);
+                        isMouseRightButtonDown = false;
+
+                        gameAreaPictureBox.Image = gameAreaImage;
+
+                        return;
+
+                        //SetTimerFalseIfGameFinish();//имеет отношение к дисплею
+                        //DrawSmileButtonIfCellUp();//имеет отношение к дисплею
+                    }
+                    else if (areBothMouseButtonDownAction)
+                    {
+                        areBothMouseButtonDownAction = false;
+                        isMouseRightButtonDown = false;
+                        return;
+                    }
+
+                    isMouseRightButtonDown = false;
+
+                    gameAreaPictureBox.Image = gameAreaImage;
+
                     //SetTimerFalseIfGameFinish();//имеет отношение к дисплею
                     //DrawSmileButtonIfCellUp();//имеет отношение к дисплею
                 }
+            }
+        }
 
-                gameAreaPictureBox.Image = gameAreaImage;
+        private bool IsMouseLeftRightButtonDownThenPressAreaNearCell(Graphics currentGameAreaGraphics, Cell cell)
+        {
+            if (isMouseLeftButtonDown && isMouseRightButtonDown)
+            {
+                cellsNearRightLeftMouseButtons = gameLogic.GetCellsListAvailableForPress(cell);
+
+                foreach (Cell element in cellsNearRightLeftMouseButtons)
+                {
+                    int rowIndex = element.RowIndex;
+                    int columnIndex = element.ColIndex;
+
+                    if (element.markOnTop == Cell.MarkOnTopCell.Question)
+                    {
+                        DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmapsResources.questionPressCell);
+                    }
+                    else
+                    {
+                        DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmapsResources.minesNearCount[0]);
+                    }
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
 
-        private void CellPictureBox_MouseDown(object sender, MouseEventArgs e)
+        private void GameAreaPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
             if (!gameLogic.IsGameContinue)
             {
@@ -127,57 +192,110 @@ namespace Minesweeper.Gui
 
                 if (e.Button == MouseButtons.Left)
                 {
-                    if (cell.IsPressed && cell.MineNearCount != 0)
-                    {
-                        isMouseLeftButtonDown = true;
+                    isMouseLeftButtonDown = true;
 
+                    if (IsMouseLeftRightButtonDownThenPressAreaNearCell(currentGameAreaGraphics, cell))
+                    {
+                        areBothMouseButtonDownAction = true;
+                        //   return;
+                    }
+                    else if (!cell.IsPressed && cell.markOnTop != Cell.MarkOnTopCell.Flag)
+                    {
                         if (isMouseRightButtonDown)
                         {
                             //DrawSmileButtonIfCellDown();//имеет отношение к дисплею
                             PressCellsNearRightLeftMouseButtonsDown(currentGameAreaGraphics, cell);
                         }
-                    }
-                    else if (!cell.IsPressed && cell.markOnTop != Cell.MarkOnTopCell.Flag)
-                    {
-                        //DrawSmileButtonIfCellDown();//имеет отношение к дисплею
-                        //DrawOnBottomCellAfterMouseDown(sender as CellDraw, cell);//TODO
+                        else
+                        {
+                            //DrawSmileButtonIfCellDown();//имеет отношение к дисплею
+                            DrawOnBottomCellAfterMouseDown(currentGameAreaGraphics, cell);//TODO
+                        }
                     }
                 }
 
                 if (e.Button == MouseButtons.Right)
                 {
-                    if (cell.IsPressed && cell.MineNearCount != 0)
-                    {
-                        isMouseRightButtonDown = true;
+                    isMouseRightButtonDown = true;
 
+                    if (IsMouseLeftRightButtonDownThenPressAreaNearCell(currentGameAreaGraphics, cell))
+                    {
+                        areBothMouseButtonDownAction = true;
+                        // return;
+                    }
+                    else if (!cell.IsPressed)
+                    {
                         if (isMouseLeftButtonDown)
                         {
                             //DrawSmileButtonIfCellDown();//имеет отношение к дисплею
                             PressCellsNearRightLeftMouseButtonsDown(currentGameAreaGraphics, cell);
                         }
-                    }
-                    else if (!cell.IsPressed)
-                    {
-                        gameLogic.Mark(cell);
+                        else
+                        {
 
-                        Bitmap bitmap = GetMarkCell(cell);
-                        DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmap);
+                            gameLogic.Mark(cell);
 
+                            Bitmap bitmap = GetMarkCell(cell);
+                            DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmap);
+                        }
 
                         //DrawRemainingMinesCountAfterMarkOnDispley();//имеет отношение к дисплею
                     }
-
-
                 }
 
                 gameAreaPictureBox.Image = gameAreaImage;
             }
         }
 
+        private void DrawOnBottomCellAfterMouseDown(Graphics currentGameAreaGraphics, Cell cell)
+        {
+            int rowIndex = cell.RowIndex;
+            int columnIndex = cell.ColIndex;
+
+            switch (cell.markOnTop)
+            {
+                case Cell.MarkOnTopCell.Question:
+                    DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmapsResources.questionPressCell);
+                    return;
+
+                case Cell.MarkOnTopCell.Empty:
+                    DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmapsResources.minesNearCount[0]);
+                    return;
+            }
+        }
+
+        private void DrawOnTopCellAfterMouseUp(Graphics currentGameAreaGraphics, Cell cell)
+        {
+            int rowIndex = cell.RowIndex;
+            int columnIndex = cell.ColIndex;
+
+            switch (cell.markOnTop)
+            {
+                case Cell.MarkOnTopCell.Question:
+                    DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmapsResources.question);
+                    return;
+
+                case Cell.MarkOnTopCell.Empty:
+                    DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmapsResources.cellStart);
+                    return;
+            }
+        }
 
         private void PressCellsNearRightLeftMouseButtonsUp(Graphics currentGameAreaGraphics, Cell cell)
         {
-            if (cellsNearRightLeftMouseButtons.Count != 0 && gameLogic.GetMarkedMinesNearCell(cell) == cell.MineNearCount)
+            if (!cell.IsPressed)
+            {
+                foreach (Cell element in cellsNearRightLeftMouseButtons)
+                {
+                    int rowIndex = element.RowIndex;
+                    int columnIndex = element.ColIndex;
+
+                    Bitmap bitmap = GetMarkCell(gameLogic.cells[rowIndex, columnIndex]);
+
+                    DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmap);
+                }
+            }
+            else if (cellsNearRightLeftMouseButtons.Count != 0 && gameLogic.GetMarkedMinesNearCell(cell) == cell.MineNearCount)
             {
                 foreach (Cell element in cellsNearRightLeftMouseButtons)
                 {
@@ -211,21 +329,11 @@ namespace Minesweeper.Gui
 
         private void PressCellsNearRightLeftMouseButtonsDown(Graphics currentGameAreaGraphics, Cell cell)
         {
-            int rowIndex = cell.RowIndex;
-            int columnIndex = cell.ColIndex;
-
-            int indentFromInnerCell = 1;
-            int borderCorrection = 1;
-
-            int starRowIndex = rowIndex - indentFromInnerCell < 0 ? 0 : rowIndex - indentFromInnerCell;
-            int endRowIndex = rowIndex + indentFromInnerCell == rowCount ? rowCount - borderCorrection : rowIndex + indentFromInnerCell;
-
-            int starColIndex = columnIndex - indentFromInnerCell < 0 ? 0 : columnIndex - indentFromInnerCell;
-            int endColIndex = columnIndex + indentFromInnerCell == columnCount ? columnCount - borderCorrection : columnIndex + indentFromInnerCell;
+            gameLogic.GetAvailableIndexesNearCell(cell, out int starRowIndex, out int endRowIndex, out int starColumnIndex, out int endColumnIndex);
 
             for (int i = starRowIndex; i <= endRowIndex; i++)
             {
-                for (int j = starColIndex; j <= endColIndex; j++)
+                for (int j = starColumnIndex; j <= endColumnIndex; j++)
                 {
                     if (!gameLogic.cells[i, j].IsPressed && gameLogic.cells[i, j].markOnTop != Cell.MarkOnTopCell.Flag)
                     {
