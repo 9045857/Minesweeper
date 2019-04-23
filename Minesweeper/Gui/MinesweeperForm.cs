@@ -32,14 +32,18 @@ namespace Minesweeper.Gui
 
         private void LoadNewGame()
         {
-            int rowCount = formNewGameOptions.RowCount;
-            int columnCount= formNewGameOptions.ColumnCount;
-            int minesCount= formNewGameOptions.MinesCount ;
+            //int rowCount = formNewGameOptions.RowCount;
+            //int columnCount= formNewGameOptions.ColumnCount;
+            //int minesCount= formNewGameOptions.MinesCount ;
 
-            mineswepperGame = new GameGraphics(rowCount, columnCount, minesCount);
-         
+ //mineswepperGame = new GameGraphics(rowCount, columnCount, minesCount);
+
+            mineswepperGame = new GameGraphics(20, 30, 200);
+
             mineswepperGame.DrawStartArea(pictureBoxGameArea /*panelGame*/);
             mineswepperGame.DrawInfoArea(panelInfo, pictureBoxSmileButton, pictureBoxMinesCount, pictureBoxTime,timerGame);
+
+           
         }
 
         private void toolStripMenuItemNew_Click(object sender, EventArgs e)

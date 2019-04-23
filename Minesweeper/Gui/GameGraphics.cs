@@ -15,9 +15,6 @@ namespace Minesweeper.Gui
         private readonly BitmapsResources bitmapsResources = new BitmapsResources();
         private readonly int cellSideLength;
 
-        private PictureBox gameArea;
-
-
         private readonly int rowCount;
         private readonly int columnCount;
         private readonly int minesCount;
@@ -25,7 +22,7 @@ namespace Minesweeper.Gui
         private GameLogic gameLogic;
         private GameAreaGraphics gameAreaGraphics;
 
-        private CellDraw[,] cells;
+        //private CellDraw[,] cells;
 
         private PictureBox smileButtonImage;
         private PictureBox timeImage;
@@ -37,8 +34,6 @@ namespace Minesweeper.Gui
 
         private int panelsWidth;
 
-        private bool isMouseLeftButtonDown;
-        private bool isMouseRightButtonDown;
         List<Cell> cellsNearRightLeftMouseButtons = new List<Cell>();
 
         public GameGraphics(int rowCount, int columnCount, int minesCount)
@@ -53,113 +48,6 @@ namespace Minesweeper.Gui
 
             gameLogic = new GameLogic(rowCount, columnCount, minesCount);
         }
-
-        private void DrawStartGamePanel(PictureBox gameAreaPictureBox/*Panel gamePanel*/)//передлываем на один рисунок
-        {
-            gameArea = gameAreaPictureBox;
-
-
-            //cells = new CellDraw[rowCount, columnCount];
-
-            Bitmap cellStart = bitmapsResources.cellStart;
-            int length = cellSideLength;
-
-            int panelHeight = rowCount * length;
-            int panelWidth = columnCount * length;
-
-            //создаем и заполняем стартовую картинку для всего поля
-            Bitmap currentGameAreaBitmap = new Bitmap(panelWidth, panelHeight);
-
-            using (Graphics currentGameAreaGraphics = Graphics.FromImage(currentGameAreaBitmap))
-            {
-                for (int i = 0; i < rowCount; i++)
-                {
-                    for (int j = 0; j < columnCount; j++)
-                    {
-                        int xRight = j * length;
-                        int yTop = i * length;
-
-                        currentGameAreaGraphics.DrawImage(cellStart, xRight, yTop);
-
-                        //CellDraw cellDraw = new CellDraw();
-
-                        //cellDraw.Parent = gamePanel;
-                        //cellDraw.Location = new Point(xRight, yTop);
-                        //cellDraw.Height = length;
-                        //cellDraw.Width = length;
-                        //cellDraw.Name = "CellPictureBox_" + i + "_" + j;// нужно ли вообще имя?
-                        //cellDraw.Image = cellStart;
-
-                        //cellDraw.rowIndex = i;
-                        //cellDraw.columnIndex = j;
-
-
-                        ////cellDraw.MouseMove += new MouseEventHandler(CellPictureBox_MouseMove);
-                        ////cellDraw.MouseClick += new MouseEventHandler(CellcellDraw_MouseClick);
-
-                        ////cellDraw.MouseLeave += new EventHandler(CellPictureBox_MouseLeave);
-                        //cellDraw.MouseUp += new MouseEventHandler(CellPictureBox_MouseUp);
-                        //cellDraw.MouseDown += new MouseEventHandler(CellPictureBox_MouseDown);
-
-                        //cells[i, j] = cellDraw;
-                    }
-                }
-            }
-
-            int onePixel = 1;
-
-            int additionToPanelWidthForGoodDesign = 28;
-            int additionToPanelHeightForGoodDesign = 127;
-
-            Panel gamePanel = gameArea.Parent as Panel;
-
-            gamePanel.Parent.Width = panelWidth + additionToPanelWidthForGoodDesign;
-            gamePanel.Parent.Height = panelHeight + additionToPanelHeightForGoodDesign;
-
-            gamePanel.Height = panelHeight + gamePanel.Margin.Left + onePixel;
-            gamePanel.Width = panelWidth + gamePanel.Margin.Top + onePixel;
-
-            this.panelsWidth = gamePanel.Width;
-
-            gameArea.Size = new Size(panelWidth, panelHeight);
-
-            gameArea.Image = currentGameAreaBitmap;
-        }
-
-        private int GetCellRowIndex()
-        {
-            return gameArea.Height / cellSideLength;
-        }
-
-        private int GetCellColumnIndex()
-        {
-            return gameArea.Width / cellSideLength;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         private void RestartDislays()
         {
@@ -181,95 +69,8 @@ namespace Minesweeper.Gui
             {
                 for (int j = 0; j < columnCount; j++)
                 {
-                    cells[i, j].Image = bitmapsResources.cellStart;
+                  //  cells[i, j].Image = bitmapsResources.cellStart;
                 }
-            }
-        }
-
-        private void PressCellsList(List<Cell> cellsList)//TODO переименовать
-        {
-            if (cellsList.Count != 0)
-            {
-                foreach (Cell element in cellsList)
-                {
-                    int rowIndex = element.RowIndex;
-                    int columnIndex = element.ColIndex;
-
-                    if (element.IsPressed)
-                    {
-                        switch (element.markOnBottom)
-                        {
-                            case Cell.MarkOnBottomCell.Mine:
-                                cells[rowIndex, columnIndex].Image = bitmapsResources.mine;
-                                break;
-
-                            case Cell.MarkOnBottomCell.MineBombed:
-                                cells[rowIndex, columnIndex].Image = bitmapsResources.mineBombed;
-                                break;
-
-                            case Cell.MarkOnBottomCell.MineError:
-                                cells[rowIndex, columnIndex].Image = bitmapsResources.mineError;
-                                break;
-
-                            case Cell.MarkOnBottomCell.MineNearCount:
-                                int minesCountBitmapIndex = element.MineNearCount;
-                                cells[rowIndex, columnIndex].Image = bitmapsResources.minesNearCount[minesCountBitmapIndex];
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        switch (element.markOnTop)
-                        {
-                            case Cell.MarkOnTopCell.Flag:
-                                cells[rowIndex, columnIndex].Image = bitmapsResources.flag;
-                                break;
-                        }
-                    }
-                }
-            }
-        }
-
-        private void CellPictureBox_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (!gameLogic.IsGameContinue)
-            {
-                return;
-            }
-
-            int rowIndex = (sender as CellDraw).rowIndex;
-            int columnIndex = (sender as CellDraw).columnIndex;
-
-            if (isMouseLeftButtonDown && isMouseRightButtonDown)
-            {
-                SetMouseButtonsDownFalse();
-                PressCellsNearRightLeftMouseButtonsUp(gameLogic.cells[rowIndex, columnIndex]);
-
-                SetTimerFalseIfGameFinish();
-                DrawSmileButtonIfCellUp();
-            }
-            else if (e.Button == MouseButtons.Left)
-            {
-                SetMouseButtonsDownFalse();
-
-                if (gameLogic.cells[rowIndex, columnIndex].markOnTop != Cell.MarkOnTopCell.Flag)
-                {
-                    SetTimerTrueIfGameBegin();
-
-                    List<Cell> pressingCells = gameLogic.GetOpenCellsAfterPress(rowIndex, columnIndex);
-                    PressCellsList(pressingCells);
-
-                    SetTimerFalseIfGameFinish();
-                    SetRemainigMinesCountIfGameOver();
-
-                    DrawSmileButtonIfCellUp();
-                }
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                SetMouseButtonsDownFalse();
-                SetTimerFalseIfGameFinish();
-                DrawSmileButtonIfCellUp();
             }
         }
 
@@ -289,74 +90,6 @@ namespace Minesweeper.Gui
             }
         }
 
-        private void SetMouseButtonsDownFalse()
-        {
-            isMouseLeftButtonDown = false;
-            isMouseRightButtonDown = false;
-        }
-
-        private int GetMarkedMinesNearCell(Cell cell)
-        {
-            int rowIndex = cell.RowIndex;
-            int columnIndex = cell.ColIndex;
-
-            int indentFromInnerCell = 1;
-            int borderCorrection = 1;
-
-            int starRowIndex = rowIndex - indentFromInnerCell < 0 ? 0 : rowIndex - indentFromInnerCell;
-            int endRowIndex = rowIndex + indentFromInnerCell == rowCount ? rowCount - borderCorrection : rowIndex + indentFromInnerCell;
-
-            int starColIndex = columnIndex - indentFromInnerCell < 0 ? 0 : columnIndex - indentFromInnerCell;
-            int endColumnIndex = columnIndex + indentFromInnerCell == columnCount ? columnCount - borderCorrection : columnIndex + indentFromInnerCell;
-
-            int minesMarkedAroundCount = 0;
-
-            for (int i = starRowIndex; i <= endRowIndex; i++)
-            {
-                for (int j = starColIndex; j <= endColumnIndex; j++)
-                {
-                    if (gameLogic.cells[i, j].markOnTop == Cell.MarkOnTopCell.Flag)
-                    {
-                        minesMarkedAroundCount++;
-                    }
-                }
-            }
-
-            return minesMarkedAroundCount;
-        }
-
-        private void PressCellsNearRightLeftMouseButtonsUp(Cell cell)
-        {
-            if (cellsNearRightLeftMouseButtons.Count != 0 && GetMarkedMinesNearCell(cell) == cell.MineNearCount)
-            {
-                foreach (Cell element in cellsNearRightLeftMouseButtons)
-                {
-                    int rowIndex = element.RowIndex;
-                    int columnIndex = element.ColIndex;
-
-                    List<Cell> pressingCells = gameLogic.GetOpenCellsAfterPress(rowIndex, columnIndex);
-
-                    PressCellsList(pressingCells);
-                }
-
-                SetRemainigMinesCountIfGameOver();
-
-                cellsNearRightLeftMouseButtons.Clear();
-            }
-            else if (cellsNearRightLeftMouseButtons.Count != 0)
-            {
-                foreach (Cell element in cellsNearRightLeftMouseButtons)
-                {
-                    int rowIndex = element.RowIndex;
-                    int columnIndex = element.ColIndex;
-
-                    DrawOnTopCellAfterMouseUp(cells[rowIndex, columnIndex], element);
-                }
-
-                cellsNearRightLeftMouseButtons.Clear();
-            }
-        }
-
         private void SetRemainigMinesCountIfGameOver()
         {
             if (!gameLogic.IsGameContinue && gameLogic.isDontExploded)
@@ -365,129 +98,11 @@ namespace Minesweeper.Gui
                 minesCountImage.Image = GetBitmapNumericDisplay(remaingMines);
             }
         }
-
-        private void PressCellsNearRightLeftMouseButtonsDown(Cell cell)
-        {
-            int rowIndex = cell.RowIndex;
-            int columnIndex = cell.ColIndex;
-
-            int indentFromInnerCell = 1;
-            int borderCorrection = 1;
-
-            int starRowIndex = rowIndex - indentFromInnerCell < 0 ? 0 : rowIndex - indentFromInnerCell;
-            int endRowIndex = rowIndex + indentFromInnerCell == rowCount ? rowCount - borderCorrection : rowIndex + indentFromInnerCell;
-
-            int starColIndex = columnIndex - indentFromInnerCell < 0 ? 0 : columnIndex - indentFromInnerCell;
-            int endColIndex = columnIndex + indentFromInnerCell == columnCount ? columnCount - borderCorrection : columnIndex + indentFromInnerCell;
-
-            for (int i = starRowIndex; i <= endRowIndex; i++)
-            {
-                for (int j = starColIndex; j <= endColIndex; j++)
-                {
-                    if (!gameLogic.cells[i, j].IsPressed && gameLogic.cells[i, j].markOnTop != Cell.MarkOnTopCell.Flag)
-                    {
-                        cellsNearRightLeftMouseButtons.Add(gameLogic.cells[i, j]);
-
-                        if (gameLogic.cells[i, j].markOnTop == Cell.MarkOnTopCell.Question)
-                        {
-                            cells[i, j].Image = bitmapsResources.questionPressCell;
-                        }
-                        else
-                        {
-                            cells[i, j].Image = bitmapsResources.minesNearCount[0];
-                        }
-                    }
-                }
-            }
-        }
-
+              
         private void DrawRemainingMinesCountAfterMarkOnDispley()
         {
             int remainingMinesCountAfterMark = gameLogic.MinesCount - gameLogic.MarkedMinesCount;
             minesCountImage.Image = GetBitmapNumericDisplay(remainingMinesCountAfterMark);
-        }
-
-        private void CellPictureBox_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (!gameLogic.IsGameContinue)
-            {
-                return;
-            }
-
-            int rowIndex = (sender as CellDraw).rowIndex;
-            int columnIndex = (sender as CellDraw).columnIndex;
-            Cell cell = gameLogic.cells[rowIndex, columnIndex];
-
-            if (e.Button == MouseButtons.Left)
-            {
-                if (cell.IsPressed && cell.MineNearCount != 0)
-                {
-                    isMouseLeftButtonDown = true;
-
-                    if (isMouseRightButtonDown)
-                    {
-                        DrawSmileButtonIfCellDown();
-                        PressCellsNearRightLeftMouseButtonsDown(cell);
-                    }
-                }
-                else if (!cell.IsPressed && cell.markOnTop != Cell.MarkOnTopCell.Flag)
-                {
-                    DrawSmileButtonIfCellDown();
-                    DrawOnBottomCellAfterMouseDown(sender as CellDraw, cell);
-                }
-            }
-
-            if (e.Button == MouseButtons.Right)
-            {
-                if (cell.IsPressed && cell.MineNearCount != 0)
-                {
-                    isMouseRightButtonDown = true;
-
-                    if (isMouseLeftButtonDown)
-                    {
-                        DrawSmileButtonIfCellDown();
-                        PressCellsNearRightLeftMouseButtonsDown(cell);
-                    }
-                }
-                else if (!cell.IsPressed)
-                {
-                    gameLogic.Mark(cell);
-                    DrawOnTopCellAfterMouseUp((sender as CellDraw), cell);
-                    DrawRemainingMinesCountAfterMarkOnDispley();
-                }
-            }
-        }
-
-        private void DrawOnBottomCellAfterMouseDown(CellDraw cellDraw, Cell cell)
-        {
-            switch (cell.markOnTop)
-            {
-                case Cell.MarkOnTopCell.Question:
-                    cellDraw.Image = bitmapsResources.questionPressCell;
-                    break;
-
-                case Cell.MarkOnTopCell.Empty:
-                    cellDraw.Image = bitmapsResources.minesNearCount[0];
-                    break;
-            }
-        }
-
-        private void DrawOnTopCellAfterMouseUp(CellDraw cellDaw, Cell cell)
-        {
-            switch (cell.markOnTop)
-            {
-                case Cell.MarkOnTopCell.Flag:
-                    cellDaw.Image = bitmapsResources.flag;
-                    break;
-
-                case Cell.MarkOnTopCell.Question:
-                    cellDaw.Image = bitmapsResources.question;
-                    break;
-
-                case Cell.MarkOnTopCell.Empty:
-                    cellDaw.Image = bitmapsResources.cellStart;
-                    break;
-            }
         }
 
         private Bitmap GetBitmapNumericDisplay(int number)
@@ -584,7 +199,7 @@ namespace Minesweeper.Gui
 
         private void DrawInfoPanel(Panel infoPanel, PictureBox smileButtonImage, PictureBox minesCountImage, PictureBox timeImage, Timer timer)
         {
-          //  infoPanel.Width = panelsWidth;//так как размер определятся формой, то эта ширина
+            //  infoPanel.Width = panelsWidth;//так как размер определятся формой, то эта ширина
 
             this.smileButtonImage = smileButtonImage;
             this.smileButtonImage.Image = bitmapsResources.smileButton;
@@ -621,13 +236,9 @@ namespace Minesweeper.Gui
             }
         }
 
-        public void DrawStartArea(PictureBox gameAreaPictureBox/*Panel gamePanel*/)
+        public void DrawStartArea(PictureBox gameAreaPictureBox)
         {
-
-            gameAreaGraphics = new GameAreaGraphics(gameAreaPictureBox,gameLogic);
-           // DrawStartGamePanel(gameAreaPictureBox);
-
-
+            gameAreaGraphics = new GameAreaGraphics(gameAreaPictureBox, gameLogic);
         }
 
         public void DrawInfoArea(Panel infoPanel, PictureBox smileButtonImage, PictureBox minesCountImage, PictureBox timeImage, Timer timer)
