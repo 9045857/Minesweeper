@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Minesweeper.Logic
 {
-    class GameParameters
+    public class GameParameters
     {
         // делегат для подписывающихся на событие обработчиков
         public delegate void GameParametersChangedHeadler(object sender, EventArgs eventArgs);

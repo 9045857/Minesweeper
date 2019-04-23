@@ -12,7 +12,6 @@ namespace Minesweeper.Logic
         public delegate void BeginNewGameHeadler(object sender, EventArgs eventArgs);
         public event BeginNewGameHeadler BeginNewGame;
 
-
         public Cell[,] cells;
 
         public GameParameters gameParameters;

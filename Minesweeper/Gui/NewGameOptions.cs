@@ -13,7 +13,10 @@ namespace Minesweeper.Gui
 {
     public partial class FormNewGameOptions : Form
     {
-        private GameParameters gameParameters=new GameParameters();
+        //public delegate void GetNewGameParametersHeadler(object sender, EventArgs eventArgs);
+        //public event GetNewGameParametersHeadler GetNewGameParameters;
+
+        private GameParameters gameParameters = new GameParameters();
 
         public FormNewGameOptions()
         {
@@ -30,19 +33,23 @@ namespace Minesweeper.Gui
                 }
             }
 
-
-
             Close();
+
+            gameParameters.SetNewGameParameters(RowCount, ColumnCount, MinesCount, IsPossibleMarkQuestion);
+
+            // MessageBox.Show(RowCount+"  "+ColumnCount+"  "+MinesCount);
+           //  MessageBox.Show(gameParameters.RowCount + "  "+ gameParameters.ColumnCount + "  "+ gameParameters.MinesCount);
+
         }
 
-        public void GetNewGameParameters()
-        { 
-                gameParameters.RowCount = RowCount;
-                gameParameters.ColumnCount = ColumnCount;
-                gameParameters.MinesCount = MinesCount;
-                gameParameters.IsPossibleMarkQuestion = IsPossibleMarkQuestion;
+        public GameParameters GetGameParameters()
+        {
+            gameParameters.RowCount = RowCount;
+            gameParameters.ColumnCount = ColumnCount;
+            gameParameters.MinesCount = MinesCount;
+            gameParameters.IsPossibleMarkQuestion = IsPossibleMarkQuestion;
 
-                //return gameParameters;          
+            return gameParameters;
         }
 
         private int GetOptionCount(int lowLevelOptionValue, int mediumLevelOptionValue, int highLevelOptionValue, string customOptionValue)

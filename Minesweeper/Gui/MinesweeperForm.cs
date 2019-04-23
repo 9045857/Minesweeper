@@ -37,7 +37,7 @@ namespace Minesweeper.Gui
 
             //mineswepperGame = new GameGraphics(rowCount, columnCount, minesCount);
 
-            gameParameters = new GameParameters(9, 9, 10, false);
+            gameParameters = formNewGameOptions.GetGameParameters(); //new GameParameters(9, 9, 10, false);
 
             mineswepperGame = new GameGraphics(gameParameters, pictureBoxGameArea);
 

@@ -37,9 +37,7 @@ namespace Minesweeper.Gui
             gameAreaPictureBox.MouseUp += new MouseEventHandler(GameAreaPictureBox_MouseUp);
             gameAreaPictureBox.MouseDown += new MouseEventHandler(GameAreaPictureBox_MouseDown);
 
-            rowCount = gameLogic.RowCount;
-            columnCount = gameLogic.ColumnCount;
-            minesCount = gameLogic.MinesCount;
+            SetRowColumnMinesCount();
 
             backFormColor = gameAreaPictureBox.Parent.BackColor;
             cellSideLength = bitmapsResources.cellStart.Height;
@@ -47,8 +45,16 @@ namespace Minesweeper.Gui
             DrawStartGamePanel();
         }
 
+        private void SetRowColumnMinesCount()
+        {
+            rowCount = gameLogic.RowCount;
+            columnCount = gameLogic.ColumnCount;
+            minesCount = gameLogic.MinesCount;
+        }
+
         private void DrawNewGameAreaPictureBox(object sender, EventArgs eventArgs)
         {
+            SetRowColumnMinesCount();
             DrawStartGamePanel();
         }
 
