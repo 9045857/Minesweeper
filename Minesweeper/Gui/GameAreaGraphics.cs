@@ -30,25 +30,26 @@ namespace Minesweeper.Gui
 
         public GameAreaGraphics(PictureBox gameAreaPictureBox, GameLogic gameLogic)
         {
+            this.gameLogic = gameLogic;
+            gameLogic.BeginNewGame +=new GameLogic.BeginNewGameHeadler(DrawNewGameAreaPictureBox);
+
+            this.gameAreaPictureBox = gameAreaPictureBox;
+            gameAreaPictureBox.MouseUp += new MouseEventHandler(GameAreaPictureBox_MouseUp);
+            gameAreaPictureBox.MouseDown += new MouseEventHandler(GameAreaPictureBox_MouseDown);
+
             rowCount = gameLogic.RowCount;
             columnCount = gameLogic.ColumnCount;
             minesCount = gameLogic.MinesCount;
 
-            this.gameLogic = gameLogic;
-            this.gameAreaPictureBox = gameAreaPictureBox;
             backFormColor = gameAreaPictureBox.Parent.BackColor;
-
             cellSideLength = bitmapsResources.cellStart.Height;
 
-            CreateGameAreaPictureBox();
+            DrawStartGamePanel();
         }
 
-        private void CreateGameAreaPictureBox()
+        private void DrawNewGameAreaPictureBox(object sender, EventArgs eventArgs)
         {
             DrawStartGamePanel();
-
-            gameAreaPictureBox.MouseUp += new MouseEventHandler(GameAreaPictureBox_MouseUp);
-            gameAreaPictureBox.MouseDown += new MouseEventHandler(GameAreaPictureBox_MouseDown);
         }
 
         private bool AreBothMouseButtonsDown

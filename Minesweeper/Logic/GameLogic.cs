@@ -9,12 +9,18 @@ namespace Minesweeper.Logic
 {
     class GameLogic
     {
+        public delegate void BeginNewGameHeadler(object sender, EventArgs eventArgs);
+        public event BeginNewGameHeadler BeginNewGame;
+
+
         public Cell[,] cells;
+
+        public GameParameters gameParameters;
 
         public int RowCount { get; private set; }
         public int ColumnCount { get; private set; }
-
         public int MinesCount { get; private set; }
+        private bool isPossibleMarkQuestion;
 
         public int MarkedMinesCount { get; private set; }
         public int FoundMinesCount { get; private set; }
@@ -42,16 +48,50 @@ namespace Minesweeper.Logic
             }
         }
 
-        public GameLogic(int rowCount, int columnCount, int minesCount)
+        public GameLogic(int rowCount, int columnCount, int minesCount)//переводим на событие
         {
-            this.RowCount = rowCount;
-            this.ColumnCount = columnCount;
+            gameParameters = new GameParameters(rowCount, columnCount, minesCount, true);
+            gameParameters.GameParametersChanged += new GameParameters.GameParametersChangedHeadler(gameParameters_Changed);
 
-            cells = CreateCells(rowCount, columnCount);
+            SetNewGameParameters();
+        }
 
-            this.MinesCount = minesCount;
+        public GameLogic(GameParameters gameParameters)//переводим на событие
+        {
+            this.gameParameters = gameParameters;
+            this.gameParameters.GameParametersChanged += new GameParameters.GameParametersChangedHeadler(gameParameters_Changed);
+
+            SetNewGameParameters();
+        }
+
+        private void SetNewGameParameters()//переводим на событие
+        {
+            RowCount = gameParameters.RowCount;
+            ColumnCount = gameParameters.ColumnCount;
+            MinesCount = gameParameters.MinesCount;
+            isPossibleMarkQuestion = gameParameters.IsPossibleMarkQuestion;
 
             SetBeginConditions();
+
+            if (!Equals(cells, null) && (cells.GetLength(0) == RowCount && cells.GetLength(1) == ColumnCount))
+            {
+                ClearCellsOptions();
+            }
+            else
+            {
+                cells = CreateCells(RowCount, ColumnCount);
+            }
+
+            if (BeginNewGame != null)
+            {
+                EventArgs eventArgs = new EventArgs();
+                BeginNewGame(this, eventArgs);
+            }
+        }
+
+        private void gameParameters_Changed(object sender, EventArgs eventArgs)//переводим на событие
+        {
+            SetNewGameParameters();
         }
 
         private void SetBeginConditions()
@@ -66,9 +106,9 @@ namespace Minesweeper.Logic
             pressedCellsCount = 0;
         }
 
-        public void RestartGame()
+        private void ClearCellsOptions()
         {
-            SetBeginConditions();
+            //  SetBeginConditions();
 
             for (int i = 0; i < RowCount; i++)
             {
@@ -79,7 +119,7 @@ namespace Minesweeper.Logic
             }
         }
 
-        public void RestartGame(int rowCount, int columnCount, int minesCount)
+        public void BeginNewGame_(int rowCount, int columnCount, int minesCount, bool isPossibleMarkQuestion)//данный метод вероятно не нужен, так как передапуск идет через новые параметры игры
         {
             SetBeginConditions();
 
@@ -107,7 +147,7 @@ namespace Minesweeper.Logic
             {
                 for (int j = startColumnIndex; j <= endColumnIndex; j++)
                 {
-                    if (!cells[i, j].IsPressed&&cells[i, j].markOnTop!=Cell.MarkOnTopCell.Flag)
+                    if (!cells[i, j].IsPressed && cells[i, j].markOnTop != Cell.MarkOnTopCell.Flag)
                     {
                         cellsList.Add(cells[i, j]);
                     }
@@ -160,7 +200,15 @@ namespace Minesweeper.Logic
                         break;
 
                     case Cell.MarkOnTopCell.Flag:
-                        cell.markOnTop = Cell.MarkOnTopCell.Question;
+
+                        if (isPossibleMarkQuestion)
+                        {
+                            cell.markOnTop = Cell.MarkOnTopCell.Question;
+                        }
+                        else
+                        {
+                            cell.markOnTop = Cell.MarkOnTopCell.Empty;
+                        }
 
                         MarkedMinesCount--;
 
@@ -298,7 +346,7 @@ namespace Minesweeper.Logic
             int endRowIndex;
             int startColumnIndex;
             int endColumnIndex;
-            GetAvailableIndexesNearCell(cells[rowIndex,columnIndex], out startRowIndex, out endRowIndex, out startColumnIndex, out endColumnIndex);
+            GetAvailableIndexesNearCell(cells[rowIndex, columnIndex], out startRowIndex, out endRowIndex, out startColumnIndex, out endColumnIndex);
 
             int minesAroundCount = 0;
 

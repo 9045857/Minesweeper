@@ -13,14 +13,17 @@ namespace Minesweeper.Gui
     class GameGraphics
     {
         private readonly BitmapsResources bitmapsResources = new BitmapsResources();
-        private readonly int cellSideLength;
+        //private readonly int cellSideLength;
 
-        private readonly int rowCount;
-        private readonly int columnCount;
+        //private readonly int rowCount;
+        //private readonly int columnCount;
         private readonly int minesCount;
 
         private GameLogic gameLogic;
         private GameAreaGraphics gameAreaGraphics;
+
+      //  private GameParameters gameParameters;
+
 
         //private CellDraw[,] cells;
 
@@ -34,19 +37,35 @@ namespace Minesweeper.Gui
 
         private int panelsWidth;
 
+
+
         List<Cell> cellsNearRightLeftMouseButtons = new List<Cell>();
 
-        public GameGraphics(int rowCount, int columnCount, int minesCount)
+        //public GameGraphics(int rowCount, int columnCount, int minesCount, bool isPossibleMarkQuestion)
+        public GameGraphics(GameParameters gameParameters,PictureBox gameAreaPictureBox)
         {
-            this.rowCount = rowCount;
-            this.columnCount = columnCount;
-            this.minesCount = minesCount;
+            gameLogic = new GameLogic(gameParameters);
+           //  gameLogic.BeginNewGame += new GameLogic.BeginNewGameHeadler();
 
-            cellSideLength = bitmapsResources.cellStart.Height;
+            gameAreaGraphics = new GameAreaGraphics(gameAreaPictureBox, gameLogic);
+
+            //cellSideLength = bitmapsResources.cellStart.Height;
+
+            //rowCount = gameParameters.RowCount;
+            //columnCount = gameParameters.ColumnCount;
+            //minesCount = gameParameters.MinesCount;
 
             currentGameTime = 0;
+        }
 
-            gameLogic = new GameLogic(rowCount, columnCount, minesCount);
+        //public void DrawNewGameArea()
+        //{
+        //    gameAreaGraphics = new GameAreaGraphics(gameAreaPictureBox, gameLogic);
+        //}
+
+        public void DrawInfoArea(Panel infoPanel, PictureBox smileButtonImage, PictureBox minesCountImage, PictureBox timeImage, Timer timer)
+        {
+            DrawInfoPanel(infoPanel, smileButtonImage, minesCountImage, timeImage, timer);
         }
 
         private void RestartDislays()
@@ -62,16 +81,16 @@ namespace Minesweeper.Gui
 
         private void RestartGame()
         {
-            gameLogic.RestartGame();
+            // gameLogic.ClearCellsOptions();
             RestartDislays();
 
-            for (int i = 0; i < rowCount; i++)
-            {
-                for (int j = 0; j < columnCount; j++)
-                {
-                  //  cells[i, j].Image = bitmapsResources.cellStart;
-                }
-            }
+            //for (int i = 0; i < rowCount; i++)
+            //{
+            //    for (int j = 0; j < columnCount; j++)
+            //    {
+            //        //  cells[i, j].Image = bitmapsResources.cellStart;
+            //    }
+            //}
         }
 
         private void SetTimerTrueIfGameBegin()
@@ -98,7 +117,7 @@ namespace Minesweeper.Gui
                 minesCountImage.Image = GetBitmapNumericDisplay(remaingMines);
             }
         }
-              
+
         private void DrawRemainingMinesCountAfterMarkOnDispley()
         {
             int remainingMinesCountAfterMark = gameLogic.MinesCount - gameLogic.MarkedMinesCount;
@@ -236,14 +255,6 @@ namespace Minesweeper.Gui
             }
         }
 
-        public void DrawStartArea(PictureBox gameAreaPictureBox)
-        {
-            gameAreaGraphics = new GameAreaGraphics(gameAreaPictureBox, gameLogic);
-        }
 
-        public void DrawInfoArea(Panel infoPanel, PictureBox smileButtonImage, PictureBox minesCountImage, PictureBox timeImage, Timer timer)
-        {
-            DrawInfoPanel(infoPanel, smileButtonImage, minesCountImage, timeImage, timer);
-        }
     }
 }

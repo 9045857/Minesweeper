@@ -16,15 +16,14 @@ namespace Minesweeper.Gui
     {
         private BitmapsResources bitmaps = new BitmapsResources();
         private FormNewGameOptions formNewGameOptions = new FormNewGameOptions();
+        private GameGraphics mineswepperGame;
+        private GameParameters gameParameters;
 
         public MainForm()
         {
             InitializeComponent();
         }       
-
-        private GameGraphics mineswepperGame;
-
-
+                     
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadNewGame();
@@ -36,14 +35,15 @@ namespace Minesweeper.Gui
             //int columnCount= formNewGameOptions.ColumnCount;
             //int minesCount= formNewGameOptions.MinesCount ;
 
- //mineswepperGame = new GameGraphics(rowCount, columnCount, minesCount);
+            //mineswepperGame = new GameGraphics(rowCount, columnCount, minesCount);
 
-            mineswepperGame = new GameGraphics(20, 30, 200);
+            gameParameters = new GameParameters(9, 9, 10, false);
 
-            mineswepperGame.DrawStartArea(pictureBoxGameArea /*panelGame*/);
+            mineswepperGame = new GameGraphics(gameParameters, pictureBoxGameArea);
+
+           // mineswepperGame.DrawStartArea(pictureBoxGameArea /*panelGame*/);
             mineswepperGame.DrawInfoArea(panelInfo, pictureBoxSmileButton, pictureBoxMinesCount, pictureBoxTime,timerGame);
-
-           
+                       
         }
 
         private void toolStripMenuItemNew_Click(object sender, EventArgs e)

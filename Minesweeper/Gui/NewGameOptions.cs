@@ -7,14 +7,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Minesweeper.Logic;
 
 namespace Minesweeper.Gui
 {
     public partial class FormNewGameOptions : Form
     {
+        private GameParameters gameParameters=new GameParameters();
+
         public FormNewGameOptions()
         {
             InitializeComponent();
+        }
+
+        private void buttonNewGame_Click(object sender, EventArgs e)
+        {
+            if (radioButtonCustom.Checked)
+            {
+                if (!IsInputCustomDataCorrect())
+                {
+                    return;
+                }
+            }
+
+
+
+            Close();
+        }
+
+        public void GetNewGameParameters()
+        { 
+                gameParameters.RowCount = RowCount;
+                gameParameters.ColumnCount = ColumnCount;
+                gameParameters.MinesCount = MinesCount;
+                gameParameters.IsPossibleMarkQuestion = IsPossibleMarkQuestion;
+
+                //return gameParameters;          
         }
 
         private int GetOptionCount(int lowLevelOptionValue, int mediumLevelOptionValue, int highLevelOptionValue, string customOptionValue)
@@ -44,7 +72,7 @@ namespace Minesweeper.Gui
             }
         }
 
-        public int RowCount
+        private int RowCount
         {
             get
             {
@@ -52,7 +80,7 @@ namespace Minesweeper.Gui
             }
         }
 
-        public int ColumnCount
+        private int ColumnCount
         {
             get
             {
@@ -60,11 +88,19 @@ namespace Minesweeper.Gui
             }
         }
 
-        public int MinesCount
+        private int MinesCount
         {
             get
             {
                 return GetOptionCount(GameOptionsConstants.LowLevelMinesCount, GameOptionsConstants.MediumLevelMinesCount, GameOptionsConstants.HighLevelMinesCount, textBoxMinesCount.Text);
+            }
+        }
+
+        private bool IsPossibleMarkQuestion
+        {
+            get
+            {
+                return checkBoxMark.Checked;
             }
         }
 
@@ -93,19 +129,6 @@ namespace Minesweeper.Gui
             }
 
             return true;
-        }
-
-        private void buttonNewGame_Click(object sender, EventArgs e)
-        {
-            if (radioButtonCustom.Checked)
-            {
-                if (!IsInputCustomDataCorrect())
-                {
-                    return;
-                }
-            }
-
-            Close();
         }
 
         private void FormNewGameOptions_Load(object sender, EventArgs e)
