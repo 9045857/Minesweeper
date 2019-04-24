@@ -9,11 +9,18 @@ namespace Minesweeper.Logic
 {
     class GameLogic
     {
-        public delegate void BeginNewGameHeadler(object sender, EventArgs eventArgs);
+        public delegate void BeginNewGameHeadler();
         public event BeginNewGameHeadler OnBeginNewGame;
 
         public delegate void MarkFlagCellHeadler(int remainMarkMinesCount);
         public event MarkFlagCellHeadler OnMark;
+
+        public delegate void FinishGameHeadler();
+        public event FinishGameHeadler OnFinishGame;
+
+        public delegate void StartGameHeadler();
+        public event StartGameHeadler OnStartGame;
+
 
 
         public Cell[,] cells;
@@ -40,14 +47,14 @@ namespace Minesweeper.Logic
 
         public bool AreMinesSet { get; private set; }
 
-        public bool isDontExploded;
-        private bool isNotFinishGame;
+        public bool isExploded;
+        private bool isFinishGame;
 
         public bool IsGameContinue
         {
             get
             {
-                return RowCount * ColumnCount != PressedCellsAndFoundMinesCount && isDontExploded && isNotFinishGame;
+                return RowCount * ColumnCount != PressedCellsAndFoundMinesCount && !isExploded && !isFinishGame;
             }
         }
 
@@ -72,24 +79,19 @@ namespace Minesweeper.Logic
             RowCount = gameParameters.RowCount;
             ColumnCount = gameParameters.ColumnCount;
             MinesCount = gameParameters.MinesCount;
-            isPossibleMarkQuestion = gameParameters.IsPossibleMarkQuestion;
-
-            SetBeginConditions();
+            isPossibleMarkQuestion = gameParameters.IsPossibleMarkQuestion;            
 
             if (!Equals(cells, null) && (cells.GetLength(0) == RowCount && cells.GetLength(1) == ColumnCount))
             {
-                ClearCellsOptions();
+                RestartCurrentGame();
             }
             else
             {
+                SetBeginConditions();
                 cells = CreateCells(RowCount, ColumnCount);
-            }
 
-            if (OnBeginNewGame != null)
-            {
-                EventArgs eventArgs = new EventArgs();
-                OnBeginNewGame(this, eventArgs);
-            }
+                OnBeginNewGame?.Invoke();
+            }           
         }
 
         private void gameParameters_Changed(object sender, EventArgs eventArgs)//переводим на событие
@@ -100,8 +102,8 @@ namespace Minesweeper.Logic
         private void SetBeginConditions()
         {
             AreMinesSet = false;
-            isDontExploded = true;
-            isNotFinishGame = true;
+            isExploded = false;
+            isFinishGame = false;
 
             MarkedMinesCount = 0;
             FoundMinesCount = 0;
@@ -109,9 +111,9 @@ namespace Minesweeper.Logic
             pressedCellsCount = 0;
         }
 
-        private void ClearCellsOptions()
+        public void RestartCurrentGame()
         {
-            //  SetBeginConditions();
+            SetBeginConditions();
 
             for (int i = 0; i < RowCount; i++)
             {
@@ -120,6 +122,8 @@ namespace Minesweeper.Logic
                     cells[i, j].SetBeginConditions();
                 }
             }
+
+            OnBeginNewGame?.Invoke();
         }
 
         public void BeginNewGame_(int rowCount, int columnCount, int minesCount, bool isPossibleMarkQuestion)//данный метод вероятно не нужен, так как передапуск идет через новые параметры игры
@@ -162,7 +166,9 @@ namespace Minesweeper.Logic
 
         public void FinishGame()
         {
-            isNotFinishGame = false;
+            isFinishGame = true;
+
+            OnFinishGame?.Invoke();
         }
 
         private Cell[,] CreateCells(int rowCount, int columnCount)
@@ -201,7 +207,7 @@ namespace Minesweeper.Logic
                             FoundMinesCount++;
                         }
 
-                        EventMarkCell(MarkedMinesCount);
+                        EventOnMarkCell(MarkedMinesCount);
 
                         break;
 
@@ -223,7 +229,7 @@ namespace Minesweeper.Logic
                             FoundMinesCount--;
                         }
 
-                        EventMarkCell(MarkedMinesCount);
+                        EventOnMarkCell(MarkedMinesCount);
 
                         break;
 
@@ -234,13 +240,10 @@ namespace Minesweeper.Logic
             }
         }
 
-        private void EventMarkCell(int markedCellsCount)
+        private void EventOnMarkCell(int markedCellsCount)
         {
-            if (OnMark != null)
-            {
-                int remainMarkMinesCount = MinesCount - markedCellsCount;
-                OnMark(remainMarkMinesCount);
-            }
+            int remainMarkMinesCount = MinesCount - markedCellsCount;
+            OnMark?.Invoke(remainMarkMinesCount);
         }
 
         private List<Cell> GetRemainingCellsAfteMinePress(int rowIndex, int columnIndex)
@@ -280,7 +283,7 @@ namespace Minesweeper.Logic
         {
             List<Cell> resultCells = new List<Cell>();
 
-            if (!isDontExploded)
+            if (isExploded)
             {
                 return resultCells;
             }
@@ -292,7 +295,9 @@ namespace Minesweeper.Logic
                     if (cells[rowIndex, columnIndex].IsMineHere)
                     {
                         resultCells = GetRemainingCellsAfteMinePress(rowIndex, columnIndex);
-                        isDontExploded = false;
+                        isExploded = true;
+
+                        OnFinishGame?.Invoke();
                     }
                     else
                     {
@@ -315,12 +320,11 @@ namespace Minesweeper.Logic
         private void StartGame(int startRow, int startCol)
         {
             FillStartEmptyArea(startRow, startCol);
-
             FillMineCells(startRow, startCol);
-
             FillEmptyCells();
-
             FillMinesCountNearCells();
+
+            OnStartGame?.Invoke();
         }
 
         private void FillMineCells(int startRow, int startCol)
@@ -460,7 +464,7 @@ namespace Minesweeper.Logic
             int maxCellsCountFreeZoneNearStartCell = 8;
             int startCellCount = 1;
             int freeCellsCount = RowCount * ColumnCount - MinesCount;
-            int cellsCountFreeZoneNearStartCell = freeCellsCount-startCellCount;
+            int cellsCountFreeZoneNearStartCell = freeCellsCount - startCellCount;
 
             if (cellsCountFreeZoneNearStartCell >= maxCellsCountFreeZoneNearStartCell)
             {
@@ -470,12 +474,12 @@ namespace Minesweeper.Logic
                     element.IsMineHere = false;
                 }
             }
-            else if(cellsCountFreeZoneNearStartCell!=0)
+            else if (cellsCountFreeZoneNearStartCell != 0)
             {
                 //сформируем список случайных индексов
 
                 List<int> randomIndexFreeCells = new List<int>();
-                for (int i=0;i< maxCellsCountFreeZoneNearStartCell;i++ )
+                for (int i = 0; i < maxCellsCountFreeZoneNearStartCell; i++)
                 {
                     randomIndexFreeCells.Add(i);
                 }
@@ -493,7 +497,7 @@ namespace Minesweeper.Logic
                     currentRandomIndexFreeCellsCount--;
                 }
 
-                for (int i=0;i< cellsCountFreeZoneNearStartCell;i++)
+                for (int i = 0; i < cellsCountFreeZoneNearStartCell; i++)
                 {
                     startFreeZone[randomIndexFreeCells[i]].isMineInCellSet = true;
                     startFreeZone[randomIndexFreeCells[i]].IsMineHere = false;
@@ -577,7 +581,7 @@ namespace Minesweeper.Logic
                     }
                 }
 
-                isNotFinishGame = false;
+                FinishGame();
             }
         }
 

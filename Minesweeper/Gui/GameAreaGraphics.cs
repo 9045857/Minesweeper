@@ -58,7 +58,7 @@ namespace Minesweeper.Gui
             minesCount = gameLogic.MinesCount;
         }
 
-        private void DrawNewGameAreaPictureBox(object sender, EventArgs eventArgs)
+        private void DrawNewGameAreaPictureBox()
         {
             areBothMouseButtonDownAction = false;
             isMouseLeftButtonDown = false;
