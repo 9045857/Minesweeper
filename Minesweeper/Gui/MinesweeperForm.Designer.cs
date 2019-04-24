@@ -60,7 +60,7 @@
             // 
             this.panelInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelInfo.Controls.Add(this.tableLayoutPanelInfo);
-            this.panelInfo.Location = new System.Drawing.Point(6, 31);
+            this.panelInfo.Location = new System.Drawing.Point(4, 31);
             this.panelInfo.Name = "panelInfo";
             this.panelInfo.Size = new System.Drawing.Size(227, 60);
             this.panelInfo.TabIndex = 8;
@@ -119,7 +119,7 @@
             // 
             this.panelGame.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelGame.Controls.Add(this.pictureBoxGameArea);
-            this.panelGame.Location = new System.Drawing.Point(6, 100);
+            this.panelGame.Location = new System.Drawing.Point(4, 100);
             this.panelGame.Name = "panelGame";
             this.panelGame.Size = new System.Drawing.Size(227, 211);
             this.panelGame.TabIndex = 9;
@@ -142,9 +142,10 @@
             this.menuStripGame.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemMain,
             this.toolStripMenuItemInfo});
-            this.menuStripGame.Location = new System.Drawing.Point(4, 0);
+            this.menuStripGame.Location = new System.Drawing.Point(4, 4);
             this.menuStripGame.Name = "menuStripGame";
-            this.menuStripGame.Size = new System.Drawing.Size(230, 28);
+            this.menuStripGame.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.menuStripGame.Size = new System.Drawing.Size(227, 28);
             this.menuStripGame.TabIndex = 10;
             this.menuStripGame.Text = "menuStrip1";
             // 
@@ -205,7 +206,7 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(238, 327);
+            this.ClientSize = new System.Drawing.Size(235, 327);
             this.Controls.Add(this.panelGame);
             this.Controls.Add(this.panelInfo);
             this.Controls.Add(this.menuStripGame);
@@ -214,9 +215,8 @@
             this.MainMenuStrip = this.menuStripGame;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(256, 374);
             this.Name = "MainForm";
-            this.Padding = new System.Windows.Forms.Padding(4, 0, 4, 4);
+            this.Padding = new System.Windows.Forms.Padding(4);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " Сапёр";
             this.Load += new System.EventHandler(this.MainForm_Load);

@@ -10,7 +10,11 @@ namespace Minesweeper.Logic
     class GameLogic
     {
         public delegate void BeginNewGameHeadler(object sender, EventArgs eventArgs);
-        public event BeginNewGameHeadler BeginNewGame;
+        public event BeginNewGameHeadler OnBeginNewGame;
+
+        public delegate void MarkFlagCellHeadler(int remainMarkMinesCount);
+        public event MarkFlagCellHeadler OnMark;
+
 
         public Cell[,] cells;
 
@@ -81,10 +85,10 @@ namespace Minesweeper.Logic
                 cells = CreateCells(RowCount, ColumnCount);
             }
 
-            if (BeginNewGame != null)
+            if (OnBeginNewGame != null)
             {
                 EventArgs eventArgs = new EventArgs();
-                BeginNewGame(this, eventArgs);
+                OnBeginNewGame(this, eventArgs);
             }
         }
 
@@ -196,6 +200,9 @@ namespace Minesweeper.Logic
                         {
                             FoundMinesCount++;
                         }
+
+                        EventMarkCell(MarkedMinesCount);
+
                         break;
 
                     case Cell.MarkOnTopCell.Flag:
@@ -215,12 +222,24 @@ namespace Minesweeper.Logic
                         {
                             FoundMinesCount--;
                         }
+
+                        EventMarkCell(MarkedMinesCount);
+
                         break;
 
                     case Cell.MarkOnTopCell.Question:
                         cell.markOnTop = Cell.MarkOnTopCell.Empty;
                         break;
                 }
+            }
+        }
+
+        private void EventMarkCell(int markedCellsCount)
+        {
+            if (OnMark != null)
+            {
+                int remainMarkMinesCount = MinesCount - markedCellsCount;
+                OnMark(remainMarkMinesCount);
             }
         }
 

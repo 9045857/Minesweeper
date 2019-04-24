@@ -48,14 +48,12 @@
   <ItemGroup>
     <Compile Include="Gui\BitmapsResources.cs" />
     <Compile Include="Gui\GameAreaGraphics.cs" />
+    <Compile Include="Gui\GameInfoGraphics.cs" />
     <Compile Include="Gui\MinesweeperForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Gui\MinesweeperForm.Designer.cs">
       <DependentUpon>MinesweeperForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\CellDraw.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Gui\GameGraphics.cs" />
     <Compile Include="Gui\NewGameOptions.cs">

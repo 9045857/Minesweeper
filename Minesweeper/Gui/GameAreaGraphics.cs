@@ -11,6 +11,9 @@ namespace Minesweeper.Gui
 {
     class GameAreaGraphics
     {
+        public delegate void GetGamePanelWidth(int width);
+        public event GetGamePanelWidth OnSetGamePanelWidth;
+
         private PictureBox gameAreaPictureBox;
         private Bitmap gameAreaImage;
         private readonly Color backFormColor;
@@ -34,7 +37,7 @@ namespace Minesweeper.Gui
             this.bitmapsResources = bitmapsResources;
 
             this.gameLogic = gameLogic;
-            gameLogic.BeginNewGame += new GameLogic.BeginNewGameHeadler(DrawNewGameAreaPictureBox);
+            gameLogic.OnBeginNewGame += new GameLogic.BeginNewGameHeadler(DrawNewGameAreaPictureBox);
 
             this.gameAreaPictureBox = gameAreaPictureBox;
             gameAreaPictureBox.MouseUp += new MouseEventHandler(GameAreaPictureBox_MouseUp);
@@ -485,16 +488,18 @@ namespace Minesweeper.Gui
 
             int onePixel = 1;
 
-            int additionToPanelWidthForGoodDesign = 28;
-            int additionToPanelHeightForGoodDesign = 127;
+            //int additionToPanelWidthForGoodDesign = 0;// 28;
+            //int additionToPanelHeightForGoodDesign = 0;// 127;
 
             Panel gamePanel = gameAreaPictureBox.Parent as Panel;
 
-            gamePanel.Parent.Width = panelWidth + additionToPanelWidthForGoodDesign;
-            gamePanel.Parent.Height = panelHeight + additionToPanelHeightForGoodDesign;
+            //gamePanel.Parent.Width = panelWidth + additionToPanelWidthForGoodDesign;
+            //gamePanel.Parent.Height = panelHeight + additionToPanelHeightForGoodDesign;
 
             gamePanel.Height = panelHeight + gamePanel.Margin.Left + onePixel;
             gamePanel.Width = panelWidth + gamePanel.Margin.Top + onePixel;
+
+            OnSetGamePanelWidth?.Invoke(gamePanel.Width);
 
             gameAreaPictureBox.Size = new Size(panelWidth, panelHeight);
 
