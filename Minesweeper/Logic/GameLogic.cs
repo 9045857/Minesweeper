@@ -419,19 +419,65 @@ namespace Minesweeper.Logic
 
         private void FillStartEmptyArea(int startRow, int startCol)
         {
-            int starRowIndex;
-            int endRowIndex;
-            int starColumnIndex;
-            int endColumnIndex;
-
-            GetAvailableIndexesNearCell(cells[startRow, startCol], out starRowIndex, out endRowIndex, out starColumnIndex, out endColumnIndex);
+            GetAvailableIndexesNearCell(cells[startRow, startCol], out int starRowIndex, out int endRowIndex, out int starColumnIndex, out int endColumnIndex);
+            List<Cell> startFreeZone = new List<Cell>();
 
             for (int i = starRowIndex; i <= endRowIndex; i++)
             {
                 for (int j = starColumnIndex; j <= endColumnIndex; j++)
                 {
-                    cells[i, j].isMineInCellSet = true;
-                    cells[i, j].IsMineHere = false;
+                    if (i == startRow && j == startCol)
+                    {
+                        cells[i, j].isMineInCellSet = true;
+                        cells[i, j].IsMineHere = false;
+                    }
+                    else
+                    {
+                        startFreeZone.Add(cells[i, j]);
+                    }
+                }
+            }
+
+            int maxCellsCountFreeZoneNearStartCell = 8;
+            int startCellCount = 1;
+            int freeCellsCount = RowCount * ColumnCount - MinesCount;
+            int cellsCountFreeZoneNearStartCell = freeCellsCount-startCellCount;
+
+            if (cellsCountFreeZoneNearStartCell >= maxCellsCountFreeZoneNearStartCell)
+            {
+                foreach (Cell element in startFreeZone)
+                {
+                    element.isMineInCellSet = true;
+                    element.IsMineHere = false;
+                }
+            }
+            else if(cellsCountFreeZoneNearStartCell!=0)
+            {
+                //сформируем список случайных индексов
+
+                List<int> randomIndexFreeCells = new List<int>();
+                for (int i=0;i< maxCellsCountFreeZoneNearStartCell;i++ )
+                {
+                    randomIndexFreeCells.Add(i);
+                }
+
+                int removeRandomIndexCount = maxCellsCountFreeZoneNearStartCell - cellsCountFreeZoneNearStartCell;
+                int currentRandomIndexFreeCellsCount = maxCellsCountFreeZoneNearStartCell;
+
+                Random random = new Random();
+
+                for (int i = 0; i < removeRandomIndexCount; i++)
+                {
+                    int removalIndex = random.Next(currentRandomIndexFreeCellsCount);
+                    randomIndexFreeCells.RemoveAt(removalIndex);
+
+                    currentRandomIndexFreeCellsCount--;
+                }
+
+                for (int i=0;i< cellsCountFreeZoneNearStartCell;i++)
+                {
+                    startFreeZone[randomIndexFreeCells[i]].isMineInCellSet = true;
+                    startFreeZone[randomIndexFreeCells[i]].IsMineHere = false;
                 }
             }
         }

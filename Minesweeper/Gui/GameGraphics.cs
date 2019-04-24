@@ -12,7 +12,7 @@ namespace Minesweeper.Gui
 {
     class GameGraphics
     {
-        private readonly BitmapsResources bitmapsResources = new BitmapsResources();
+        private readonly BitmapsResources bitmapsResources ;
         //private readonly int cellSideLength;
 
         //private readonly int rowCount;
@@ -37,13 +37,13 @@ namespace Minesweeper.Gui
 
         List<Cell> cellsNearRightLeftMouseButtons = new List<Cell>();
 
-        public GameGraphics(GameParameters gameParameters,PictureBox gameAreaPictureBox)
+        public GameGraphics(GameParameters gameParameters,PictureBox gameAreaPictureBox,BitmapsResources bitmapsResources)
         {
             gameLogic = new GameLogic(gameParameters);
           // gameLogic.BeginNewGame += new GameLogic.BeginNewGameHeadler();
 
-            gameAreaGraphics = new GameAreaGraphics(gameAreaPictureBox, gameLogic);
-
+            gameAreaGraphics = new GameAreaGraphics(gameAreaPictureBox, gameLogic, bitmapsResources);
+            this.bitmapsResources = bitmapsResources;
             //cellSideLength = bitmapsResources.cellStart.Height;
 
             currentGameTime = 0;

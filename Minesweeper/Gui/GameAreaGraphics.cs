@@ -15,7 +15,7 @@ namespace Minesweeper.Gui
         private Bitmap gameAreaImage;
         private readonly Color backFormColor;
 
-        private readonly BitmapsResources bitmapsResources = new BitmapsResources();
+        private readonly BitmapsResources bitmapsResources;
         private readonly int cellSideLength;
 
         GameLogic gameLogic;
@@ -27,11 +27,14 @@ namespace Minesweeper.Gui
 
         private bool isMouseLeftButtonDown;
         private bool isMouseRightButtonDown;
+        private bool areBothMouseButtonDownAction;
 
-        public GameAreaGraphics(PictureBox gameAreaPictureBox, GameLogic gameLogic)
+        public GameAreaGraphics(PictureBox gameAreaPictureBox, GameLogic gameLogic,BitmapsResources bitmapsResources)
         {
+            this.bitmapsResources = bitmapsResources;
+
             this.gameLogic = gameLogic;
-            gameLogic.BeginNewGame +=new GameLogic.BeginNewGameHeadler(DrawNewGameAreaPictureBox);
+            gameLogic.BeginNewGame += new GameLogic.BeginNewGameHeadler(DrawNewGameAreaPictureBox);
 
             this.gameAreaPictureBox = gameAreaPictureBox;
             gameAreaPictureBox.MouseUp += new MouseEventHandler(GameAreaPictureBox_MouseUp);
@@ -54,6 +57,10 @@ namespace Minesweeper.Gui
 
         private void DrawNewGameAreaPictureBox(object sender, EventArgs eventArgs)
         {
+            areBothMouseButtonDownAction = false;
+            isMouseLeftButtonDown = false;
+            isMouseRightButtonDown = false;
+
             SetRowColumnMinesCount();
             DrawStartGamePanel();
         }
@@ -66,7 +73,7 @@ namespace Minesweeper.Gui
             }
         }
 
-        private bool areBothMouseButtonDownAction;
+
 
         private void GameAreaPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
@@ -83,7 +90,7 @@ namespace Minesweeper.Gui
                 //    //SetTimerFalseIfGameFinish();//имеет отношение к дисплею стоит скорее всего не на своем месте
                 //    //DrawSmileButtonIfCellUp();//имеет отношение к дисплею стоит скорее всего не на своем месте
 
-               if (e.Button == MouseButtons.Left)
+                if (e.Button == MouseButtons.Left)
                 {
                     if (AreBothMouseButtonsDown)
                     {

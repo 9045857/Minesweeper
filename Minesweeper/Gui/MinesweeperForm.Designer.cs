@@ -142,9 +142,9 @@
             this.menuStripGame.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemMain,
             this.toolStripMenuItemInfo});
-            this.menuStripGame.Location = new System.Drawing.Point(0, 0);
+            this.menuStripGame.Location = new System.Drawing.Point(4, 0);
             this.menuStripGame.Name = "menuStripGame";
-            this.menuStripGame.Size = new System.Drawing.Size(238, 28);
+            this.menuStripGame.Size = new System.Drawing.Size(230, 28);
             this.menuStripGame.TabIndex = 10;
             this.menuStripGame.Text = "menuStrip1";
             // 
@@ -203,6 +203,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(238, 327);
             this.Controls.Add(this.panelGame);
@@ -215,6 +216,7 @@
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(256, 374);
             this.Name = "MainForm";
+            this.Padding = new System.Windows.Forms.Padding(4, 0, 4, 4);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " Сапёр";
             this.Load += new System.EventHandler(this.MainForm_Load);

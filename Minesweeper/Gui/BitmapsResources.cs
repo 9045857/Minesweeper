@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace Minesweeper.Gui
 {
-    class BitmapsResources
+    public class BitmapsResources
     {
         public Bitmap[] minesNearCount = new Bitmap[]
         {
