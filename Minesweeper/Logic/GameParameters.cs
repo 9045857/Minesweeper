@@ -8,10 +8,8 @@ namespace Minesweeper.Logic
 {
     public class GameParameters
     {
-        // делегат для подписывающихся на событие обработчиков
-        public delegate void GameParametersChangedHeadler(object sender, EventArgs eventArgs);
-        // описание события
-        public event GameParametersChangedHeadler GameParametersChanged;
+        public delegate void GameParametersChangedHeadler();
+        public event GameParametersChangedHeadler OnChangeGameParameters;
 
         public int RowCount { get; set; }
         public int ColumnCount { get;  set; }
@@ -41,12 +39,7 @@ namespace Minesweeper.Logic
         {
             SetGameParameters(rowCount, columnCount, minesCount, isPossibleMarkQuestion);
 
-            // если на событие не подписан ни один обработчик, здесь будет null
-            if (GameParametersChanged != null)
-            {
-                EventArgs eventArgs = new EventArgs();
-                GameParametersChanged(this, eventArgs);
-            }
+            OnChangeGameParameters?.Invoke();
         }
 
         public void SetNewGameParameters(GameParameters gameParameters)
@@ -58,12 +51,7 @@ namespace Minesweeper.Logic
 
             SetGameParameters(rowCount, columnCount, minesCount, isPossibleMarkQuestion);
 
-            // если на событие не подписан ни один обработчик, здесь будет null
-            if (GameParametersChanged != null)
-            {
-                EventArgs eventArgs = new EventArgs();
-                GameParametersChanged(this, eventArgs);
-            }
+            OnChangeGameParameters?.Invoke();
         }
 
         private void SetGameParameters(int rowCount, int columnCount, int minesCount, bool isPossibleMarkQuestion)

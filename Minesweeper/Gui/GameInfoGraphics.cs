@@ -14,7 +14,7 @@ namespace Minesweeper.Gui
         private readonly BitmapsResources bitmapsResources;
 
         private GameLogic gameLogic;
-        //  private GameAreaGraphics areaGraphics;
+        private GameAreaGraphics gameAreaGraphics;
 
         private PictureBox smileButtonImage;
         private PictureBox timeImage;
@@ -24,9 +24,12 @@ namespace Minesweeper.Gui
         int currentGameTime;
         private readonly int maxTime = 999;
 
+        private Panel infoPanel;
+
         public GameInfoGraphics
         (
             GameLogic gameLogic,
+            GameAreaGraphics gameAreaGraphics,
             BitmapsResources bitmapsResources,
             PictureBox pictureBoxSmileButton,
             PictureBox pictureBoxMinesCount,
@@ -39,6 +42,14 @@ namespace Minesweeper.Gui
             this.gameLogic.OnStartGame += new GameLogic.StartGameHeadler(StartTimer);
             this.gameLogic.OnFinishGame += new GameLogic.FinishGameHeadler(StopTimer);
             this.gameLogic.OnBeginNewGame += RestartDislays;
+            this.gameLogic.OnExploded += smileButtonImage_OnExploded;
+
+            this.gameAreaGraphics = gameAreaGraphics;
+
+            infoPanel = pictureBoxSmileButton.Parent.Parent as Panel;
+            gameAreaGraphics.OnSetGamePanelWidth += SetInfoPanelWidth;
+            gameAreaGraphics.OnMouseDownCells +=smileButtonImage_OnMouseDownCells;
+            gameAreaGraphics.OnMouseUpCells += smileButtonImage_OnMouseUpCells;
 
             this.bitmapsResources = bitmapsResources;
             smileButtonImage = pictureBoxSmileButton;
@@ -47,6 +58,27 @@ namespace Minesweeper.Gui
             gameTimer = timerGame;
 
             DrawInfoPanel();
+        }
+
+        private void SetInfoPanelWidth(int width)
+        {
+            infoPanel.Width = width;
+        }
+
+        private void smileButtonImage_OnExploded(int remainedMinesCount)
+        {
+            smileButtonImage.Image = bitmapsResources.smileButtonCry;
+            minesCountImage.Image = GetBitmapNumericDisplay(remainedMinesCount);
+        }
+
+        private void smileButtonImage_OnMouseDownCells()
+        {
+            smileButtonImage.Image = bitmapsResources.smileButtonAttention;
+        }
+
+        private void smileButtonImage_OnMouseUpCells()
+        {
+            smileButtonImage.Image = bitmapsResources.smileButton;
         }
 
         private void DrawInfoPanel()
@@ -187,19 +219,12 @@ namespace Minesweeper.Gui
         private void RestartDislays()
         {
             gameTimer.Enabled = false;
-
             currentGameTime = 0;
+
             timeImage.Image = GetBitmapNumericDisplay(currentGameTime);
-
             minesCountImage.Image = GetBitmapNumericDisplay(gameLogic.MinesCount);
+
+            smileButtonImage.Image = bitmapsResources.smileButton;
         }
-
-
-
-
-
-
-
-
     }
 }

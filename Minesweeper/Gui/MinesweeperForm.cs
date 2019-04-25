@@ -44,7 +44,12 @@ namespace Minesweeper.Gui
 
         private void toolStripMenuItemAbout_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(GameOptionsConstants.GetAboutText());
+            MessageBox.Show(
+                GameOptionsConstants.GetAboutText(),
+                GameOptionsConstants.CaptionAboutMessage,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+                );
         }
     }
 }

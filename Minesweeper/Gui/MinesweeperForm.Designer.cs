@@ -60,7 +60,7 @@
             // 
             this.panelInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelInfo.Controls.Add(this.tableLayoutPanelInfo);
-            this.panelInfo.Location = new System.Drawing.Point(4, 31);
+            this.panelInfo.Location = new System.Drawing.Point(6, 38);
             this.panelInfo.Name = "panelInfo";
             this.panelInfo.Size = new System.Drawing.Size(227, 60);
             this.panelInfo.TabIndex = 8;
@@ -119,7 +119,8 @@
             // 
             this.panelGame.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelGame.Controls.Add(this.pictureBoxGameArea);
-            this.panelGame.Location = new System.Drawing.Point(4, 100);
+            this.panelGame.Location = new System.Drawing.Point(6, 107);
+            this.panelGame.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.panelGame.Name = "panelGame";
             this.panelGame.Size = new System.Drawing.Size(227, 211);
             this.panelGame.TabIndex = 9;
@@ -216,7 +217,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "MainForm";
-            this.Padding = new System.Windows.Forms.Padding(4);
+            this.Padding = new System.Windows.Forms.Padding(4, 4, 4, 7);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " Сапёр";
             this.Load += new System.EventHandler(this.MainForm_Load);

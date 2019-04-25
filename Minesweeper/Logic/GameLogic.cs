@@ -21,7 +21,8 @@ namespace Minesweeper.Logic
         public delegate void StartGameHeadler();
         public event StartGameHeadler OnStartGame;
 
-
+        public delegate void ExplodedHeadler(int remainedMinesCount);
+        public event ExplodedHeadler OnExploded;
 
         public Cell[,] cells;
 
@@ -61,7 +62,7 @@ namespace Minesweeper.Logic
         public GameLogic(int rowCount, int columnCount, int minesCount)//переводим на событие
         {
             gameParameters = new GameParameters(rowCount, columnCount, minesCount, true);
-            gameParameters.GameParametersChanged += new GameParameters.GameParametersChangedHeadler(gameParameters_Changed);
+            gameParameters.OnChangeGameParameters += gameParameters_Changed;
 
             SetNewGameParameters();
         }
@@ -69,7 +70,7 @@ namespace Minesweeper.Logic
         public GameLogic(GameParameters gameParameters)//переводим на событие
         {
             this.gameParameters = gameParameters;
-            this.gameParameters.GameParametersChanged += new GameParameters.GameParametersChangedHeadler(gameParameters_Changed);
+            this.gameParameters.OnChangeGameParameters += gameParameters_Changed;
 
             SetNewGameParameters();
         }
@@ -79,7 +80,7 @@ namespace Minesweeper.Logic
             RowCount = gameParameters.RowCount;
             ColumnCount = gameParameters.ColumnCount;
             MinesCount = gameParameters.MinesCount;
-            isPossibleMarkQuestion = gameParameters.IsPossibleMarkQuestion;            
+            isPossibleMarkQuestion = gameParameters.IsPossibleMarkQuestion;
 
             if (!Equals(cells, null) && (cells.GetLength(0) == RowCount && cells.GetLength(1) == ColumnCount))
             {
@@ -91,10 +92,10 @@ namespace Minesweeper.Logic
                 cells = CreateCells(RowCount, ColumnCount);
 
                 OnBeginNewGame?.Invoke();
-            }           
+            }
         }
 
-        private void gameParameters_Changed(object sender, EventArgs eventArgs)//переводим на событие
+        private void gameParameters_Changed()//переводим на событие
         {
             SetNewGameParameters();
         }
@@ -130,10 +131,9 @@ namespace Minesweeper.Logic
         {
             SetBeginConditions();
 
-            this.RowCount = rowCount;
-            this.ColumnCount = columnCount;
-
-            this.MinesCount = minesCount;
+            RowCount = rowCount;
+            ColumnCount = columnCount;
+            MinesCount = minesCount;
 
             for (int i = 0; i < rowCount; i++)
             {
@@ -144,7 +144,7 @@ namespace Minesweeper.Logic
             }
         }
 
-        public List<Cell> GetCellsListAvailableForPress(Cell cell)
+        public List<Cell> GetCellsListAvailableForPress(Cell cell)//нажимают двумя клавишами
         {
             List<Cell> cellsList = new List<Cell>();
 
@@ -297,6 +297,7 @@ namespace Minesweeper.Logic
                         resultCells = GetRemainingCellsAfteMinePress(rowIndex, columnIndex);
                         isExploded = true;
 
+                        OnExploded?.Invoke(MinesCount-FoundMinesCount);
                         OnFinishGame?.Invoke();
                     }
                     else

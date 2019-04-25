@@ -48,6 +48,8 @@ namespace Minesweeper.Gui
             return (value >= minValue) && (value <= maxValue);
         }
 
+        public const string CaptionAboutMessage = "Информация об игре \"Сапер\"";
+
         public static string GetAboutText()
         {
             StringBuilder builder = new StringBuilder();

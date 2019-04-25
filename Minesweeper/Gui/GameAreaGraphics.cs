@@ -14,6 +14,10 @@ namespace Minesweeper.Gui
         public delegate void GetGamePanelWidth(int width);
         public event GetGamePanelWidth OnSetGamePanelWidth;
 
+        public delegate void CheckCells();
+        public event CheckCells OnMouseDownCells;
+        public event CheckCells OnMouseUpCells;
+
         private PictureBox gameAreaPictureBox;
         private Bitmap gameAreaImage;
         private readonly Color backFormColor;
@@ -32,7 +36,7 @@ namespace Minesweeper.Gui
         private bool isMouseRightButtonDown;
         private bool areBothMouseButtonDownAction;
 
-        public GameAreaGraphics(PictureBox gameAreaPictureBox, GameLogic gameLogic,BitmapsResources bitmapsResources)
+        public GameAreaGraphics(PictureBox gameAreaPictureBox, GameLogic gameLogic, BitmapsResources bitmapsResources)
         {
             this.bitmapsResources = bitmapsResources;
 
@@ -76,8 +80,6 @@ namespace Minesweeper.Gui
             }
         }
 
-
-
         private void GameAreaPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             if (!gameLogic.IsGameContinue)
@@ -90,25 +92,22 @@ namespace Minesweeper.Gui
                 int rowIndex = GetMouseEventCellRowIndex(e);
                 int columnIndex = GetMouseEventCellColumnIndex(e);
 
-                //    //SetTimerFalseIfGameFinish();//имеет отношение к дисплею стоит скорее всего не на своем месте
-                //    //DrawSmileButtonIfCellUp();//имеет отношение к дисплею стоит скорее всего не на своем месте
-
                 if (e.Button == MouseButtons.Left)
                 {
                     if (AreBothMouseButtonsDown)
                     {
+                        OnMouseUpCells?.Invoke();
+
                         PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, gameLogic.cells[rowIndex, columnIndex]);
                         isMouseLeftButtonDown = false;
 
                         gameAreaPictureBox.Image = gameAreaImage;
-
                         return;
-
-                        //SetTimerFalseIfGameFinish();//имеет отношение к дисплею
-                        //DrawSmileButtonIfCellUp();//имеет отношение к дисплею
                     }
                     else if (areBothMouseButtonDownAction)
                     {
+                        OnMouseUpCells?.Invoke();
+
                         areBothMouseButtonDownAction = false;
                         isMouseLeftButtonDown = false;
                         return;
@@ -118,22 +117,16 @@ namespace Minesweeper.Gui
 
                     if (gameLogic.cells[rowIndex, columnIndex].markOnTop != Cell.MarkOnTopCell.Flag)
                     {
-                        //SetTimerTrueIfGameBegin();//имеет отношение к дисплею
+                        OnMouseUpCells?.Invoke();
 
                         List<Cell> pressingCells = gameLogic.GetOpenCellsAfterPress(rowIndex, columnIndex);
                         DrawCellsListAfterPress(pressingCells);
-
-                        // SetTimerFalseIfGameFinish();//имеет отношение к дисплею
-                        // SetRemainigMinesCountIfGameOver();//имеет отношение к дисплею
-
-                        // DrawSmileButtonIfCellUp();//имеет отношение к дисплею
                     }
 
                     gameAreaPictureBox.Image = gameAreaImage;
                 }
                 else if (e.Button == MouseButtons.Right)
                 {
-
                     if (AreBothMouseButtonsDown)
                     {
                         PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, gameLogic.cells[rowIndex, columnIndex]);
@@ -142,9 +135,6 @@ namespace Minesweeper.Gui
                         gameAreaPictureBox.Image = gameAreaImage;
 
                         return;
-
-                        //SetTimerFalseIfGameFinish();//имеет отношение к дисплею
-                        //DrawSmileButtonIfCellUp();//имеет отношение к дисплею
                     }
                     else if (areBothMouseButtonDownAction)
                     {
@@ -156,9 +146,6 @@ namespace Minesweeper.Gui
                     isMouseRightButtonDown = false;
 
                     gameAreaPictureBox.Image = gameAreaImage;
-
-                    //SetTimerFalseIfGameFinish();//имеет отношение к дисплею
-                    //DrawSmileButtonIfCellUp();//имеет отношение к дисплею
                 }
             }
         }
@@ -213,20 +200,20 @@ namespace Minesweeper.Gui
 
                     if (IsMouseLeftRightButtonDownThenPressAreaNearCell(currentGameAreaGraphics, cell))
                     {
-                        areBothMouseButtonDownAction = true;
-                        //   return;
+                        OnMouseDownCells?.Invoke();
+                        areBothMouseButtonDownAction = true;                       
                     }
                     else if (!cell.IsPressed && cell.markOnTop != Cell.MarkOnTopCell.Flag)
                     {
+                        OnMouseDownCells?.Invoke();
+
                         if (isMouseRightButtonDown)
                         {
-                            //DrawSmileButtonIfCellDown();//имеет отношение к дисплею
                             PressCellsNearRightLeftMouseButtonsDown(currentGameAreaGraphics, cell);
                         }
                         else
                         {
-                            //DrawSmileButtonIfCellDown();//имеет отношение к дисплею
-                            DrawOnBottomCellAfterMouseDown(currentGameAreaGraphics, cell);//TODO
+                            DrawOnBottomCellAfterMouseDown(currentGameAreaGraphics, cell);
                         }
                     }
                 }
@@ -238,25 +225,20 @@ namespace Minesweeper.Gui
                     if (IsMouseLeftRightButtonDownThenPressAreaNearCell(currentGameAreaGraphics, cell))
                     {
                         areBothMouseButtonDownAction = true;
-                        // return;
                     }
                     else if (!cell.IsPressed)
                     {
                         if (isMouseLeftButtonDown)
                         {
-                            //DrawSmileButtonIfCellDown();//имеет отношение к дисплею
                             PressCellsNearRightLeftMouseButtonsDown(currentGameAreaGraphics, cell);
                         }
                         else
                         {
-
                             gameLogic.Mark(cell);
 
                             Bitmap bitmap = GetMarkCell(cell);
                             DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmap);
                         }
-
-                        //DrawRemainingMinesCountAfterMarkOnDispley();//имеет отношение к дисплею
                     }
                 }
 
@@ -324,8 +306,6 @@ namespace Minesweeper.Gui
                     DrawCellsListAfterPress(pressingCells);
                 }
 
-                //SetRemainigMinesCountIfGameOver();//имеет отношение к дисплею
-
                 cellsNearRightLeftMouseButtons.Clear();
             }
             else if (cellsNearRightLeftMouseButtons.Count != 0)
@@ -370,8 +350,6 @@ namespace Minesweeper.Gui
         }
 
 
-
-
         private Bitmap GetMarkCell(Cell cell)
         {
             switch (cell.markOnTop)
@@ -390,11 +368,7 @@ namespace Minesweeper.Gui
             }
         }
 
-
-
-
-
-        private void DrawCellsListAfterPress(List<Cell> cellsList)//TODO переименовать
+        private void DrawCellsListAfterPress(List<Cell> cellsList)
         {
             if (cellsList.Count != 0)
             {
@@ -486,16 +460,8 @@ namespace Minesweeper.Gui
                 }
             }
 
-            int onePixel = 1;
-
-            //int additionToPanelWidthForGoodDesign = 0;// 28;
-            //int additionToPanelHeightForGoodDesign = 0;// 127;
-
             Panel gamePanel = gameAreaPictureBox.Parent as Panel;
-
-            //gamePanel.Parent.Width = panelWidth + additionToPanelWidthForGoodDesign;
-            //gamePanel.Parent.Height = panelHeight + additionToPanelHeightForGoodDesign;
-
+            int onePixel = 1;
             gamePanel.Height = panelHeight + gamePanel.Margin.Left + onePixel;
             gamePanel.Width = panelWidth + gamePanel.Margin.Top + onePixel;
 
