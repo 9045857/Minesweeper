@@ -27,14 +27,20 @@ namespace Minesweeper.Gui
         private void MainForm_Load(object sender, EventArgs e)
         {
             formNewGameOptions = new FormNewGameOptions(bitmapsResources);
-            LoadNewGame();            
+            formNewGameOptions.OnGetNewGameParameters += SetCellTopColor;
+
+            LoadNewGame();
+        }
+
+        private void SetCellTopColor()
+        {
+            mineswepperGame.SetCellTopColor(formNewGameOptions.GetCellTopBackColor());
         }
 
         private void LoadNewGame()
         {
             gameParameters = formNewGameOptions.GetGameParameters();
             mineswepperGame = new GameGraphics(gameParameters, pictureBoxGameArea, bitmapsResources, pictureBoxSmileButton, pictureBoxMinesCount, pictureBoxTime, timerGame);
-           // mineswepperGame.DrawInfoArea(panelInfo/*, pictureBoxSmileButton, pictureBoxMinesCount, pictureBoxTime, timerGame*/);
         }
 
         private void toolStripMenuItemNew_Click(object sender, EventArgs e)

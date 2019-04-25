@@ -13,17 +13,18 @@ namespace Minesweeper.Gui
 {
     public partial class FormNewGameOptions : Form
     {
-        //public delegate void GetNewGameParametersHeadler(object sender, EventArgs eventArgs);
-        //public event GetNewGameParametersHeadler GetNewGameParameters;
+        public delegate void GetNewGameParametersHeadler();
+        public event GetNewGameParametersHeadler OnGetNewGameParameters;
 
-        BitmapsResources bitmapsResources;
-
+        private BitmapsResources bitmapsResources;
+       
         private GameParameters gameParameters = new GameParameters();//важный параметр. Через его обновление происходит обновление игры с помощью событий
 
         public FormNewGameOptions(BitmapsResources bitmapsResources)
         {
             InitializeComponent();
             this.bitmapsResources = bitmapsResources;
+            OnGetNewGameParameters?.Invoke();
         }
 
         private void buttonNewGame_Click(object sender, EventArgs e)
@@ -38,9 +39,9 @@ namespace Minesweeper.Gui
 
             Close();
 
-            SetNewGameParametersWithCorrectionToPermissibleRange();
+            OnGetNewGameParameters?.Invoke();
 
-            // gameParameters.SetNewGameParameters(RowCount, ColumnCount, MinesCount, IsPossibleMarkQuestion);
+            SetNewGameParametersWithCorrectionToPermissibleRange();
         }
 
         private void SetNewGameParametersWithCorrectionToPermissibleRange()
@@ -88,6 +89,16 @@ namespace Minesweeper.Gui
             gameParameters.IsPossibleMarkQuestion = IsPossibleMarkQuestion;
 
             return gameParameters;
+        }
+
+        public Color GetCellTopBackColor()
+        {
+            if (radioButtonCustomColor.Checked)
+            {
+                return colorDialogCellColor.Color;
+            }
+
+            return BackColor;
         }
 
         private int GetOptionCount(int lowLevelOptionValue, int mediumLevelOptionValue, int highLevelOptionValue, string customOptionValue)
@@ -151,25 +162,21 @@ namespace Minesweeper.Gui
 
         private bool IsInputCustomDataCorrect()
         {
-            int rowCount;
-            int columnCount;
-            int minesCount;
-
-            if (!int.TryParse(textBoxRowCount.Text, out rowCount))
+            if (!int.TryParse(textBoxRowCount.Text, out int rowCount))
             {
-                MessageBox.Show("Некорректно задана высота.");
+                MessageBox.Show(GameOptionsConstants.WarningCorrectlySetRowCount);
                 return false;
             }
 
-            if (!int.TryParse(textBoxColumnCount.Text, out columnCount))
+            if (!int.TryParse(textBoxColumnCount.Text, out int columnCount))
             {
-                MessageBox.Show("Некорректно задана ширина.");
+                MessageBox.Show(GameOptionsConstants.WarningCorrectlySetColumnCount);
                 return false;
             }
 
-            if (!int.TryParse(textBoxMinesCount.Text, out minesCount))
+            if (!int.TryParse(textBoxMinesCount.Text, out int minesCount))
             {
-                MessageBox.Show("Некорректно задано количество мин.");
+                MessageBox.Show(GameOptionsConstants.WarningCorrectlySetMinesCount);
                 return false;
             }
 
@@ -199,9 +206,9 @@ namespace Minesweeper.Gui
 
         private void LoadPictureBoxCellColor(Color color, Bitmap bitmap)
         {
-            Bitmap result= GetColorButton(color, bitmap);
+            Bitmap result = GetColorButton(color, bitmap);
             pictureBoxCellColor.Size = result.Size;
-            pictureBoxCellColor.Image = result; 
+            pictureBoxCellColor.Image = result;
         }
 
         private void LoadPictureBoxStandartCellColor(Bitmap bitmap)

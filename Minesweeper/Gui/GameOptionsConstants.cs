@@ -50,6 +50,10 @@ namespace Minesweeper.Gui
 
         public const string CaptionAboutMessage = "Информация об игре \"Сапер\"";
 
+        public const string WarningCorrectlySetRowCount = "Некорректно задана высота.";
+        public const string WarningCorrectlySetColumnCount = "Некорректно задана ширина.";
+        public const string WarningCorrectlySetMinesCount = "Некорректно задано количество мин.";
+
         public static string GetAboutText()
         {
             StringBuilder builder = new StringBuilder();

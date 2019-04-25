@@ -12,9 +12,12 @@ namespace Minesweeper.Gui
 {
     class GameGraphics
     {
+        public delegate void ChangeCellTopColor(Color color);
+        public event ChangeCellTopColor OnChangeCellTopColor;
+
         private GameLogic gameLogic;
         private GameAreaGraphics gameAreaGraphics;
-        private GameInfoGraphics gameInfoGraphics;     
+        private GameInfoGraphics gameInfoGraphics;
 
         public GameGraphics
         (
@@ -30,6 +33,11 @@ namespace Minesweeper.Gui
             gameLogic = new GameLogic(gameParameters);
             gameAreaGraphics = new GameAreaGraphics(gameAreaPictureBox, gameLogic, bitmapsResources);
             gameInfoGraphics = new GameInfoGraphics(gameLogic, gameAreaGraphics, bitmapsResources, pictureBoxSmileButton, pictureBoxMinesCount, pictureBoxTime, timerGame);
-        }        
+        }
+
+        public void SetCellTopColor(Color color)
+        {
+                gameAreaGraphics.CellTopColor = color;          
+        }
     }
 }

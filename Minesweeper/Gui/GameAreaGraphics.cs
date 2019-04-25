@@ -163,11 +163,11 @@ namespace Minesweeper.Gui
 
                     if (element.markOnTop == Cell.MarkOnTopCell.Question)
                     {
-                        DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmapsResources.questionPressCell);
+                        DrawCell(currentGameAreaGraphics,backFormColor, rowIndex, columnIndex, bitmapsResources.questionPressCell);
                     }
                     else
                     {
-                        DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmapsResources.minesNearCount[0]);
+                        DrawCell(currentGameAreaGraphics, backFormColor,rowIndex, columnIndex, bitmapsResources.minesNearCount[0]);
                     }
                 }
 
@@ -201,7 +201,7 @@ namespace Minesweeper.Gui
                     if (IsMouseLeftRightButtonDownThenPressAreaNearCell(currentGameAreaGraphics, cell))
                     {
                         OnMouseDownCells?.Invoke();
-                        areBothMouseButtonDownAction = true;                       
+                        areBothMouseButtonDownAction = true;
                     }
                     else if (!cell.IsPressed && cell.markOnTop != Cell.MarkOnTopCell.Flag)
                     {
@@ -237,7 +237,7 @@ namespace Minesweeper.Gui
                             gameLogic.Mark(cell);
 
                             Bitmap bitmap = GetMarkCell(cell);
-                            DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmap);
+                            DrawCell(currentGameAreaGraphics, CellTopColor,rowIndex, columnIndex, bitmap);
                         }
                     }
                 }
@@ -254,11 +254,11 @@ namespace Minesweeper.Gui
             switch (cell.markOnTop)
             {
                 case Cell.MarkOnTopCell.Question:
-                    DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmapsResources.questionPressCell);
+                    DrawCell(currentGameAreaGraphics,backFormColor ,rowIndex, columnIndex, bitmapsResources.questionPressCell);
                     return;
 
                 case Cell.MarkOnTopCell.Empty:
-                    DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmapsResources.minesNearCount[0]);
+                    DrawCell(currentGameAreaGraphics, backFormColor, rowIndex, columnIndex, bitmapsResources.minesNearCount[0]);
                     return;
             }
         }
@@ -271,11 +271,11 @@ namespace Minesweeper.Gui
             switch (cell.markOnTop)
             {
                 case Cell.MarkOnTopCell.Question:
-                    DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmapsResources.question);
+                    DrawCell(currentGameAreaGraphics, CellTopColor, rowIndex, columnIndex, bitmapsResources.question);
                     return;
 
                 case Cell.MarkOnTopCell.Empty:
-                    DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmapsResources.cellStart);
+                    DrawCell(currentGameAreaGraphics, CellTopColor, rowIndex, columnIndex, bitmapsResources.cellStart);
                     return;
             }
         }
@@ -291,7 +291,7 @@ namespace Minesweeper.Gui
 
                     Bitmap bitmap = GetMarkCell(gameLogic.cells[rowIndex, columnIndex]);
 
-                    DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmap);
+                    DrawCell(currentGameAreaGraphics,CellTopColor ,rowIndex, columnIndex, bitmap);
                 }
             }
             else if (cellsNearRightLeftMouseButtons.Count != 0 && gameLogic.GetMarkedMinesNearCell(cell) == cell.MineNearCount)
@@ -316,7 +316,7 @@ namespace Minesweeper.Gui
                     int columnIndex = element.ColIndex;
 
                     Bitmap bitmap = GetMarkCell(element);
-                    DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmap);
+                    DrawCell(currentGameAreaGraphics, CellTopColor,rowIndex, columnIndex, bitmap);
                 }
 
                 cellsNearRightLeftMouseButtons.Clear();
@@ -338,11 +338,11 @@ namespace Minesweeper.Gui
 
                         if (gameLogic.cells[i, j].markOnTop == Cell.MarkOnTopCell.Question)
                         {
-                            DrawCell(currentGameAreaGraphics, i, j, bitmapsResources.questionPressCell);
+                            DrawCell(currentGameAreaGraphics,backFormColor ,i, j, bitmapsResources.questionPressCell);
                         }
                         else
                         {
-                            DrawCell(currentGameAreaGraphics, i, j, bitmapsResources.minesNearCount[0]);
+                            DrawCell(currentGameAreaGraphics, backFormColor, i, j, bitmapsResources.minesNearCount[0]);
                         }
                     }
                 }
@@ -406,7 +406,7 @@ namespace Minesweeper.Gui
                                     break;
                             }
 
-                            DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmap);
+                            DrawCell(currentGameAreaGraphics,backFormColor, rowIndex, columnIndex, bitmap);
                         }
                         else
                         {
@@ -414,7 +414,7 @@ namespace Minesweeper.Gui
                             {
                                 case Cell.MarkOnTopCell.Flag:
                                     Bitmap bitmap = bitmapsResources.flag;
-                                    DrawCell(currentGameAreaGraphics, rowIndex, columnIndex, bitmap);
+                                    DrawCell(currentGameAreaGraphics,CellTopColor ,rowIndex, columnIndex, bitmap);
                                     break;
                             }
                         }
@@ -424,15 +424,18 @@ namespace Minesweeper.Gui
             }
         }
 
-        private void DrawCell(Graphics currentGameAreaGraphics, int rowIndex, int columnIndex, Bitmap bitmap)
+        public Color CellTopColor{get;set;}
+
+        private void DrawCell(Graphics currentGameAreaGraphics, Color backColor, int rowIndex, int columnIndex, Bitmap bitmap)
         {
             int xRight = columnIndex * cellSideLength;
             int yTop = rowIndex * cellSideLength;
 
-            SolidBrush backFormColor = new SolidBrush(this.backFormColor);
-            currentGameAreaGraphics.FillRectangle(backFormColor, xRight, yTop, cellSideLength, cellSideLength);
+            SolidBrush backCellColor = new SolidBrush(backColor);
+
+            currentGameAreaGraphics.FillRectangle(backCellColor, xRight, yTop, cellSideLength, cellSideLength);
             currentGameAreaGraphics.DrawImage(bitmap, xRight, yTop, cellSideLength, cellSideLength);
-            backFormColor.Dispose();
+            backCellColor.Dispose();
         }
 
         private void DrawStartGamePanel()
@@ -445,17 +448,22 @@ namespace Minesweeper.Gui
 
             //создаем и заполняем стартовую картинку для всего поля
             Bitmap currentGameAreaBitmap = new Bitmap(panelWidth, panelHeight);
-
+            
             using (Graphics currentGameAreaGraphics = Graphics.FromImage(currentGameAreaBitmap))
             {
+                SolidBrush color = new SolidBrush(CellTopColor);
+                currentGameAreaGraphics.FillRectangle(color, 0, 0, panelWidth, panelHeight);
+                color.Dispose();
+
                 for (int i = 0; i < rowCount; i++)
                 {
                     for (int j = 0; j < columnCount; j++)
                     {
                         int xRight = j * length;
-                        int yTop = i * length;
+                        int yTop = i * length;                                                                       
 
-                        currentGameAreaGraphics.DrawImage(cellStart, xRight, yTop);
+                        currentGameAreaGraphics.DrawImage(cellStart, xRight, yTop);                     
+
                     }
                 }
             }
