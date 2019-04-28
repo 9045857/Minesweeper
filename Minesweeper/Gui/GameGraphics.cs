@@ -12,9 +12,6 @@ namespace Minesweeper.Gui
 {
     class GameGraphics
     {
-        public delegate void ChangeCellTopColor(Color color);
-        public event ChangeCellTopColor OnChangeCellTopColor;
-
         private GameLogic gameLogic;
         private GameAreaGraphics gameAreaGraphics;
         private GameInfoGraphics gameInfoGraphics;

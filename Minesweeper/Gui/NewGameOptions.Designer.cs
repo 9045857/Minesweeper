@@ -52,9 +52,9 @@
             this.pictureBoxCellColor = new System.Windows.Forms.PictureBox();
             this.colorDialogCellColor = new System.Windows.Forms.ColorDialog();
             this.groupBoxCellColor = new System.Windows.Forms.GroupBox();
-            this.pictureBoxStandartCellColor = new System.Windows.Forms.PictureBox();
-            this.radioButtonStandartColor = new System.Windows.Forms.RadioButton();
             this.radioButtonCustomColor = new System.Windows.Forms.RadioButton();
+            this.radioButtonStandartColor = new System.Windows.Forms.RadioButton();
+            this.pictureBoxStandartCellColor = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCellColor)).BeginInit();
             this.groupBoxCellColor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStandartCellColor)).BeginInit();
@@ -276,15 +276,15 @@
             this.groupBoxCellColor.TabStop = false;
             this.groupBoxCellColor.Text = "Цвет ячейки";
             // 
-            // pictureBoxStandartCellColor
+            // radioButtonCustomColor
             // 
-            this.pictureBoxStandartCellColor.Location = new System.Drawing.Point(125, 22);
-            this.pictureBoxStandartCellColor.Name = "pictureBoxStandartCellColor";
-            this.pictureBoxStandartCellColor.Size = new System.Drawing.Size(22, 22);
-            this.pictureBoxStandartCellColor.TabIndex = 23;
-            this.pictureBoxStandartCellColor.TabStop = false;
-            this.pictureBoxStandartCellColor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxStandartCellColor_MouseDown);
-            this.pictureBoxStandartCellColor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
+            this.radioButtonCustomColor.AutoSize = true;
+            this.radioButtonCustomColor.Location = new System.Drawing.Point(19, 52);
+            this.radioButtonCustomColor.Name = "radioButtonCustomColor";
+            this.radioButtonCustomColor.Size = new System.Drawing.Size(73, 21);
+            this.radioButtonCustomColor.TabIndex = 25;
+            this.radioButtonCustomColor.Text = "другой";
+            this.radioButtonCustomColor.UseVisualStyleBackColor = true;
             // 
             // radioButtonStandartColor
             // 
@@ -298,20 +298,21 @@
             this.radioButtonStandartColor.Text = "стандарт";
             this.radioButtonStandartColor.UseVisualStyleBackColor = true;
             // 
-            // radioButtonCustomColor
+            // pictureBoxStandartCellColor
             // 
-            this.radioButtonCustomColor.AutoSize = true;
-            this.radioButtonCustomColor.Location = new System.Drawing.Point(19, 52);
-            this.radioButtonCustomColor.Name = "radioButtonCustomColor";
-            this.radioButtonCustomColor.Size = new System.Drawing.Size(73, 21);
-            this.radioButtonCustomColor.TabIndex = 25;
-            this.radioButtonCustomColor.Text = "другой";
-            this.radioButtonCustomColor.UseVisualStyleBackColor = true;
+            this.pictureBoxStandartCellColor.Location = new System.Drawing.Point(125, 22);
+            this.pictureBoxStandartCellColor.Name = "pictureBoxStandartCellColor";
+            this.pictureBoxStandartCellColor.Size = new System.Drawing.Size(22, 22);
+            this.pictureBoxStandartCellColor.TabIndex = 23;
+            this.pictureBoxStandartCellColor.TabStop = false;
+            this.pictureBoxStandartCellColor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxStandartCellColor_MouseDown);
+            this.pictureBoxStandartCellColor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
             // FormNewGameOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(349, 244);
             this.Controls.Add(this.groupBoxCellColor);
             this.Controls.Add(this.checkBoxMark);
