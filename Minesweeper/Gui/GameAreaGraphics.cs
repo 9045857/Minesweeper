@@ -251,10 +251,12 @@ namespace Minesweeper.Gui
         {
             using (Graphics currentGameAreaGraphics = Graphics.FromImage(gameAreaImage))
             {
-                PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, gameLogic.cells[currentRowIndex, currentColumnIndex]);
+                PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, gameLogic.cells[previousRowIndex, previousColumnIndex]);//TODO отработать ситуацию, когда текущие значения-1
                 gameAreaPictureBox.Image = gameAreaImage;
 
                 isSituationBothMouseButtonDown = false;
+                isMouseRightButtonDown = false;
+                isMouseLeftButtonDown = false;
             }
         }
 
@@ -294,14 +296,16 @@ namespace Minesweeper.Gui
         }
 
         /// <summary>
-        /// Текущий индекс строки. Ему задают значение -1, если поле(параметр) определялось вне игрового поля.
+        /// Текущий индексы ячейки. Ему задают значение -1, если поле(параметр) определялось вне игрового поля.
         /// </summary>
         private int currentRowIndex;
+        private int currentColumnIndex;
 
         /// <summary>
-        ///  Текущий индекс. Ему задают значение -1, если поле(параметр) определялось вне игрового поля.
+        /// Индексы предыдущей ячейки. 
         /// </summary>
-        private int currentColumnIndex;
+        private int previousRowIndex;
+        private int previousColumnIndex;
 
         /// <summary>
         /// Свойство определяющие находятся ли текущие индексы в пределях игрового поля.
@@ -321,7 +325,7 @@ namespace Minesweeper.Gui
 
 
         private int changesCellCount = 0;
-        private bool isMouseMoveAndChandeCell;
+        private bool isMouseMoveAndChangeCell;
 
         private void GameAreaPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
@@ -334,35 +338,79 @@ namespace Minesweeper.Gui
 
             forTestMouse.label2.Text = currentRowIndex + " : " + currentColumnIndex;
 
+            int currentMouseRowIndex = GetCellRowOrColumnIndex(e.Y, (sender as PictureBox).Height);
+            int currentMouseColumnIndex = GetCellRowOrColumnIndex(e.X, (sender as PictureBox).Width);
 
-
-            if (isSituationBothMouseButtonDown && IsMouseOnGameArea(currentRowIndex, currentColumnIndex))
+            if (isSituationBothMouseButtonDown)
             {
-
-                int rowIndex = GetCellRowOrColumnIndex(e.Y, (sender as PictureBox).Height);
-                int columnIndex = GetCellRowOrColumnIndex(e.X, (sender as PictureBox).Width);
-
-                if (IsMouseOnGameArea(rowIndex, columnIndex) && IsChangedCell(rowIndex, columnIndex))
+                if (IsMouseOnGameArea(currentRowIndex, currentColumnIndex))//TODO при выходе за границы и возврате текущие позиции ячеек не ставяться
                 {
-                    changesCellCount++;
-                    forTestMouse.label4.Text = changesCellCount.ToString();
+                    int rowIndex = GetCellRowOrColumnIndex(e.Y, (sender as PictureBox).Height);
+                    int columnIndex = GetCellRowOrColumnIndex(e.X, (sender as PictureBox).Width);
 
-                    using (Graphics currentGameAreaGraphics = Graphics.FromImage(gameAreaImage))
+                    if (IsChangedCell(rowIndex, columnIndex))
                     {
-                        Cell cell = gameLogic.cells[currentRowIndex, currentColumnIndex];//TODO вот тут ввести положение следующая ячейка
+                        changesCellCount++;
+                        forTestMouse.label4.Text = changesCellCount.ToString();
 
-                        isMouseMoveAndChandeCell = true;
-                        PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, cell);
-                        isMouseMoveAndChandeCell = false;
+                        if (IsMouseOnGameArea(rowIndex, columnIndex))
+                        {
+                            using (Graphics currentGameAreaGraphics = Graphics.FromImage(gameAreaImage))
+                            {
+                                Cell cell = gameLogic.cells[currentRowIndex, currentColumnIndex];
 
-                        currentRowIndex = rowIndex;
-                        currentColumnIndex = columnIndex;
+                                isMouseMoveAndChangeCell = true;
+                                PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, cell);
+                                isMouseMoveAndChangeCell = false;
 
-                        cell = gameLogic.cells[currentRowIndex, currentColumnIndex];
+                                previousRowIndex = currentRowIndex;
+                                previousColumnIndex = currentColumnIndex;
 
-                        IsMouseLeftRightButtonDownThenPressAreaNearCell(currentGameAreaGraphics, cell);
+                                currentRowIndex = rowIndex;
+                                currentColumnIndex = columnIndex;
 
-                        gameAreaPictureBox.Image = gameAreaImage;
+                                cell = gameLogic.cells[currentRowIndex, currentColumnIndex];
+
+                                IsMouseLeftRightButtonDownThenPressAreaNearCell(currentGameAreaGraphics, cell);
+
+                                gameAreaPictureBox.Image = gameAreaImage;
+                            }
+                        }
+                        else
+                        {
+                            using (Graphics currentGameAreaGraphics = Graphics.FromImage(gameAreaImage))
+                            {
+                                Cell cell = gameLogic.cells[currentRowIndex, currentColumnIndex];
+
+                                isMouseMoveAndChangeCell = true;
+                                PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, cell);
+                                isMouseMoveAndChangeCell = false;
+
+                                previousRowIndex = currentRowIndex;
+                                previousColumnIndex = currentColumnIndex;
+
+                                currentRowIndex = rowIndex;
+                                currentColumnIndex = columnIndex;
+
+                                gameAreaPictureBox.Image = gameAreaImage;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    currentRowIndex = GetCellRowOrColumnIndex(e.Y, (sender as PictureBox).Height);
+                    currentColumnIndex = GetCellRowOrColumnIndex(e.X, (sender as PictureBox).Width);
+
+                    if (currentRowIndex != -1 && currentColumnIndex != -1)
+                    {
+                        using (Graphics currentGameAreaGraphics = Graphics.FromImage(gameAreaImage))
+                        {
+                            Cell cell = gameLogic.cells[currentRowIndex, currentColumnIndex];
+
+                            IsMouseLeftRightButtonDownThenPressAreaNearCell(currentGameAreaGraphics, cell);
+                            gameAreaPictureBox.Image = gameAreaImage;
+                        }
                     }
                 }
             }
@@ -513,26 +561,11 @@ namespace Minesweeper.Gui
         {
             if (!cell.IsPressed)
             {
-                foreach (Cell element in cellsNearRightLeftMouseButtons)
-                {
-                    int rowIndex = element.RowIndex;
-                    int columnIndex = element.ColIndex;
-
-                    Bitmap bitmap = GetMarkCell(gameLogic.cells[rowIndex, columnIndex]);
-
-                    DrawCell(currentGameAreaGraphics, CellTopColor, rowIndex, columnIndex, bitmap);
-                }
+                DrawUsualSituationLeftRibhtMouseButtonsUp(currentGameAreaGraphics);
             }
-            else if (isMouseMoveAndChandeCell && isSituationBothMouseButtonDown)//TODO   ввести еще одно положение ячеек - следующая ячейка и сравнивать их.
+            else if (isMouseMoveAndChangeCell && isSituationBothMouseButtonDown && IsMouseOnGameArea(currentRowIndex, currentColumnIndex))
             {
-                foreach (Cell element in cellsNearRightLeftMouseButtons)
-                {
-                    int rowIndex = element.RowIndex;
-                    int columnIndex = element.ColIndex;
-
-                    Bitmap bitmap = GetMarkCell(element);
-                    DrawCell(currentGameAreaGraphics, CellTopColor, rowIndex, columnIndex, bitmap);
-                }
+                DrawUsualSituationLeftRibhtMouseButtonsUp(currentGameAreaGraphics);
             }
             else if (cellsNearRightLeftMouseButtons.Count != 0 && gameLogic.GetMarkedMinesNearCell(cell) == cell.MineNearCount)
             {
@@ -550,17 +583,22 @@ namespace Minesweeper.Gui
             }
             else if (cellsNearRightLeftMouseButtons.Count != 0)
             {
-                foreach (Cell element in cellsNearRightLeftMouseButtons)
-                {
-                    int rowIndex = element.RowIndex;
-                    int columnIndex = element.ColIndex;
-
-                    Bitmap bitmap = GetMarkCell(element);
-                    DrawCell(currentGameAreaGraphics, CellTopColor, rowIndex, columnIndex, bitmap);
-                }
-
-                cellsNearRightLeftMouseButtons.Clear();
+                DrawUsualSituationLeftRibhtMouseButtonsUp(currentGameAreaGraphics);
             }
+        }
+
+        private void DrawUsualSituationLeftRibhtMouseButtonsUp(Graphics currentGameAreaGraphics)
+        {
+            foreach (Cell element in cellsNearRightLeftMouseButtons)
+            {
+                int rowIndex = element.RowIndex;
+                int columnIndex = element.ColIndex;
+
+                Bitmap bitmap = GetMarkCell(element);
+                DrawCell(currentGameAreaGraphics, CellTopColor, rowIndex, columnIndex, bitmap);
+            }
+
+            cellsNearRightLeftMouseButtons.Clear();
         }
 
         /// <summary>
@@ -595,7 +633,6 @@ namespace Minesweeper.Gui
                 }
             }
         }
-
 
         private Bitmap GetMarkCell(Cell cell)
         {
@@ -727,7 +764,6 @@ namespace Minesweeper.Gui
 
 
         private ForTestMouseMove forTestMouse = new ForTestMouseMove();
-
 
 
     }
