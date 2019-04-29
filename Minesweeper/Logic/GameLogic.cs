@@ -59,7 +59,7 @@ namespace Minesweeper.Logic
             }
         }
 
-        public GameLogic(int rowCount, int columnCount, int minesCount)//переводим на событие
+        public GameLogic(int rowCount, int columnCount, int minesCount)
         {
             gameParameters = new GameParameters(rowCount, columnCount, minesCount, true);
             gameParameters.OnChangeGameParameters += gameParameters_Changed;
@@ -67,7 +67,7 @@ namespace Minesweeper.Logic
             SetNewGameParameters();
         }
 
-        public GameLogic(GameParameters gameParameters)//переводим на событие
+        public GameLogic(GameParameters gameParameters)
         {
             this.gameParameters = gameParameters;
             this.gameParameters.OnChangeGameParameters += gameParameters_Changed;
@@ -75,7 +75,7 @@ namespace Minesweeper.Logic
             SetNewGameParameters();
         }
 
-        private void SetNewGameParameters()//переводим на событие
+        private void SetNewGameParameters()
         {
             RowCount = gameParameters.RowCount;
             ColumnCount = gameParameters.ColumnCount;
@@ -95,7 +95,7 @@ namespace Minesweeper.Logic
             }
         }
 
-        private void gameParameters_Changed()//переводим на событие
+        private void gameParameters_Changed()
         {
             SetNewGameParameters();
         }
@@ -297,7 +297,7 @@ namespace Minesweeper.Logic
                         resultCells = GetRemainingCellsAfteMinePress(rowIndex, columnIndex);
                         isExploded = true;
 
-                        OnExploded?.Invoke(MinesCount-FoundMinesCount);
+                        OnExploded?.Invoke(MinesCount - FoundMinesCount);
                         OnFinishGame?.Invoke();
                     }
                     else
@@ -365,11 +365,7 @@ namespace Minesweeper.Logic
 
         private int GetMinesNearCellCount(int rowIndex, int columnIndex)
         {
-            int startRowIndex;
-            int endRowIndex;
-            int startColumnIndex;
-            int endColumnIndex;
-            GetAvailableIndexesNearCell(cells[rowIndex, columnIndex], out startRowIndex, out endRowIndex, out startColumnIndex, out endColumnIndex);
+            GetAvailableIndexesNearCell(cells[rowIndex, columnIndex], out int startRowIndex, out int endRowIndex, out int startColumnIndex, out int endColumnIndex);
 
             int minesAroundCount = 0;
 
@@ -389,12 +385,7 @@ namespace Minesweeper.Logic
 
         public int GetMarkedMinesNearCell(Cell cell)
         {
-            int starRowIndex;
-            int endRowIndex;
-            int starColumnIndex;
-            int endColumnIndex;
-
-            GetAvailableIndexesNearCell(cell, out starRowIndex, out endRowIndex, out starColumnIndex, out endColumnIndex);
+            GetAvailableIndexesNearCell(cell, out int starRowIndex, out int endRowIndex, out int starColumnIndex, out int endColumnIndex);
 
             int minesMarkedAroundCount = 0;
 
@@ -510,12 +501,7 @@ namespace Minesweeper.Logic
         {
             Cell firstCell = queue.Dequeue();
 
-            int starRowIndex;
-            int endRowIndex;
-            int starColumnIndex;
-            int endColumnIndex;
-
-            GetAvailableIndexesNearCell(firstCell, out starRowIndex, out endRowIndex, out starColumnIndex, out endColumnIndex);
+            GetAvailableIndexesNearCell(firstCell, out int starRowIndex, out int endRowIndex, out int starColumnIndex, out int endColumnIndex);
 
             for (int i = starRowIndex; i <= endRowIndex; i++)
             {
@@ -581,6 +567,8 @@ namespace Minesweeper.Logic
                         }
                     }
                 }
+
+                EventOnMarkCell(MinesCount);
 
                 FinishGame();
             }
