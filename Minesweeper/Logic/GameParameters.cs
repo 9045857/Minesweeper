@@ -8,13 +8,21 @@ namespace Minesweeper.Logic
 {
     public class GameParameters
     {
+        public enum GameTypeLevel
+        {
+            Beginner = 0,
+            Medium = 1,
+            Expert = 2,
+            Customs = 3
+        }
+
         public delegate void GameParametersChangedHeadler();
         public event GameParametersChangedHeadler OnChangeGameParameters;
 
-        public int RowCount { get; set; }
-        public int ColumnCount { get;  set; }
-        public int MinesCount { get;  set; }
-        public bool IsPossibleMarkQuestion { get;  set; }
+        public int RowCount { get; /*private */set; }
+        public int ColumnCount { get; /*private*/ set; }
+        public int MinesCount { get; /*private */set; }
+        public bool IsPossibleMarkQuestion { get; /*private */set; }
 
         public GameParameters(int rowCount, int columnCount, int minesCount, bool isPossibleMarkQuestion)
         {
@@ -61,6 +69,29 @@ namespace Minesweeper.Logic
             MinesCount = minesCount;
 
             IsPossibleMarkQuestion = isPossibleMarkQuestion;
+        }
+
+        public GameTypeLevel GameType
+        {
+            get
+            {
+                if (RowCount == GameLogicConstants.LowLevelRowCount && ColumnCount == GameLogicConstants.LowLevelColumnCount && MinesCount == GameLogicConstants.LowLevelMinesCount)
+                {
+                    return GameTypeLevel.Beginner;
+                }
+                else if (RowCount == GameLogicConstants.MediumLevelRowCount && ColumnCount == GameLogicConstants.MediumLevelColumnCount && MinesCount == GameLogicConstants.MediumLevelMinesCount)
+                {
+                    return GameTypeLevel.Medium;
+                }
+                else if (RowCount == GameLogicConstants.HighLevelRowCount && ColumnCount == GameLogicConstants.HighLevelColumnCount && MinesCount == GameLogicConstants.HighLevelMinesCount)
+                {
+                    return GameTypeLevel.Expert;
+                }
+                else
+                {
+                    return GameTypeLevel.Customs;
+                }
+            }
         }
     }
 }
