@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelInfo = new System.Windows.Forms.Panel();
             this.tableLayoutPanelInfo = new System.Windows.Forms.TableLayoutPanel();
@@ -37,7 +36,6 @@
             this.pictureBoxTime = new System.Windows.Forms.PictureBox();
             this.panelGame = new System.Windows.Forms.Panel();
             this.pictureBoxGameArea = new System.Windows.Forms.PictureBox();
-            this.timerGame = new System.Windows.Forms.Timer(this.components);
             this.menuStripGame = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItemMain = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemNew = new System.Windows.Forms.ToolStripMenuItem();
@@ -132,10 +130,6 @@
             this.pictureBoxGameArea.Size = new System.Drawing.Size(100, 50);
             this.pictureBoxGameArea.TabIndex = 0;
             this.pictureBoxGameArea.TabStop = false;
-            // 
-            // timerGame
-            // 
-            this.timerGame.Interval = 1000;
             // 
             // menuStripGame
             // 
@@ -242,7 +236,6 @@
         private System.Windows.Forms.PictureBox pictureBoxMinesCount;
         private System.Windows.Forms.PictureBox pictureBoxSmileButton;
         private System.Windows.Forms.PictureBox pictureBoxTime;
-        private System.Windows.Forms.Timer timerGame;
         private System.Windows.Forms.MenuStrip menuStripGame;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMain;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemNew;

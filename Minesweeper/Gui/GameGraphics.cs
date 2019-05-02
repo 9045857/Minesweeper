@@ -23,13 +23,12 @@ namespace Minesweeper.Gui
             BitmapsResources bitmapsResources,
             PictureBox pictureBoxSmileButton,
             PictureBox pictureBoxMinesCount,
-            PictureBox pictureBoxTime,
-            Timer timerGame
+            PictureBox pictureBoxTime
         )
         {
             gameLogic = new GameLogic(gameParameters);
             gameAreaGraphics = new GameAreaGraphics(gameAreaPictureBox, gameLogic, bitmapsResources);
-            gameInfoGraphics = new GameInfoGraphics(gameLogic, gameAreaGraphics, bitmapsResources, pictureBoxSmileButton, pictureBoxMinesCount, pictureBoxTime, timerGame);
+            gameInfoGraphics = new GameInfoGraphics(gameLogic, gameAreaGraphics, bitmapsResources, pictureBoxSmileButton, pictureBoxMinesCount, pictureBoxTime);
         }
 
         public void SetCellTopColor(Color color)

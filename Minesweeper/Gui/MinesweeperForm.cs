@@ -40,7 +40,7 @@ namespace Minesweeper.Gui
         private void LoadNewGame()
         {
             gameParameters = formNewGameOptions.GetGameParameters();
-            mineswepperGame = new GameGraphics(gameParameters, pictureBoxGameArea, bitmapsResources, pictureBoxSmileButton, pictureBoxMinesCount, pictureBoxTime, timerGame);
+            mineswepperGame = new GameGraphics(gameParameters, pictureBoxGameArea, bitmapsResources, pictureBoxSmileButton, pictureBoxMinesCount, pictureBoxTime);
         }
 
         private void toolStripMenuItemNew_Click(object sender, EventArgs e)

@@ -20,10 +20,6 @@ namespace Minesweeper.Gui
         private PictureBox timeImage;
         private PictureBox minesCountImage;
 
-        private Timer gameTimer;
-        int currentGameTime;
-        private readonly int maxTime = 999;
-
         private Panel infoPanel;
 
         public GameInfoGraphics
@@ -33,16 +29,14 @@ namespace Minesweeper.Gui
             BitmapsResources bitmapsResources,
             PictureBox pictureBoxSmileButton,
             PictureBox pictureBoxMinesCount,
-            PictureBox pictureBoxTime,
-            Timer timerGame
+            PictureBox pictureBoxTime
         )
         {
             this.gameLogic = gameLogic;
             this.gameLogic.OnMark += new GameLogic.MarkFlagCellHeadler(RedrawMarkedMinesCount);
-            this.gameLogic.OnStartGame += new GameLogic.StartGameHeadler(StartTimer);
-            this.gameLogic.OnFinishGame += new GameLogic.FinishGameHeadler(StopTimer);
             this.gameLogic.OnBeginNewGame += RestartDislays;
             this.gameLogic.OnExploded += smileButtonImage_OnExploded;
+            this.gameLogic.OnTimeChange += SetTimeOnDisplay;
 
             this.gameAreaGraphics = gameAreaGraphics;
 
@@ -55,7 +49,6 @@ namespace Minesweeper.Gui
             smileButtonImage = pictureBoxSmileButton;
             minesCountImage = pictureBoxMinesCount;
             timeImage = pictureBoxTime;
-            gameTimer = timerGame;
 
             DrawInfoPanel();
         }
@@ -92,19 +85,16 @@ namespace Minesweeper.Gui
 
             int minesCount = gameLogic.MinesCount;
             minesCountImage.Image = GetBitmapNumericDisplay(minesCount);
-
-            gameTimer.Interval = 1000;
-            gameTimer.Enabled = false;
-            gameTimer.Tick += new EventHandler(GameTimer_Tick);
         }
-
-
-
-
-
-        private void RedrawMarkedMinesCount(int markMinesCount)//Метод для отрисовки события маркировки
+        
+        private void RedrawMarkedMinesCount(int markMinesCount)
         {
             minesCountImage.Image = GetBitmapNumericDisplay(markMinesCount);
+        }
+
+        private void SetTimeOnDisplay(int currentTime)//TODO
+        {
+            timeImage.Image = GetBitmapNumericDisplay(currentTime);
         }
 
         private Bitmap GetBitmapNumericDisplay(int number)
@@ -167,21 +157,7 @@ namespace Minesweeper.Gui
 
             return resultBitmap;
         }
-
-        private void GameTimer_Tick(object sender, EventArgs e)
-        {
-            if (currentGameTime >= maxTime)
-            {
-                gameTimer.Enabled = false;
-                gameLogic.FinishGame();
-
-                return;
-            }
-
-            currentGameTime++;
-            timeImage.Image = GetBitmapNumericDisplay(currentGameTime);
-        }
-
+                          
         private void SmileButtonPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -204,26 +180,10 @@ namespace Minesweeper.Gui
             gameLogic.RestartCurrentGame();
             RestartDislays();
         }
-
-        private void StartTimer()
-        {
-            gameTimer.Enabled = true;
-        }
-
-        private void StopTimer()
-        {
-            gameTimer.Enabled = false;
-        }
-
-
+     
         private void RestartDislays()
         {
-            gameTimer.Enabled = false;
-            currentGameTime = 0;
-
-            timeImage.Image = GetBitmapNumericDisplay(currentGameTime);
             minesCountImage.Image = GetBitmapNumericDisplay(gameLogic.MinesCount);
-
             smileButtonImage.Image = bitmapsResources.smileButton;
         }
     }
