@@ -123,7 +123,7 @@ namespace Minesweeper.Gui
         {
             rowCount = gameLogic.RowCount;
             columnCount = gameLogic.ColumnCount;
-            minesCount = gameLogic.MinesCount;
+            minesCount = gameLogic.UnfoundMinesCount;
         }
 
         private void DrawNewGameAreaPictureBox()
@@ -342,11 +342,7 @@ namespace Minesweeper.Gui
             forTestMouse.labelCell.Text = rowIndexTest + " : " + columnIndexTest;
             forTestMouse.labelCoordinate.Text = e.Y + " : " + e.X;
 
-
             forTestMouse.label2.Text = currentRowIndex + " : " + currentColumnIndex;
-
-            //int currentMouseRowIndex = GetCellRowOrColumnIndex(e.Y, (sender as PictureBox).Height);
-            //int currentMouseColumnIndex = GetCellRowOrColumnIndex(e.X, (sender as PictureBox).Width);
 
             if (isSituationBothMouseButtonDown)
             {
@@ -421,7 +417,7 @@ namespace Minesweeper.Gui
                     }
                 }
             }
-            else if (isMouseLeftButtonDown)//TODO сделать для нажатия левой кнопкой
+            else if (isMouseLeftButtonDown)
             {
                 if (IsMouseOnGameArea(currentRowIndex, currentColumnIndex))
                 {
@@ -453,10 +449,6 @@ namespace Minesweeper.Gui
                                 {
                                     DrawOnBottomCellAfterMouseDown(currentGameAreaGraphics, cell);
                                 }
-
-                                //isMouseMoveAndChangeCell = true;
-                                //PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, cell);
-                                // isMouseMoveAndChangeCell = false;
 
                                 gameAreaPictureBox.Image = gameAreaImage;
                             }

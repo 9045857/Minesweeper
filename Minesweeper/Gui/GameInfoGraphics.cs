@@ -83,7 +83,7 @@ namespace Minesweeper.Gui
             int startTime = 0;
             timeImage.Image = GetBitmapNumericDisplay(startTime);
 
-            int minesCount = gameLogic.MinesCount;
+            int minesCount = gameLogic.UnfoundMinesCount;
             minesCountImage.Image = GetBitmapNumericDisplay(minesCount);
         }
         
@@ -183,7 +183,7 @@ namespace Minesweeper.Gui
      
         private void RestartDislays()
         {
-            minesCountImage.Image = GetBitmapNumericDisplay(gameLogic.MinesCount);
+            minesCountImage.Image = GetBitmapNumericDisplay(gameLogic.UnfoundMinesCount);
             smileButtonImage.Image = bitmapsResources.smileButton;
         }
     }

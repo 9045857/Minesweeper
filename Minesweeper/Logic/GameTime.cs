@@ -11,51 +11,44 @@ namespace Minesweeper.Logic
         public delegate void TimeChange(int currentTime);
         public event TimeChange OnTimeChange;
 
-        public delegate void TimeIsOver();
-        public event TimeIsOver OnTimeIsOver;
-
         private Thread timeThread;
-        private bool isThrearValid;
+        ManualResetEvent threadValid = new ManualResetEvent(false);
+
+        private readonly int pauseTime = GameLogicConstants.PauseTime;
 
         public int CurrentTime { get; private set; }
 
         public GameTime()
         {
-            CurrentTime = 0;
+          //  CurrentTime = 0;
             timeThread = new Thread(ChangeTime);
+            timeThread.IsBackground = true;
+
+            timeThread.Start();
         }
 
         private void ChangeTime()
         {
-            int pauseTime = GameLogicConstants.PauseTime;
-            int maxGameTime = GameLogicConstants.MaxGameTime;
-
-            while (isThrearValid)
+            while (true)
             {
-                Thread.Sleep(pauseTime);
-                CurrentTime++;
+                threadValid.WaitOne();
 
                 OnTimeChange?.Invoke(CurrentTime);
 
-                if (CurrentTime == maxGameTime)
-                {
-                    isThrearValid = false;
-                    OnTimeIsOver?.Invoke();
-                }
+                Thread.Sleep(pauseTime);
+                CurrentTime++;
             }
         }
 
         public void Start()
         {
             CurrentTime = 0;
-            isThrearValid = true;
-
-            timeThread.Start();
+            threadValid.Set();
         }
 
         public void Stop()
         {
-            isThrearValid = false;
+            threadValid.Reset();
         }
     }
 }
