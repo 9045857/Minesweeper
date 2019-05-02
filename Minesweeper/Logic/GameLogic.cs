@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Minesweeper.Logic
@@ -24,9 +24,15 @@ namespace Minesweeper.Logic
         public delegate void ExplodedHeadler(int remainedMinesCount);
         public event ExplodedHeadler OnExploded;
 
+        public delegate void TimeChange(int currentTime);
+        public event TimeChange OnTimeChange;
+
         public Cell[,] cells;
 
         public GameParameters gameParameters;
+
+        private GameTime time;
+        public int CurrentTime { get; private set; }
 
         public int RowCount { get; private set; }
         public int ColumnCount { get; private set; }
@@ -59,7 +65,7 @@ namespace Minesweeper.Logic
             }
         }
 
-        public GameLogic(int rowCount, int columnCount, int minesCount)
+        public GameLogic(int rowCount, int columnCount, int minesCount)//вероятно лишний транформер. "вопрос" стоит по умолчанию включеным
         {
             gameParameters = new GameParameters(rowCount, columnCount, minesCount, true);
             gameParameters.OnChangeGameParameters += gameParameters_Changed;
@@ -67,12 +73,22 @@ namespace Minesweeper.Logic
             SetNewGameParameters();
         }
 
-        public GameLogic(GameParameters gameParameters)
+        public GameLogic(GameParameters gameParameters)// основной трансформер
         {
             this.gameParameters = gameParameters;
             this.gameParameters.OnChangeGameParameters += gameParameters_Changed;
 
+            time = new GameTime();
+            time.OnTimeChange += ChangeTime;
+            time.OnTimeIsOver += FinishGame;//TODO нужно понять, чем заканчивать? создать грустный конец вышло время? что должно произойти с минами? поток времени
+
             SetNewGameParameters();
+        }
+
+        private void ChangeTime(int currentTime)
+        {
+            CurrentTime = currentTime;
+            OnTimeChange?.Invoke(CurrentTime);
         }
 
         private void SetNewGameParameters()
@@ -129,19 +145,11 @@ namespace Minesweeper.Logic
 
         public void BeginNewGame_(int rowCount, int columnCount, int minesCount, bool isPossibleMarkQuestion)//данный метод вероятно не нужен, так как передапуск идет через новые параметры игры
         {
-            SetBeginConditions();
-
             RowCount = rowCount;
             ColumnCount = columnCount;
             MinesCount = minesCount;
 
-            for (int i = 0; i < rowCount; i++)
-            {
-                for (int j = 0; j < columnCount; j++)
-                {
-                    cells[i, j].SetBeginConditions();
-                }
-            }
+            RestartCurrentGame();
         }
 
         public List<Cell> GetCellsListAvailableForPress(Cell cell)//нажимают двумя клавишами

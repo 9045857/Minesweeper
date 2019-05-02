@@ -13,7 +13,7 @@ namespace Minesweeper.Logic
             Beginner = 0,
             Medium = 1,
             Expert = 2,
-            Customs = 3
+            Custom = 3
         }
 
         public delegate void GameParametersChangedHeadler();
@@ -89,7 +89,7 @@ namespace Minesweeper.Logic
                 }
                 else
                 {
-                    return GameTypeLevel.Customs;
+                    return GameTypeLevel.Custom;
                 }
             }
         }

@@ -13,6 +13,8 @@ namespace Minesweeper.Logic
         private UserResult[] mediums;
         private UserResult[] experts;
 
+        private readonly int usersCount = 10;
+
         private int beginnersCount;
         private int mediumsCount;
         private int expertsCount;
@@ -22,13 +24,12 @@ namespace Minesweeper.Logic
         private const string expertCaption = "experts";
 
         //образец строки в файле рекорда
+        //beginners: "userName" 10
 
         private string highScoreFileName = "highScore.txt";
 
         public HighScore()
         {
-            int usersCount = 10;
-
             beginners = new UserResult[usersCount];
             mediums = new UserResult[usersCount];
             experts = new UserResult[usersCount];
@@ -91,7 +92,7 @@ namespace Minesweeper.Logic
             usersCount++;
         }
 
-        private GameParameters.GameTypeLevel GetGameType(int rowCount,int  columnCount, int minesCount)
+        private GameParameters.GameTypeLevel GetGameType(int rowCount, int columnCount, int minesCount)
         {
             if (rowCount == GameLogicConstants.LowLevelRowCount && columnCount == GameLogicConstants.LowLevelColumnCount && minesCount == GameLogicConstants.LowLevelMinesCount)
             {
@@ -107,112 +108,103 @@ namespace Minesweeper.Logic
             }
             else
             {
-                return GameParameters.GameTypeLevel.Customs;
+                return GameParameters.GameTypeLevel.Custom;
             }
         }
 
-        private bool IsTimeInFirstTenResults(int time, UserResult[] users)
+        private bool IsTimeInFirstTenResults(string userName, int time, UserResult[] users, int usersCount)
         {
-            int minTime;
-            int maxTime;
+            if (usersCount < this.usersCount)
+            {
+                if (time < users[usersCount - 1].Time)
+                {
+                    InsertUserResultInUsers(userName, time, users, usersCount);
+                }
+                else
+                {
+                    users[usersCount] = new UserResult(userName, time);
+                }
 
+                usersCount++;
+                return true;
+            }
+            else
+            {
+                if (time < users[usersCount - 1].Time)
+                {
+                    InsertUserResultInUsers(userName, time, users, usersCount);
+                    return true;
+                }
+            }
 
-            return true;//
-   
-
+            return false;
         }
 
-        private bool IsTimeInFirstTenResults(int time,int rowCount,int columnCount,int minesCount)
+        private static void InsertUserResultInUsers(string userName, int time, UserResult[] users, int usersCount)
+        {
+            int i = 0;
+            while ((usersCount - 1 - i > 0) && (time < users[usersCount - 1 - i].Time))
+            {
+                users[usersCount - i] = users[usersCount - i - 1];
+                i++;
+            }
+
+            users[usersCount - i] = new UserResult(userName, time);
+        }
+
+        private bool IsTimeInFirstTenResults(string userName, int time, int rowCount, int columnCount, int minesCount)
         {
             GameParameters.GameTypeLevel gameType = GetGameType(rowCount, columnCount, minesCount);
 
             switch (gameType)
             {
                 case GameParameters.GameTypeLevel.Beginner:
-                    return IsTimeInFirstTenResults(time, beginners);
+                    return IsTimeInFirstTenResults(userName, time, beginners, beginnersCount);
 
                 case GameParameters.GameTypeLevel.Medium:
-                    return IsTimeInFirstTenResults(time, mediums);
+                    return IsTimeInFirstTenResults(userName, time, mediums, mediumsCount);
 
                 case GameParameters.GameTypeLevel.Expert:
-                    return IsTimeInFirstTenResults(time, experts);
+                    return IsTimeInFirstTenResults(userName, time, experts, expertsCount);
 
                 default:
                     return false;
             }
         }
 
-        private void AddUserResultInHighScore(int time,string userName, int rowCount, int columnCount, int minesCount)
+        private void WriteHighScoreInFile()
         {
-            if ()
+            //пример
+            //beginners: "userName" 10
+
+            using (StreamWriter writer = new StreamWriter(highScoreFileName, false, Encoding.Default))
             {
-                using (StreamWriter writer = new StreamWriter(highScoreFileName, false, Encoding.Default))
+                foreach (UserResult user in beginners)
                 {
-                    foreach (UserResult user in beginners)
-                    {
-                        string line =  ;
-
-                    }
-
-                    foreach (UserResult user in mediums)
-                    {
-
-
-                    }
-
-                    foreach (UserResult user in experts)
-                    {
-
-
-                    }
+                    string line = string.Format("beginners: \"{0}\" {1}", user.Name, user.Time);
+                    writer.WriteLine(line);
                 }
-            } 
+
+                foreach (UserResult user in mediums)
+                {
+                    string line = string.Format("mediums: \"{0}\" {1}", user.Name, user.Time);
+                    writer.WriteLine(line);
+                }
+
+                foreach (UserResult user in experts)
+                {
+                    string line = string.Format("experts: \"{0}\" {1}", user.Name, user.Time);
+                    writer.WriteLine(line);
+                }
+            }
         }
-
-
-
-
-
-
-
-            public void AddDataInFirstTenResults(int time,string userName , int rowCount, int columnCount, int minesCount)
+        
+        public void AddResultIfItHighScore(string userName, int time, int rowCount, int columnCount, int minesCount)
         {
 
 
 
         }
-
-        //public bool IsHighScoreGameResult(GameParameters.GameTypeLevel gameType, /*string userName, */int time)
-        //{
-        //    switch (gameType)
-        //    {
-        //        case GameParameters.GameTypeLevel.Beginner:
-        //            return IsTimeInFirstTenResults(time, beginers)
-
-
-        //        case GameParameters.GameTypeLevel.Medium:
-
-        //            return;
-
-
-        //        case GameParameters.GameTypeLevel.Expert:
-
-
-        //            return;
-
-        //        default:
-        //            return false;
-        //    }
-        //}
-
-
-
-
-
-
-
-
-
 
 
 
