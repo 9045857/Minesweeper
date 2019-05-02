@@ -13,7 +13,7 @@ namespace Minesweeper.Gui
     {
         public delegate void GetGamePanelWidth(int width);
         public event GetGamePanelWidth OnSetGamePanelWidth;
-
+        
         public delegate void CheckCells();
         public event CheckCells OnMouseDownCells;
         public event CheckCells OnMouseUpCells;
@@ -160,7 +160,7 @@ namespace Minesweeper.Gui
             }
         }
 
-        private void GameAreaPictureBox_MouseUp(object sender, MouseEventArgs e)//TODO сделать что бы нажималось только, если нужная кнопка тру
+        private void GameAreaPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             if (!gameLogic.IsGameContinue)
             {
@@ -209,11 +209,13 @@ namespace Minesweeper.Gui
                         isMouseLeftButtonDown = false;
 
                         gameAreaPictureBox.Image = gameAreaImage;
+
                     }
                 }
                 else
                 {
                     PressUpAfterMouseGoOutGameArea();
+                    OnMouseUpCells?.Invoke();
                 }
             }
             else if (e.Button == MouseButtons.Right)
@@ -231,6 +233,8 @@ namespace Minesweeper.Gui
 
                             gameAreaPictureBox.Image = gameAreaImage;
 
+                            OnMouseUpCells?.Invoke();
+
                             return;
                         }
                         else if (isSituationBothMouseButtonDown)
@@ -238,6 +242,8 @@ namespace Minesweeper.Gui
                             isSituationBothMouseButtonDown = false;
                             isMouseLeftButtonDown = false;
                             isMouseRightButtonDown = false;
+
+                            OnMouseUpCells?.Invoke();
 
                             return;
                         }
@@ -250,6 +256,7 @@ namespace Minesweeper.Gui
                 else
                 {
                     PressUpAfterMouseGoOutGameArea();
+                    OnMouseUpCells?.Invoke();
                 }
             }
         }
@@ -520,6 +527,7 @@ namespace Minesweeper.Gui
 
                         Cell cell = gameLogic.cells[rowIndex, columnIndex];
 
+                      
                         if (IsMouseLeftRightButtonDownThenPressAreaNearCell(currentGameAreaGraphics, cell))
                         {
                             OnMouseDownCells?.Invoke();
@@ -558,12 +566,14 @@ namespace Minesweeper.Gui
 
                         if (IsMouseLeftRightButtonDownThenPressAreaNearCell(currentGameAreaGraphics, cell))
                         {
+                            OnMouseDownCells?.Invoke();
                             isSituationBothMouseButtonDown = true;
                         }
                         else if (!cell.IsPressed)
                         {
                             if (isMouseLeftButtonDown)
                             {
+                                OnMouseDownCells?.Invoke();
                                 PressCellsNearRightLeftMouseButtonsDown(currentGameAreaGraphics, cell);
                             }
                             else
