@@ -184,13 +184,14 @@
             // toolStripMenuItemHighScore
             // 
             this.toolStripMenuItemHighScore.Name = "toolStripMenuItemHighScore";
-            this.toolStripMenuItemHighScore.Size = new System.Drawing.Size(214, 26);
+            this.toolStripMenuItemHighScore.Size = new System.Drawing.Size(216, 26);
             this.toolStripMenuItemHighScore.Text = "Таблица рекордов";
+            this.toolStripMenuItemHighScore.Click += new System.EventHandler(this.toolStripMenuItemHighScore_Click);
             // 
             // toolStripMenuItemAbout
             // 
             this.toolStripMenuItemAbout.Name = "toolStripMenuItemAbout";
-            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(214, 26);
+            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(216, 26);
             this.toolStripMenuItemAbout.Text = "Об игре";
             this.toolStripMenuItemAbout.Click += new System.EventHandler(this.toolStripMenuItemAbout_Click);
             // 

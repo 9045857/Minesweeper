@@ -13,7 +13,7 @@ namespace Minesweeper.Gui
     {
         public delegate void GetGamePanelWidth(int width);
         public event GetGamePanelWidth OnSetGamePanelWidth;
-        
+
         public delegate void CheckCells();
         public event CheckCells OnMouseDownCells;
         public event CheckCells OnMouseUpCells;
@@ -37,6 +37,8 @@ namespace Minesweeper.Gui
         private bool isMouseLeftButtonDown;
         private bool isMouseRightButtonDown;
         private bool isSituationBothMouseButtonDown;
+
+        private bool isMouseMoveAndChangeCell;
 
         private bool IsMouseLeftButtonDown
         {
@@ -115,8 +117,6 @@ namespace Minesweeper.Gui
             cellSideLength = bitmapsResources.cellStart.Height;
 
             DrawStartGamePanel();
-
-            forTestMouse.Show();
         }
 
         private void SetRowColumnMinesCount()
@@ -337,19 +337,10 @@ namespace Minesweeper.Gui
             return currentColumnIndex != newColumnIndex || newRowIndex != currentRowIndex;
         }
 
-
-        private int changesCellCount = 0;
-        private bool isMouseMoveAndChangeCell;
-
         private void GameAreaPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             int rowIndexTest = GetCellRowOrColumnIndex(e.Y, (sender as PictureBox).Height);
             int columnIndexTest = GetCellRowOrColumnIndex(e.X, (sender as PictureBox).Width);
-
-            forTestMouse.labelCell.Text = rowIndexTest + " : " + columnIndexTest;
-            forTestMouse.labelCoordinate.Text = e.Y + " : " + e.X;
-
-            forTestMouse.label2.Text = currentRowIndex + " : " + currentColumnIndex;
 
             if (isSituationBothMouseButtonDown)
             {
@@ -360,9 +351,6 @@ namespace Minesweeper.Gui
 
                     if (IsChangedCell(rowIndex, columnIndex))
                     {
-                        changesCellCount++;
-                        forTestMouse.label4.Text = changesCellCount.ToString();
-
                         if (IsMouseOnGameArea(rowIndex, columnIndex))
                         {
                             using (Graphics currentGameAreaGraphics = Graphics.FromImage(gameAreaImage))
@@ -527,7 +515,7 @@ namespace Minesweeper.Gui
 
                         Cell cell = gameLogic.cells[rowIndex, columnIndex];
 
-                      
+
                         if (IsMouseLeftRightButtonDownThenPressAreaNearCell(currentGameAreaGraphics, cell))
                         {
                             OnMouseDownCells?.Invoke();
@@ -834,10 +822,5 @@ namespace Minesweeper.Gui
             gameAreaPictureBox.Image = currentGameAreaBitmap;
             gameAreaImage = currentGameAreaBitmap;
         }
-
-
-        private ForTestMouseMove forTestMouse = new ForTestMouseMove();
-
-
     }
 }

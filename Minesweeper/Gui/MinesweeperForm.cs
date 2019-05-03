@@ -14,8 +14,10 @@ namespace Minesweeper.Gui
 {
     public partial class MainForm : Form
     {
-        private BitmapsResources bitmapsResources = new BitmapsResources();
         private FormNewGameOptions formNewGameOptions;
+        private HighScoreDialog highScoreDialog;
+
+        private BitmapsResources bitmapsResources = new BitmapsResources();
         private GameGraphics mineswepperGame;
         private GameParameters gameParameters;
 
@@ -29,6 +31,8 @@ namespace Minesweeper.Gui
             formNewGameOptions = new FormNewGameOptions(bitmapsResources);
             formNewGameOptions.OnGetNewGameParameters += SetCellTopColor;
 
+            highScoreDialog = new HighScoreDialog();
+
             LoadNewGame();
         }
 
@@ -40,7 +44,7 @@ namespace Minesweeper.Gui
         private void LoadNewGame()
         {
             gameParameters = formNewGameOptions.GetGameParameters();
-            mineswepperGame = new GameGraphics(gameParameters, pictureBoxGameArea, bitmapsResources, pictureBoxSmileButton, pictureBoxMinesCount, pictureBoxTime);
+            mineswepperGame = new GameGraphics(gameParameters, pictureBoxGameArea, bitmapsResources, pictureBoxSmileButton, pictureBoxMinesCount, pictureBoxTime, highScoreDialog);
         }
 
         private void toolStripMenuItemNew_Click(object sender, EventArgs e)
@@ -50,12 +54,12 @@ namespace Minesweeper.Gui
 
         private void toolStripMenuItemAbout_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(
-                GameOptionsConstants.GetAboutText(),
-                GameOptionsConstants.CaptionAboutMessage,
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-                );
+            MessageBox.Show(GameOptionsConstants.GetAboutText(), GameOptionsConstants.CaptionAboutMessage, MessageBoxButtons.OK);
+        }
+
+        private void toolStripMenuItemHighScore_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(mineswepperGame.GetHighScore(), GameOptionsConstants.CaptionHighScore, MessageBoxButtons.OK);
         }
     }
 }

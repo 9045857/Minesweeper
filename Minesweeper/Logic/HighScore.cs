@@ -47,13 +47,13 @@ namespace Minesweeper.Logic
             }
         }
 
-        private bool IsTimeInFirstTenResults(int time, UserResult[] users, int usersCount)
+        private static bool IsTimeInFirstTenResults(int time, UserResult[] users, int usersCount,int maxUsersCount)
         {
-            if (usersCount < this.usersCount)
+            if (usersCount < maxUsersCount)
             {
                 return true;
             }
-            else if (time < users[this.usersCount - 1].Time)
+            else if (time < users[maxUsersCount - 1].Time)
             {
                 return true;
             }
@@ -80,13 +80,13 @@ namespace Minesweeper.Logic
             switch (gameType)
             {
                 case GameParameters.GameTypeLevel.Beginner:
-                    return IsTimeInFirstTenResults(time, beginners, beginnersCount);
+                    return IsTimeInFirstTenResults(time, beginners, beginnersCount,usersCount);
 
                 case GameParameters.GameTypeLevel.Medium:
-                    return IsTimeInFirstTenResults(time, mediums, mediumsCount);
+                    return IsTimeInFirstTenResults(time, mediums, mediumsCount, usersCount);
 
                 case GameParameters.GameTypeLevel.Expert:
-                    return IsTimeInFirstTenResults(time, experts, expertsCount);
+                    return IsTimeInFirstTenResults(time, experts, expertsCount, usersCount);
 
                 default:
                     return false;
@@ -100,15 +100,15 @@ namespace Minesweeper.Logic
             switch (gameType)
             {
                 case GameParameters.GameTypeLevel.Beginner:
-                    InsertUserResultInFirstTenResults(userName, time, beginners, beginnersCount);
+                    InsertUserResultInFirstTenResults(userName, time, beginners, ref beginnersCount,usersCount);
                     break;
 
                 case GameParameters.GameTypeLevel.Medium:
-                    InsertUserResultInFirstTenResults(userName, time, mediums, mediumsCount);
+                    InsertUserResultInFirstTenResults(userName, time, mediums, ref mediumsCount, usersCount);
                     break;
 
                 case GameParameters.GameTypeLevel.Expert:
-                    InsertUserResultInFirstTenResults(userName, time, experts, expertsCount);
+                    InsertUserResultInFirstTenResults(userName, time, experts, ref expertsCount, usersCount);
                     break;
 
                 default:
@@ -116,9 +116,9 @@ namespace Minesweeper.Logic
             }
         }
 
-        private void InsertUserResultInFirstTenResults(string userName, int time, UserResult[] users, int usersCount)
+        private static void InsertUserResultInFirstTenResults(string userName, int time, UserResult[] users, ref int usersCount,int maxUserCount)
         {
-            if (usersCount < this.usersCount)
+            if (usersCount < maxUserCount)
             {
                 if (usersCount != 0 && (time < users[usersCount - 1].Time))
                 {
@@ -140,7 +140,9 @@ namespace Minesweeper.Logic
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
-            builder.Append(string.Format("{0} {1} {2}", "Простой", "Средний", "Сложный"));
+
+            builder.Append(string.Format("{0,5}{1,-25}{2,5}{3,-25}{4,5}{5,-25}"," ","Простой"," ","Средний"," ","Сложный"));
+            builder.AppendLine();
             builder.AppendLine();
 
             for (int i = 0; i < usersCount; i++)
@@ -152,23 +154,25 @@ namespace Minesweeper.Logic
                 string totalLine = beginer + medium + expert;
 
                 builder.Append(totalLine);
+                builder.AppendLine();
             }
-
 
             return builder.ToString();
         }
 
-        private string GetHighScoreLinePart(int i, UserResult[] users, int usersCount)
+        private static string GetHighScoreLinePart(int index, UserResult[] users, int usersCount)
         {
             string user;
 
-            if (usersCount > i)
+            if (usersCount > index)
             {
-                user = string.Format("{0} {1}", users[i].Name, users[i].Time);
+               // user = string.Format("{0,-7}{1,-4}", users[i].Name, users[i].Time);
+                user = string.Format("{0,-5}{1,-13}{2,-7}{3,5}", index + 1, users[index].Name, users[index].Time, " ");
             }
             else
             {
-                user = string.Format("{0} {1}", "-", "-");
+                user = string.Format("{0,-5}{1,-13}{2,-7}{3,5}", index+1,"-", "-"," ");
+               // user = string.Format("{0}\t{1}\t{2,-15}", i + 1, "-", "-");
             }
 
             return user;

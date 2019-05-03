@@ -85,6 +85,8 @@ namespace Minesweeper.Logic
             DeserialazeHighScore();
 
             SetNewGameParameters();
+
+          //  MessageBox.Show(highScore.ToString());
         }
 
         private void ChangeTime(int currentTime)

@@ -47,14 +47,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Gui\BitmapsResources.cs" />
-    <Compile Include="Gui\forTesrMouseMove.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Gui\forTesrMouseMove.Designer.cs">
-      <DependentUpon>forTesrMouseMove.cs</DependentUpon>
-    </Compile>
     <Compile Include="Gui\GameAreaGraphics.cs" />
     <Compile Include="Gui\GameInfoGraphics.cs" />
+    <Compile Include="Gui\HighScoreDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gui\HighScoreDialog.Designer.cs">
+      <DependentUpon>HighScoreDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Gui\MinesweeperForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,8 +78,8 @@
     <Compile Include="Logic\UserResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Gui\forTesrMouseMove.resx">
-      <DependentUpon>forTesrMouseMove.cs</DependentUpon>
+    <EmbeddedResource Include="Gui\HighScoreDialog.resx">
+      <DependentUpon>HighScoreDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\MinesweeperForm.resx">
       <DependentUpon>MinesweeperForm.cs</DependentUpon>

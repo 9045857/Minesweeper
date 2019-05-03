@@ -49,6 +49,7 @@ namespace Minesweeper.Gui
         }
 
         public const string CaptionAboutMessage = "Информация об игре \"Сапер\"";
+        public const string CaptionHighScore = "Таблица рекордов";
 
         public const string WarningCorrectlySetRowCount = "Некорректно задана высота.";
         public const string WarningCorrectlySetColumnCount = "Некорректно задана ширина.";
@@ -90,5 +91,10 @@ namespace Minesweeper.Gui
 
             return builder.ToString();
         }
+
+        public static string HighScoreCongratulation = string.Format("Отличный результат!{0}Добавим его в таблицу рекордов?", Environment.NewLine);
+
+        public const int UserNameMaxLengh = 6;
+
     }
 }
