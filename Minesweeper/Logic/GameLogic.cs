@@ -4,11 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace Minesweeper.Logic
 {
     class GameLogic
     {
+        public delegate void WinWithHighScore(int timeHighScore);
+        public event WinWithHighScore OnWinWithHighScore;
+
         public delegate void BeginNewGameHeadler();
         public event BeginNewGameHeadler OnBeginNewGame;
 
@@ -37,7 +43,7 @@ namespace Minesweeper.Logic
 
         public int RowCount { get; private set; }
         public int ColumnCount { get; private set; }
-        public int UnfoundMinesCount { get; private set; }
+        public int MinesCount { get; private set; }
         private bool isPossibleMarkQuestion;
 
         public int MarkedMinesCount { get; private set; }
@@ -58,6 +64,8 @@ namespace Minesweeper.Logic
         public bool isExploded;
         private bool isFinishAndWinGame;
 
+        private HighScore highScore;
+
         public bool IsGameContinue
         {
             get
@@ -66,21 +74,15 @@ namespace Minesweeper.Logic
             }
         }
 
-        //public GameLogic(int rowCount, int columnCount, int minesCount)//вероятно лишний транформер. "вопрос" стоит по умолчанию включеным
-        //{
-        //    gameParameters = new GameParameters(rowCount, columnCount, minesCount, true);
-        //    gameParameters.OnChangeGameParameters += gameParameters_Changed;
-
-        //    SetNewGameParameters();
-        //}
-
-        public GameLogic(GameParameters gameParameters)// основной трансформер
+        public GameLogic(GameParameters gameParameters)
         {
             this.gameParameters = gameParameters;
             this.gameParameters.OnChangeGameParameters += gameParameters_Changed;
 
             time = new GameTime();
             time.OnTimeChange += ChangeTime;
+
+            DeserialazeHighScore();
 
             SetNewGameParameters();
         }
@@ -95,7 +97,7 @@ namespace Minesweeper.Logic
         {
             RowCount = gameParameters.RowCount;
             ColumnCount = gameParameters.ColumnCount;
-            UnfoundMinesCount = gameParameters.MinesCount;
+            MinesCount = gameParameters.MinesCount;
             isPossibleMarkQuestion = gameParameters.IsPossibleMarkQuestion;
 
             if (!Equals(cells, null) && (cells.GetLength(0) == RowCount && cells.GetLength(1) == ColumnCount))
@@ -148,15 +150,6 @@ namespace Minesweeper.Logic
             OnBeginNewGame?.Invoke();
         }
 
-        //public void BeginNewGame_(int rowCount, int columnCount, int minesCount, bool isPossibleMarkQuestion)//данный метод вероятно не нужен, так как передапуск идет через новые параметры игры
-        //{
-        //    RowCount = rowCount;
-        //    ColumnCount = columnCount;
-        //    UnfoundMinesCount = minesCount;
-
-        //    RestartCurrentGame();
-        //}
-
         public List<Cell> GetCellsListAvailableForPress(Cell cell)//нажимают двумя клавишами
         {
             List<Cell> cellsList = new List<Cell>();
@@ -182,6 +175,56 @@ namespace Minesweeper.Logic
             isFinishAndWinGame = true;
             time.Stop();
             OnFinishAndWinGame?.Invoke();
+
+            CheckResultOnHighScore();
+        }
+
+        private void CheckResultOnHighScore()
+        {
+            if (highScore.IsHighScoreGameResult(CurrentTime, RowCount, ColumnCount, MinesCount))
+            {
+                OnWinWithHighScore?.Invoke(CurrentTime);
+            }
+        }
+
+        private void DeserialazeHighScore()
+        {
+            string fileName = GameLogicConstants.HighScoreFileName;
+
+            if (File.Exists(fileName))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                using (FileStream stream = new FileStream(fileName, FileMode.Open))
+                {
+                    highScore = (HighScore)formatter.Deserialize(stream);
+                }
+            }
+            else
+            {
+                highScore = new HighScore();
+            }
+        }
+
+        private void SerialazeHighScore()
+        {
+            string fileName = GameLogicConstants.HighScoreFileName;
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            using (FileStream stream = new FileStream(fileName, FileMode.Create))
+            {
+                formatter.Serialize(stream, highScore);
+            }
+        }
+
+        public void AddHighScore(string userName, int time, int rowCount, int columnCount, int minesCount)
+        {
+            highScore.AddHighScore(userName, time, rowCount, columnCount, minesCount);
+            SerialazeHighScore();
+        }
+
+        public string GetHighScore()
+        {
+            return highScore.ToString();
         }
 
         private Cell[,] CreateCells(int rowCount, int columnCount)
@@ -255,7 +298,7 @@ namespace Minesweeper.Logic
 
         private void EventOnMarkCell(int markedCellsCount)
         {
-            int remainMarkMinesCount = UnfoundMinesCount - markedCellsCount;
+            int remainMarkMinesCount = MinesCount - markedCellsCount;
             OnMark?.Invoke(remainMarkMinesCount);
         }
 
@@ -311,7 +354,7 @@ namespace Minesweeper.Logic
                         isExploded = true;
 
                         time.Stop();
-                        OnExploded?.Invoke(UnfoundMinesCount - FoundMinesCount);
+                        OnExploded?.Invoke(MinesCount - FoundMinesCount);
                     }
                     else
                     {
@@ -347,7 +390,7 @@ namespace Minesweeper.Logic
         {
             Random random = new Random();
 
-            for (int i = 0; i < UnfoundMinesCount; i++)
+            for (int i = 0; i < MinesCount; i++)
             {
                 int rowIndex = random.Next(RowCount);
                 int colIndex = random.Next(ColumnCount);
@@ -470,7 +513,7 @@ namespace Minesweeper.Logic
 
             int maxCellsCountFreeZoneNearStartCell = 8;
             int startCellCount = 1;
-            int freeCellsCount = RowCount * ColumnCount - UnfoundMinesCount;
+            int freeCellsCount = RowCount * ColumnCount - MinesCount;
             int cellsCountFreeZoneNearStartCell = freeCellsCount - startCellCount;
 
             if (cellsCountFreeZoneNearStartCell >= maxCellsCountFreeZoneNearStartCell)
@@ -568,7 +611,7 @@ namespace Minesweeper.Logic
             int cellsCount = RowCount * ColumnCount;
             int unpressedCellsCount = cellsCount - pressedCellsCount;
 
-            if (UnfoundMinesCount == unpressedCellsCount)
+            if (MinesCount == unpressedCellsCount)
             {
                 for (int i = 0; i < RowCount; i++)
                 {
@@ -583,7 +626,7 @@ namespace Minesweeper.Logic
                     }
                 }
 
-                EventOnMarkCell(UnfoundMinesCount);
+                EventOnMarkCell(MinesCount);
 
                 FinishAndWinGame();
             }

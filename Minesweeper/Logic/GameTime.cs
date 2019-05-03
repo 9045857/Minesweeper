@@ -20,7 +20,6 @@ namespace Minesweeper.Logic
 
         public GameTime()
         {
-          //  CurrentTime = 0;
             timeThread = new Thread(ChangeTime);
             timeThread.IsBackground = true;
 

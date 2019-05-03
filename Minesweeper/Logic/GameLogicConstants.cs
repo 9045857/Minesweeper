@@ -20,7 +20,9 @@ namespace Minesweeper.Logic
         public const int HighLevelColumnCount = 30;
         public const int HighLevelMinesCount = 99;
 
-        public const int MaxGameTime = 999;
+     //   public const int MaxGameTime = 999;
         public const int PauseTime = 1000;
+
+        public const string HighScoreFileName = "highScore";
     }
 }

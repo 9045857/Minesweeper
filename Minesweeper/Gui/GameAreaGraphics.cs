@@ -123,7 +123,7 @@ namespace Minesweeper.Gui
         {
             rowCount = gameLogic.RowCount;
             columnCount = gameLogic.ColumnCount;
-            minesCount = gameLogic.UnfoundMinesCount;
+            minesCount = gameLogic.MinesCount;
         }
 
         private void DrawNewGameAreaPictureBox()

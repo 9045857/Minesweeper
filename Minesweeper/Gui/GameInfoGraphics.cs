@@ -83,7 +83,7 @@ namespace Minesweeper.Gui
             int startTime = 0;
             timeImage.Image = GetBitmapNumericDisplay(startTime);
 
-            int minesCount = gameLogic.UnfoundMinesCount;
+            int minesCount = gameLogic.MinesCount;
             minesCountImage.Image = GetBitmapNumericDisplay(minesCount);
         }
         
@@ -92,7 +92,7 @@ namespace Minesweeper.Gui
             minesCountImage.Image = GetBitmapNumericDisplay(markMinesCount);
         }
 
-        private void SetTimeOnDisplay(int currentTime)//TODO
+        private void SetTimeOnDisplay(int currentTime)
         {
             timeImage.Image = GetBitmapNumericDisplay(currentTime);
         }
@@ -111,7 +111,7 @@ namespace Minesweeper.Gui
             int minNumber = -99;
             int maxNumber = 999;
 
-            if (number < minNumber || number > maxNumber)
+            if (number < minNumber )
             {
                 Bitmap minusBitmap = bitmapsResources.clockMinus;
 
@@ -123,6 +123,11 @@ namespace Minesweeper.Gui
                 }
 
                 return resultBitmap;
+            }
+
+            if ( number > maxNumber)
+            {
+                number = maxNumber;
             }
 
             int hundred = 100;
@@ -183,7 +188,7 @@ namespace Minesweeper.Gui
      
         private void RestartDislays()
         {
-            minesCountImage.Image = GetBitmapNumericDisplay(gameLogic.UnfoundMinesCount);
+            minesCountImage.Image = GetBitmapNumericDisplay(gameLogic.MinesCount);
             smileButtonImage.Image = bitmapsResources.smileButton;
         }
     }

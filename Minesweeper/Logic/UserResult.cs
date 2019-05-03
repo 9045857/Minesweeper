@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Minesweeper.Logic
 {
+    [Serializable]
     class UserResult
     {
         public string Name { get; set; }

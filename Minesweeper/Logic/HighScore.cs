@@ -7,89 +7,24 @@ using System.IO;
 
 namespace Minesweeper.Logic
 {
+    [Serializable]
     class HighScore
     {
         private UserResult[] beginners;
         private UserResult[] mediums;
         private UserResult[] experts;
 
-        private readonly int usersCount = 10;
-
         private int beginnersCount;
         private int mediumsCount;
         private int expertsCount;
-
-        private const string beginnerCaption = "beginners";
-        private const string mediumCaption = "mediums";
-        private const string expertCaption = "experts";
-
-        //образец строки в файле рекорда
-        //beginners: "userName" 10
-
-        private string highScoreFileName = "highScore.txt";
+               
+        private readonly int usersCount = 10;
 
         public HighScore()
         {
             beginners = new UserResult[usersCount];
             mediums = new UserResult[usersCount];
             experts = new UserResult[usersCount];
-
-            LoadDataFromFile();
-        }
-
-        private void LoadDataFromFile()
-        {
-            using (StreamReader reader = new StreamReader(highScoreFileName, Encoding.Default))
-            {
-                beginnersCount = 0;
-                mediumsCount = 0;
-                expertsCount = 0;
-
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    if (line.Contains(beginnerCaption))
-                    {
-                        //beginners: "userName" 10
-
-                        FillUserResult(line, beginners, beginnersCount);
-                    }
-                    else if (line.Contains(mediumCaption))
-                    {
-                        //mediums: "userName" 10
-
-                        FillUserResult(line, mediums, mediumsCount);
-                        // mediumsCount++;
-                    }
-                    else if (line.Contains(expertCaption))
-                    {
-                        //experts: "userName" 10
-
-                        FillUserResult(line, experts, expertsCount);
-                        // expertsCount++;
-                    }
-                }
-            }
-        }
-
-        private void FillUserResult(string line, UserResult[] userResults, int usersCount)
-        {
-            int firstQuotesIndex = line.IndexOf('"');
-            int lastQuotesIndex = line.LastIndexOf('"');
-
-            int lenght = lastQuotesIndex - firstQuotesIndex;
-            int nextSymbol = 1;
-
-            string userName = line.Substring(firstQuotesIndex + nextSymbol, lenght);
-            userResults[usersCount].Name = userName;
-
-            int firstTimeIndex = line.LastIndexOf('"') + nextSymbol + nextSymbol;
-            lenght = line.Length - firstTimeIndex - nextSymbol - nextSymbol;
-
-            string time = line.Substring(firstQuotesIndex, lenght);
-            userResults[usersCount].Time = Convert.ToInt16(time);
-
-            usersCount++;
         }
 
         private GameParameters.GameTypeLevel GetGameType(int rowCount, int columnCount, int minesCount)
@@ -112,29 +47,15 @@ namespace Minesweeper.Logic
             }
         }
 
-        private bool IsTimeInFirstTenResults(string userName, int time, UserResult[] users, int usersCount)
+        private bool IsTimeInFirstTenResults(int time, UserResult[] users, int usersCount)
         {
             if (usersCount < this.usersCount)
             {
-                if (time < users[usersCount - 1].Time)
-                {
-                    InsertUserResultInUsers(userName, time, users, usersCount);
-                }
-                else
-                {
-                    users[usersCount] = new UserResult(userName, time);
-                }
-
-                usersCount++;
                 return true;
             }
-            else
+            else if (time < users[this.usersCount - 1].Time)
             {
-                if (time < users[usersCount - 1].Time)
-                {
-                    InsertUserResultInUsers(userName, time, users, usersCount);
-                    return true;
-                }
+                return true;
             }
 
             return false;
@@ -152,92 +73,105 @@ namespace Minesweeper.Logic
             users[usersCount - i] = new UserResult(userName, time);
         }
 
-        private bool IsTimeInFirstTenResults(string userName, int time, int rowCount, int columnCount, int minesCount)
+        public bool IsHighScoreGameResult(int time, int rowCount, int columnCount, int minesCount)
         {
             GameParameters.GameTypeLevel gameType = GetGameType(rowCount, columnCount, minesCount);
 
             switch (gameType)
             {
                 case GameParameters.GameTypeLevel.Beginner:
-                    return IsTimeInFirstTenResults(userName, time, beginners, beginnersCount);
+                    return IsTimeInFirstTenResults(time, beginners, beginnersCount);
 
                 case GameParameters.GameTypeLevel.Medium:
-                    return IsTimeInFirstTenResults(userName, time, mediums, mediumsCount);
+                    return IsTimeInFirstTenResults(time, mediums, mediumsCount);
 
                 case GameParameters.GameTypeLevel.Expert:
-                    return IsTimeInFirstTenResults(userName, time, experts, expertsCount);
+                    return IsTimeInFirstTenResults(time, experts, expertsCount);
 
                 default:
                     return false;
             }
         }
 
-        private void WriteHighScoreInFile()
+        public void AddHighScore(string userName, int time, int rowCount, int columnCount, int minesCount)
         {
-            //пример
-            //beginners: "userName" 10
+            GameParameters.GameTypeLevel gameType = GetGameType(rowCount, columnCount, minesCount);
 
-            using (StreamWriter writer = new StreamWriter(highScoreFileName, false, Encoding.Default))
+            switch (gameType)
             {
-                foreach (UserResult user in beginners)
-                {
-                    string line = string.Format("beginners: \"{0}\" {1}", user.Name, user.Time);
-                    writer.WriteLine(line);
-                }
+                case GameParameters.GameTypeLevel.Beginner:
+                    InsertUserResultInFirstTenResults(userName, time, beginners, beginnersCount);
+                    break;
 
-                foreach (UserResult user in mediums)
-                {
-                    string line = string.Format("mediums: \"{0}\" {1}", user.Name, user.Time);
-                    writer.WriteLine(line);
-                }
+                case GameParameters.GameTypeLevel.Medium:
+                    InsertUserResultInFirstTenResults(userName, time, mediums, mediumsCount);
+                    break;
 
-                foreach (UserResult user in experts)
-                {
-                    string line = string.Format("experts: \"{0}\" {1}", user.Name, user.Time);
-                    writer.WriteLine(line);
-                }
+                case GameParameters.GameTypeLevel.Expert:
+                    InsertUserResultInFirstTenResults(userName, time, experts, expertsCount);
+                    break;
+
+                default:
+                    break;
             }
         }
-        
-        public void AddResultIfItHighScore(string userName, int time, int rowCount, int columnCount, int minesCount)
+
+        private void InsertUserResultInFirstTenResults(string userName, int time, UserResult[] users, int usersCount)
         {
+            if (usersCount < this.usersCount)
+            {
+                if (usersCount != 0 && (time < users[usersCount - 1].Time))
+                {
+                    InsertUserResultInUsers(userName, time, users, usersCount);
+                }
+                else
+                {
+                    users[usersCount] = new UserResult(userName, time);
+                }
 
-
-
+                usersCount++;
+            }
+            else if (time < users[usersCount - 1].Time)
+            {
+                InsertUserResultInUsers(userName, time, users, usersCount);
+            }
         }
 
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append(string.Format("{0} {1} {2}", "Простой", "Средний", "Сложный"));
+            builder.AppendLine();
+
+            for (int i = 0; i < usersCount; i++)
+            {
+                string beginer = GetHighScoreLinePart(i, beginners, beginnersCount);
+                string medium = GetHighScoreLinePart(i, mediums, mediumsCount);
+                string expert = GetHighScoreLinePart(i, experts, expertsCount);
+
+                string totalLine = beginer + medium + expert;
+
+                builder.Append(totalLine);
+            }
 
 
+            return builder.ToString();
+        }
 
+        private string GetHighScoreLinePart(int i, UserResult[] users, int usersCount)
+        {
+            string user;
 
-        //public void AddBeginer(string name, int time)
-        //{
-        //    PersonalResult personalResult = CreateAndFillNewPersonalResult(name, time);
-        //    beginers.Add(personalResult);
-        //}
+            if (usersCount > i)
+            {
+                user = string.Format("{0} {1}", users[i].Name, users[i].Time);
+            }
+            else
+            {
+                user = string.Format("{0} {1}", "-", "-");
+            }
 
-        //public void AddMedium(string name, int time)
-        //{
-        //    PersonalResult personalResult = CreateAndFillNewPersonalResult(name, time);
-        //    mediums.Add(personalResult);
-        //}
-
-        //public void AddExpert(string name, int time)
-        //{
-        //    PersonalResult personalResult = CreateAndFillNewPersonalResult(name, time);
-        //    experts.Add(personalResult);
-        //}
-
-        //private static PersonalResult CreateAndFillNewPersonalResult(string name, int time)
-        //{
-        //    PersonalResult personalResult = new PersonalResult();
-        //    personalResult.Name = name;
-        //    personalResult.Time = time;
-
-        //    return personalResult;
-        //}
-
-
-
+            return user;
+        }
     }
 }
