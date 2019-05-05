@@ -78,6 +78,8 @@
     <Compile Include="Logic\UserResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextUi\GameText.cs" />
+    <Compile Include="TextUi\Messages.cs" />
     <EmbeddedResource Include="Gui\HighScoreDialog.resx">
       <DependentUpon>HighScoreDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -110,9 +112,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TextUi\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\field03.png" />
   </ItemGroup>

@@ -46,7 +46,7 @@ namespace Minesweeper.Gui
         private void ShowHighScoreDialog(int gameTime)
         {
             this.highScoreDialog.GameTime = gameTime;
-            this.highScoreDialog.Show();
+            this.highScoreDialog.ShowDialog();
         }
 
         private void AddHighScore()

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Minesweeper.Gui;
+using Minesweeper.Logic;
+using Minesweeper.TextUi;
 
 namespace Minesweeper
 {
@@ -15,9 +17,21 @@ namespace Minesweeper
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            //   Application.EnableVisualStyles();// нужно перед созданием первой формы
+            //   Application.SetCompatibleTextRenderingDefault(false);// нужно перед созданием первой формы
+            //   Application.Run(new MainForm());
+
+            System.Console.WriteLine("Игра Сапер. Текстовая версия.");
+            System.Console.WriteLine();
+
+            GameParameters gameParameters = new GameParameters(10, 15, 10, false);
+            GameLogic gameLogic = new GameLogic(gameParameters);
+            GameText gameText = new GameText(gameParameters, gameLogic);
+
+            gameText.Do("");
+
+            Console.ReadLine();
+
         }
     }
 }
