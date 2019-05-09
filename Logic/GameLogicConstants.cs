@@ -23,6 +23,6 @@ namespace Logic
      //   public const int MaxGameTime = 999;
         public const int PauseTime = 1000;
 
-        public const string HighScoreFileName = "highScore2";
+        public const string HighScoreFileName = "highScore23";
     }
 }

@@ -14,8 +14,58 @@ namespace TextUi
         public const string MineMark = "Ф";
         public const string MineErrorMine = "Ф";
 
+        public static void ShowHelpCommands()
+        {
+            Console.WriteLine("-------------------------------------------------------------------------------");
+            Console.WriteLine("-= Команды =-");
+            Console.WriteLine();
+            Console.WriteLine("Структура команды: <действие> пробел  <номер строки> пробел <номер столбца>");
+            Console.WriteLine("Действие пишется русскими буквами: о, ф, н.");
+            Console.WriteLine();
+            Console.WriteLine("о 2 3  - открыть ячейку на пересечении 2-ой строки и 3-его стролбца.");
+            Console.WriteLine("ф 4 5  - пометить флажком ячейку в 4-ой строке 5-ом столбце.");
+            Console.WriteLine("н 2 6  - нажать на открытую ячейку во 2-ой строк 6-ом столбце ");
+            Console.WriteLine("         (аналог нажатия двумя клавишами мыши в графической версии игры).");
+            Console.WriteLine("         Игра откроет свободные ячейки, если нажатие на ячейку с цифрой, ");
+            Console.WriteLine("         рядом с которой отмечено соответствующее количество мин. ");
+            Console.WriteLine("-------------------------------------------------------------------------------");
+        }
 
-
+        public static void ShowHelpRules()
+        {
+            Console.WriteLine("-------------------------------------------------------------------------------");
+            Console.WriteLine("-= Правила игры =-");
+            Console.WriteLine();
+            Console.WriteLine("Играть в \"сапёр\" очень просто. ");
+            Console.WriteLine();
+            Console.WriteLine("Начните с открытия одной ячейки. Напишите в командной строке: ");
+            Console.WriteLine("\"о\", номер ее строки и столбца.");
+            Console.WriteLine();
+            Console.WriteLine("Число в ячейке показывает, сколько мин скрыто вокруг данной ячейки.");
+            Console.WriteLine("Это число поможет понять вам, где находятся безопасные ячейки, ");
+            Console.WriteLine("а где находятся бомбы.");
+            Console.WriteLine();
+            Console.WriteLine("Если рядом с открытой ячейкой есть пустая ячейка, ");
+            Console.WriteLine("то она откроется автоматически.");
+            Console.WriteLine();
+            Console.WriteLine("Если вы открыли ячейку с миной, то игра проиграна.");
+            Console.WriteLine("Что бы пометить ячейку, в которой находится бомба, ");
+            Console.WriteLine("напишите в командной сроке \"ф\", номер строки и номер столбца.");
+            Console.WriteLine();
+            Console.WriteLine("После того, как вы отметите все мины, рядом с ячейком,");
+            Console.WriteLine("можно написать \"н\", номер строки и столбца данной ячейки.");
+            Console.WriteLine("Тогда откроются все свободные ячейки вокруг неё");
+            Console.WriteLine();
+            Console.WriteLine("Если в ячейке указано число, оно показывает, сколько мин скрыто в ");
+            Console.WriteLine("восьми ячейках вокруг данной. Это число помогает понять, ");
+            Console.WriteLine("где находятся безопасные ячейки.");
+            Console.WriteLine();
+            Console.WriteLine("Игра продолжается до тех пор, пока вы не откроете все ");
+            Console.WriteLine("не заминированные ячейки.");
+            Console.WriteLine();
+            Console.WriteLine("Удачной игры!");
+            Console.WriteLine("-------------------------------------------------------------------------------");
+        }
 
         private static void ShowHelpStartGame()
         {
@@ -39,18 +89,6 @@ namespace TextUi
             Console.WriteLine();
             Console.WriteLine("Начать игру с новыми параметрами или перезапустить с текущими можно в любой момент.");
             Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("-= Команды =-");
-            Console.WriteLine();
-            Console.WriteLine("Структура команды: <действие> пробел  <номер строки> пробел <номер столбца>");
-            Console.WriteLine("Действие пишется русскими буквами: о, ф, н.");
-            Console.WriteLine();
-            Console.WriteLine("о 2 3  - открыть ячейку на пересечении 2-ой строки и 3-его стролбца.");
-            Console.WriteLine("ф 4 5  - пометить флажком ячейку в 4-ой строке 5-ом столбце.");
-            Console.WriteLine("н 2 6  - нажать на открытую ячейку во 2-ой строк 6-ом столбце ");
-            Console.WriteLine("         (аналог нажатия двумя клавишами мыши в графической версии игры).");
-            Console.WriteLine("         Игра откроет свободные ячейки, если нажатие на ячейку с цифрой, ");
-            Console.WriteLine("         рядом с которой отмечено соответствующее количество мин. ");
             Console.WriteLine("-------------------------------------------------------------------------------");
         }
 
@@ -136,6 +174,5 @@ namespace TextUi
             Console.WriteLine("  X - ошибочно отмеченная мина.");
             Console.WriteLine("-------------------------------------------------------------------------------");
         }
-
     }
 }

@@ -16,6 +16,8 @@ namespace TextUi
         private int columnCount;
         private int minesCount;
 
+        private List<Cell> cellsForPress;
+
         public GameText(GameParameters gameParameters, GameLogic gameLogic)
         {
             this.gameParameters = gameParameters;
@@ -39,11 +41,6 @@ namespace TextUi
 
         private void WriteGameArea()
         {
-            
-
-            //Пробелы для выравнивания ячеек. Если число колонок двузначное, то два пробела, в противном случае - один пробел.
-          //  string spaces = (maxWroteIndex < 10) ? " " : "  ";
-
             int maxWroteColumnIndex = columnCount + 1;
             int columnIndexLength = maxWroteColumnIndex.ToString().Length;
             int columnWithSpaceLength = columnIndexLength + 1;
@@ -51,8 +48,11 @@ namespace TextUi
             int maxWroteRowIndex = rowCount + 1;
             int rowIndexLength = maxWroteRowIndex.ToString().Length;
 
+            string space = "   ";
+
             //формируем заголовок
-            Console.Write("".PadRight(rowIndexLength,' '));
+            Console.Write(space);
+            Console.Write("".PadRight(rowIndexLength, ' '));
             Console.Write(" | ");
 
             for (int i = 0; i < columnCount; i++)
@@ -61,6 +61,7 @@ namespace TextUi
             }
             Console.WriteLine();
 
+            Console.Write(space);
             Console.Write("".PadRight(rowIndexLength, '-'));
             Console.Write("-+");
 
@@ -72,7 +73,8 @@ namespace TextUi
 
             for (int i = 0; i < rowCount; i++)
             {
-                Console.Write((i + 1).ToString().PadRight(rowIndexLength,' '));
+                Console.Write(space);
+                Console.Write((i + 1).ToString().PadRight(rowIndexLength, ' '));
                 Console.Write(" | ");
 
                 for (int j = 0; j < columnCount; j++)
@@ -100,12 +102,13 @@ namespace TextUi
             switch (cell.markOnTop)
             {
                 case Cell.MarkOnTopCell.Empty:
+                    Console.ForegroundColor = ConsoleColor.DarkGray; // начальная ячейка
                     Console.Write("о");
                     break;
 
                 case Cell.MarkOnTopCell.Flag:
                     Console.ForegroundColor = ConsoleColor.DarkRed; // флаг
-                    Console.Write("  ф");
+                    Console.Write("ф");
                     break;
 
                 default:
@@ -125,8 +128,9 @@ namespace TextUi
                     break;
 
                 case Cell.MarkOnBottomCell.Mine:
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.BackgroundColor = ConsoleColor.White;
+                    //Console.ForegroundColor = ConsoleColor.DarkRed;
+                    //Console.BackgroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.Write("Ф");
                     break;
 
@@ -137,7 +141,8 @@ namespace TextUi
                     break;
 
                 case Cell.MarkOnBottomCell.MineError:
-                    Console.WriteLine("X");
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write("X");
                     break;
 
                 case Cell.MarkOnBottomCell.MineNearCount:
@@ -176,7 +181,7 @@ namespace TextUi
                             break;
                         case 8:
                             Console.ForegroundColor = ConsoleColor.DarkGray; // 8
-                            Console.WriteLine("8");
+                            Console.Write("8");
                             break;
                         default:
                             Console.Write("?");
@@ -191,10 +196,133 @@ namespace TextUi
             Console.ResetColor();
         }
 
-        public void Do(string task)
+        private bool TryParseRowAndColumnIndexes(string task, out int rowIndex, out int columnIndex)
         {
-            WriteGameArea();
+            int firstSpaceIndex = task.IndexOf(' ');
+            int lastSpaceIndex = task.LastIndexOf(' ');
+
+            if (firstSpaceIndex == 0 || lastSpaceIndex == 0 || lastSpaceIndex == firstSpaceIndex)
+            {
+                rowIndex = -1;
+                columnIndex = -1; ;
+                return false;
+            }
+
+            int nextIndex = 1;
+            string rowIndexText = task.Substring(firstSpaceIndex + nextIndex, lastSpaceIndex - firstSpaceIndex - nextIndex);
+            string columnIndexText = task.Substring(lastSpaceIndex + nextIndex, task.Length - lastSpaceIndex - nextIndex);
+
+            if (Int32.TryParse(rowIndexText, out rowIndex) && Int32.TryParse(columnIndexText, out columnIndex))
+            {
+                return true;
+            }
+            else
+            {
+                rowIndex = -1;
+                columnIndex = -1; ;
+                return false;
+            }
         }
 
+        private void WriteCommonHelpInfo()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Информация. Варианты:");
+            Console.WriteLine("1 - игровые команды");
+            Console.WriteLine("2 - правила игры");
+            Console.WriteLine("3 - таблица рекордов");
+            Console.WriteLine();
+            Console.WriteLine("4 - выход из игры");
+            Console.WriteLine();
+            Console.WriteLine("Введите вариант справки:");
+        }
+
+        public void Do(string task)
+        {
+            switch (task)
+            {
+                case "":
+                    WriteCommonHelpInfo();
+                    break;
+
+                case "1":
+                    Messages.ShowHelpCommands();
+                    break;
+
+                case "2":
+                    Messages.ShowHelpRules();
+                    break;
+
+                case "3":
+                    Console.WriteLine(gameLogic.GetHighScore());
+                    break;
+
+                case "4":
+                    Environment.Exit(0);
+                    break;
+
+                default:
+                    {
+                        string firstLetter = task.Substring(0, 1);
+
+                        int rowIndex;
+                        int columnIndex;
+
+                        switch (firstLetter)
+                        {
+                            case "о":
+                                if (TryParseRowAndColumnIndexes(task, out rowIndex, out columnIndex))
+                                {
+                                    rowIndex--;
+                                    columnIndex--;
+
+                                    gameLogic.GetOpenCellsAfterPress(rowIndex, columnIndex);
+                                }
+                                break;
+
+                            case "н":
+                                if (TryParseRowAndColumnIndexes(task, out rowIndex, out columnIndex))
+                                {
+                                    rowIndex--;
+                                    columnIndex--;
+
+                                    cellsForPress = gameLogic.GetCellsListAvailableForPress(gameLogic.cells[rowIndex, columnIndex]);
+
+                                    int cellsNearWhithoutFlags = gameLogic.GetMarkedMinesNearCell(gameLogic.cells[rowIndex, columnIndex]);
+
+                                    if (gameLogic.cells[rowIndex, columnIndex].IsPressed && cellsNearWhithoutFlags == gameLogic.cells[rowIndex, columnIndex].MineNearCount)
+                                    {
+                                        foreach (Cell cell in cellsForPress)
+                                        {
+                                            gameLogic.GetOpenCellsAfterPress(cell.RowIndex, cell.ColIndex);
+                                        }
+                                    }
+
+                                    cellsForPress.Clear();
+                                }
+                                break;
+
+                            case "ф":
+                                if (TryParseRowAndColumnIndexes(task, out rowIndex, out columnIndex))
+                                {
+                                    rowIndex--;
+                                    columnIndex--;
+
+                                    gameLogic.Mark(gameLogic.cells[rowIndex, columnIndex]);
+                                }
+                                break;
+                            default:
+                                WornUnknownComand();
+                                break;
+                        }
+
+                        Console.WriteLine();
+                        WriteGameArea();
+                        Console.WriteLine();
+                    }
+                    break;
+
+            }
+        }
     }
 }

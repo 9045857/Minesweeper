@@ -69,7 +69,8 @@ namespace Gui
             IsSaveHighScore = true;
             
             OnSetUserName?.Invoke();
-            Dispose();
+            Close();
+           // Dispose();
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
@@ -77,7 +78,8 @@ namespace Gui
             textBoxUserName.Text = "";
             UserName = "";
             IsSaveHighScore = false;
-            Dispose();
+            Close();
+            //  Dispose();
         }
 
         private void textBoxUserName_KeyDown(object sender, KeyEventArgs e)

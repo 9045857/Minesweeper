@@ -34,7 +34,7 @@ namespace Logic
             {
                 return GameParameters.GameTypeLevel.Beginner;
             }
-            else if (rowCount == GameLogicConstants.MediumLevelRowCount && columnCount == GameLogicConstants.MediumLevelColumnCount && minesCount == GameLogicConstants.LowLevelMinesCount)
+            else if (rowCount == GameLogicConstants.MediumLevelRowCount && columnCount == GameLogicConstants.MediumLevelColumnCount && minesCount == GameLogicConstants.MediumLevelMinesCount)
             {
                 return GameParameters.GameTypeLevel.Medium;
             }
@@ -64,7 +64,7 @@ namespace Logic
 
         private static void InsertUserResultInUsers(string userName, int time, UserResult[] users, int usersCount)
         {
-            int i = 0;
+            int i = 0;//TODO довести до ума. не заменяет первый элемент.
             while ((usersCount - 1 - i > 0) && (time < users[usersCount - 1 - i].Time))
             {
                 users[usersCount - i] = users[usersCount - i - 1];
@@ -130,7 +130,7 @@ namespace Logic
                     users[usersCount] = new UserResult(userName, time);
                 }
 
-                usersCount++;
+                usersCount++;//TODO вероятно нужно до вставки делать еще один элемент
             }
             else if (time < users[usersCount - 1].Time)
             {

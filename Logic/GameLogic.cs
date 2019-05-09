@@ -191,12 +191,12 @@ namespace Logic
 
         private void DeserialazeHighScore()
         {
-            string fileName = GameLogicConstants.HighScoreFileName;
+            string startupPath = GetFileHighScoreName();
 
-            if (File.Exists(fileName))
+            if (File.Exists(startupPath))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
-                using (FileStream stream = new FileStream(fileName, FileMode.Open))
+                using (FileStream stream = new FileStream(startupPath, FileMode.Open))
                 {
                     highScore = (HighScore)formatter.Deserialize(stream);
                 }
@@ -207,12 +207,19 @@ namespace Logic
             }
         }
 
-        private void SerialazeHighScore()
+        private static string GetFileHighScoreName()
         {
             string fileName = GameLogicConstants.HighScoreFileName;
+            string startupPath = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.FullName, fileName);
+            return startupPath;
+        }
+
+        private void SerialazeHighScore()
+        {
+            string startupPath = GetFileHighScoreName();
             BinaryFormatter formatter = new BinaryFormatter();
 
-            using (FileStream stream = new FileStream(fileName, FileMode.Create))
+            using (FileStream stream = new FileStream(startupPath, FileMode.Create))
             {
                 formatter.Serialize(stream, highScore);
             }
