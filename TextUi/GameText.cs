@@ -19,18 +19,24 @@ namespace TextUi
 
         private List<Cell> cellsForPress;
 
+        private bool isWin = false;
+        private bool isWinWhithHighScore = false;
+        private int highScoreTime;
+        private bool isLose = false;
+
         public GameText(GameParameters gameParameters, GameLogic gameLogic)
         {
             this.gameParameters = gameParameters;
             this.gameParameters.OnChangeGameParameters += SetRowColumnMinesCount;
 
             this.gameLogic = gameLogic;
-            gameLogic.OnWinWithHighScore += AddHighScore;
+            gameLogic.OnWinWithHighScore += WinWithHighScore;
             gameLogic.OnMark += ChangeRemainMines;
-            gameLogic.OnExploded+= ChangeRemainMines;
+            gameLogic.OnExploded += ChangeRemainMines;
+            gameLogic.OnFinishAndWinGame += WinGame;
+            gameLogic.OnExploded += LoseGame;
 
-            SetRowColumnMinesCount();
-            remainedMines = minesCount;
+            SetRowColumnMinesCount();            
         }
 
         private void SetRowColumnMinesCount()
@@ -38,11 +44,32 @@ namespace TextUi
             rowCount = gameParameters.RowCount;
             columnCount = gameParameters.ColumnCount;
             minesCount = gameParameters.MinesCount;
+            remainedMines = minesCount;
         }
 
         private void ChangeRemainMines(int remainedMines)
         {
             this.remainedMines = remainedMines;
+        }
+
+        private void WriteFinishGameMessage()
+        {
+            Console.WriteLine("-----Вы выиграли! :-)");
+        }
+
+        private void WinGame()
+        {
+            isWin = true;
+        }
+
+        private void WriteLosehGameMessage()
+        {
+            Console.WriteLine("-----Вы проиграли. :-(");
+        }
+
+        private void LoseGame(int minesCount)
+        {
+            isLose = true;
         }
 
         private void SetGameParameters(int gameType, out int rowCount, out int columnCount, out int minesCount)
@@ -77,13 +104,13 @@ namespace TextUi
 
         private void WornUnknownComand()
         {
-            Console.WriteLine(Messages.UnknownCommandWarning);
+            Console.WriteLine(MessagesAndConstants.UnknownCommandWarning);
         }
 
         public void WriteGameArea()
         {
             int timeCaption = gameLogic.CurrentTime;
-                       
+
             Console.WriteLine();
             Console.WriteLine("   Мины: {0}       (*_*)       Время: {1}", remainedMines, timeCaption);
             Console.WriteLine();
@@ -244,51 +271,29 @@ namespace TextUi
             Console.ResetColor();
         }
 
-
-
-        private bool TryParseRowAndColumnIndexes(string task, out int rowIndex, out int columnIndex)
-        {
-            int firstSpaceIndex = task.IndexOf(' ');
-            int lastSpaceIndex = task.LastIndexOf(' ');
-
-            if (firstSpaceIndex == 0 || lastSpaceIndex != firstSpaceIndex)
-            {
-                rowIndex = -1;
-                columnIndex = -1;
-                return false;
-            }
-
-            int nextIndex = 1;
-            string rowIndexText = task.Substring(0, firstSpaceIndex);
-            string columnIndexText = task.Substring(firstSpaceIndex + nextIndex, task.Length - firstSpaceIndex - nextIndex);
-
-            if (Int32.TryParse(rowIndexText, out rowIndex) && Int32.TryParse(columnIndexText, out columnIndex))
-            {
-                //Correct DisplayIndexes to Listindexes
-                rowIndex--;
-                columnIndex--;
-
-                if ((rowIndex >= 0 && rowIndex <= rowCount) && (columnIndex >= 0 && columnIndex <= columnCount))
-                {
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine("Ошибка ввода данных: выход за границы индексов.");
-                    return false;
-                }
-            }
-            else
-            {
-                rowIndex = -1;
-                columnIndex = -1;
-                return false;
-            }
-        }
-
+        /// <summary>
+        /// Метод преобразует строку в начальные параметры для игры.
+        /// Существует два способа задать игру:
+        /// 1. задат ТИП ИГРЫ: 1, 2 или 3. В этом случае выходные количество строк, стобцов и ячеек будут равны -1.
+        /// 2. задать количество строк, столбцов и мин. В этом случае ТИП ИГРЫ будет равен -1.
+        /// 
+        /// Метод также проверяет и корректирует начальные данные для соответствия границам игры.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <param name="gameType"></param>
+        /// <param name="rowCount"></param>
+        /// <param name="columnCount"></param>
+        /// <param name="minesCount"></param>
+        /// <returns></returns>
         private bool TryParseBeginNewGame(string task, out int gameType, out int rowCount, out int columnCount, out int minesCount)
         {
-            string mainCommand = "новая игра";
+            string mainCommand = MessagesAndConstants.NewGameCommand;
+
+            if (task.Length < mainCommand.Length)
+            {
+                return GetFalse(out gameType, out rowCount, out columnCount, out minesCount);
+            }
+
             string сommand = task.Substring(0, mainCommand.Length);
 
             if (!mainCommand.Equals(сommand))
@@ -299,7 +304,10 @@ namespace TextUi
             string gameParameters = task.Substring(mainCommand.Length, task.Length - mainCommand.Length);
             string[] parameters = gameParameters.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (parameters.Length == 1)
+            int oneElementInArray = 1;
+            int threeElementsInArray = 3;
+
+            if (parameters.Length == oneElementInArray)
             {
                 if (Int32.TryParse(parameters[0], out gameType))
                 {
@@ -321,11 +329,12 @@ namespace TextUi
                     return GetFalse(out gameType, out rowCount, out columnCount, out minesCount);
                 }
             }
-            else if (parameters.Length == 3)
+            else if (parameters.Length == threeElementsInArray)
             {
                 if (Int32.TryParse(parameters[0], out rowCount) && Int32.TryParse(parameters[1], out columnCount) && Int32.TryParse(parameters[2], out minesCount))
                 {
                     gameType = -1;
+                    CheckAndCorrectBeginData(ref rowCount, ref columnCount, ref minesCount);
                     return true;
                 }
                 else
@@ -339,6 +348,37 @@ namespace TextUi
             }
         }
 
+        private void CheckAndCorrectBeginData(ref int rowCount, ref int columnCount, ref int minesCount)
+        {
+            if (rowCount < MessagesAndConstants.MinRowCount)
+            {
+                rowCount = MessagesAndConstants.MinRowCount;
+            }
+            else if (rowCount > MessagesAndConstants.MaxRowCount)
+            {
+                rowCount = MessagesAndConstants.MaxRowCount;
+            }
+
+            if (columnCount < MessagesAndConstants.MinColumnCount)
+            {
+                columnCount = MessagesAndConstants.MinColumnCount;
+            }
+            else if (columnCount > MessagesAndConstants.MaxColumnCount)
+            {
+                columnCount = MessagesAndConstants.MaxColumnCount;
+            }
+
+            int minFreeCells = 1;
+            if (minesCount > rowCount * columnCount - minFreeCells)
+            {
+                minesCount = rowCount * columnCount - minFreeCells;
+            }
+            else if (minesCount < 1)
+            {
+                minesCount = 1;
+            }
+        }
+
         private static bool GetFalse(out int gameType, out int rowCount, out int columnCount, out int minesCount)
         {
             gameType = -1;
@@ -349,23 +389,30 @@ namespace TextUi
             return false;
         }
 
+        private bool TryParseRowAndColumnIndexes(string task, out int rowIndex, out int columnIndex)
+        {
+            int commandElementsCount = 2;
+            return TryParseIntWords(task, out rowIndex, out columnIndex, commandElementsCount);
+        }
+
         private bool TryParseRowAndColumnIndexesFlagMark(string task, out int rowIndex, out int columnIndex)
         {
-            int firstSpaceIndex = task.IndexOf(' ');
-            int lastSpaceIndex = task.LastIndexOf(' ');
+            int commandElementsCount = 3;
+            return TryParseIntWords(task, out rowIndex, out columnIndex, commandElementsCount);
+        }
 
-            if (firstSpaceIndex == 0 || lastSpaceIndex == 0 || lastSpaceIndex == firstSpaceIndex)
+        private bool TryParseIntWords(string task, out int rowIndex, out int columnIndex, int commandElementsCount)
+        {
+            string[] words = task.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (words.Length != commandElementsCount)
             {
                 rowIndex = -1;
                 columnIndex = -1;
                 return false;
             }
 
-            int nextIndex = 1;
-            string rowIndexText = task.Substring(0, firstSpaceIndex);
-            string columnIndexText = task.Substring(firstSpaceIndex + nextIndex, lastSpaceIndex - firstSpaceIndex - nextIndex);
-
-            if (Int32.TryParse(rowIndexText, out rowIndex) && Int32.TryParse(columnIndexText, out columnIndex))
+            if (Int32.TryParse(words[0], out rowIndex) && Int32.TryParse(words[1], out columnIndex))
             {
                 //Correct DisplayIndexes to Listindexes
                 rowIndex--;
@@ -392,13 +439,21 @@ namespace TextUi
         private void WriteCommonHelpInfo()
         {
             Console.WriteLine();
-            Console.WriteLine("Информация. Варианты:");
-            Console.WriteLine("1 - игровые команды");
-            Console.WriteLine("2 - правила игры");
-            Console.WriteLine("3 - таблица рекордов");
+            Console.WriteLine("Информация. Варианты:.");
+            Console.WriteLine("0 - печать поля.");
+            Console.WriteLine("1 - управление/команды.");
+            Console.WriteLine("2 - правила игры.");
+            Console.WriteLine("3 - таблица рекордов.");
             Console.WriteLine();
-            Console.WriteLine("4 - выход из игры");
+            Console.WriteLine("4 - закрыть программу.");
             Console.WriteLine();
+            Console.WriteLine("{0} - рестарт игры.",MessagesAndConstants.NewGameCommand);
+        }
+
+        private void WinWithHighScore(int time)
+        {
+            highScoreTime = time;
+            isWinWhithHighScore = true;
         }
 
         private void AddHighScore(int time)
@@ -435,11 +490,11 @@ namespace TextUi
                     break;
 
                 case "1":
-                    Messages.ShowHelpCommands();
+                    MessagesAndConstants.ShowHelpCommands();
                     break;
 
                 case "2":
-                    Messages.ShowHelpRules();
+                    MessagesAndConstants.ShowHelpRules();
                     break;
 
                 case "3":
@@ -450,7 +505,7 @@ namespace TextUi
                     Environment.Exit(0);
                     break;
 
-                case "новая игра":
+                case MessagesAndConstants.NewGameCommand:
                     gameLogic.RestartCurrentGame();
                     WriteGameArea();
                     break;
@@ -503,6 +558,24 @@ namespace TextUi
                     }
 
                     WriteGameArea();
+
+                    if (isWinWhithHighScore)
+                    {
+                        isWinWhithHighScore = false;
+                        isWin = false;
+                        AddHighScore(highScoreTime);
+                    }
+                    else if (isWin)
+                    {
+                        isWin = false;
+                        WriteFinishGameMessage();
+                    }
+
+                    if (isLose)
+                    {
+                        isLose = false;
+                        WriteLosehGameMessage();
+                    }
 
                     break;
             }
