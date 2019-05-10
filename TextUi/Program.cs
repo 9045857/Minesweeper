@@ -8,30 +8,31 @@ using Logic;
 namespace TextUi
 {
     class Program
-    {
-        //private GameText gameText;
-        //private GameLogic gameLogic;
-        //private GameParameters gameParameters;
-
+    {        
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Игра \"Сапер\".");
             Console.WriteLine();
 
+            // на старте загружаем параметры начинающего
+            int rowCount = Logic.GameLogicConstants.LowLevelRowCount;
+            int columnCount = Logic.GameLogicConstants.LowLevelColumnCount;
+            int minesCount = Logic.GameLogicConstants.LowLevelMinesCount;
 
-            GameParameters gameParameters = new GameParameters(9, 9, 10, false);
+            bool canQestionMark = false; //в текстовой версии будем играть без возможности маркировать вопросами. 
+                                         //Технически такая возможностьесь, но из-за сложности игры в текстовом формате, лучше без нее.
+
+            GameParameters gameParameters = new GameParameters(rowCount, columnCount, minesCount, canQestionMark);
             GameLogic  gameLogic = new GameLogic(gameParameters);
-
             GameText gameText = new GameText(gameParameters, gameLogic);
+
+            gameText.WriteGameArea();
 
             while (true)
             {
                 string command = Console.ReadLine();
                 gameText.Do(command);
-
             }            
         }
-
-
     }
 }

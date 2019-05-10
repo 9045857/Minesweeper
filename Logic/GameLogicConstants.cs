@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    class GameLogicConstants
+    public class GameLogicConstants
     {
         public const int LowLevelRowCount = 9;
         public const int LowLevelColumnCount = 9;
@@ -20,9 +20,9 @@ namespace Logic
         public const int HighLevelColumnCount = 30;
         public const int HighLevelMinesCount = 99;
 
-     //   public const int MaxGameTime = 999;
+        //   public const int MaxGameTime = 999;
         public const int PauseTime = 1000;
 
-        public const string HighScoreFileName = "highScore23";
+        public const string HighScoreFileName = "highScore";
     }
 }

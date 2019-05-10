@@ -22,6 +22,7 @@ namespace TextUi
         {
             this.gameParameters = gameParameters;
             this.gameLogic = gameLogic;
+            gameLogic.OnWinWithHighScore += AddHighScore;
 
             rowCount = gameParameters.RowCount;
             columnCount = gameParameters.ColumnCount;
@@ -39,8 +40,24 @@ namespace TextUi
             Console.WriteLine(Messages.UnknownCommandWarning);
         }
 
-        private void WriteGameArea()
+        public void WriteGameArea()
         {
+            int minesCaption;
+            int timeCaption = gameLogic.CurrentTime;
+
+            if (gameLogic.IsGameContinue)
+            {
+                minesCaption = gameLogic.MinesCount - gameLogic.MarkedMinesCount;
+            }
+            else
+            {
+                minesCaption = gameLogic.MarkedMinesCount;
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("   Мины: {0}               Время: {1}", minesCaption, timeCaption);
+            Console.WriteLine();
+
             int maxWroteColumnIndex = columnCount + 1;
             int columnIndexLength = maxWroteColumnIndex.ToString().Length;
             int columnWithSpaceLength = columnIndexLength + 1;
@@ -95,6 +112,7 @@ namespace TextUi
 
                 Console.WriteLine();
             }
+            Console.WriteLine();
         }
 
         private void WriteUnpressedCell(Cell cell)
@@ -204,7 +222,7 @@ namespace TextUi
             if (firstSpaceIndex == 0 || lastSpaceIndex == 0 || lastSpaceIndex == firstSpaceIndex)
             {
                 rowIndex = -1;
-                columnIndex = -1; ;
+                columnIndex = -1;
                 return false;
             }
 
@@ -214,12 +232,24 @@ namespace TextUi
 
             if (Int32.TryParse(rowIndexText, out rowIndex) && Int32.TryParse(columnIndexText, out columnIndex))
             {
-                return true;
+                //Correct DisplayIndexes to Listindexes
+                rowIndex--;
+                columnIndex--;
+
+                if ((rowIndex >= 0 && rowIndex <= rowCount) && (columnIndex >= 0 && columnIndex <= columnCount))
+                {
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("Ошибка ввода данных: выход за границы индексов.");
+                    return false;
+                }
             }
             else
             {
                 rowIndex = -1;
-                columnIndex = -1; ;
+                columnIndex = -1;
                 return false;
             }
         }
@@ -234,7 +264,27 @@ namespace TextUi
             Console.WriteLine();
             Console.WriteLine("4 - выход из игры");
             Console.WriteLine();
-            Console.WriteLine("Введите вариант справки:");
+        }
+
+        private void AddHighScore(int time)
+        {
+            Console.WriteLine("Вы выиграли с отличным результатом {0} сек.", time);
+            Console.WriteLine("Добавить ваш результат в таблицу рекордов? (\"1\" - да)");
+
+            string yesNo = Console.ReadLine();
+
+            if (yesNo == "1")
+            {
+                Console.Write("Введите свое имя: ");
+                string userName = Console.ReadLine();
+
+                if (userName == "")
+                {
+                    userName = "игрок";
+                }
+
+                gameLogic.AddHighScore(userName, time, rowCount, columnCount, minesCount);
+            }
         }
 
         public void Do(string task)
@@ -261,6 +311,11 @@ namespace TextUi
                     Environment.Exit(0);
                     break;
 
+                case "новая":
+                    gameLogic.RestartCurrentGame();
+                    WriteGameArea();
+                    break;
+
                 default:
                     {
                         string firstLetter = task.Substring(0, 1);
@@ -273,9 +328,6 @@ namespace TextUi
                             case "о":
                                 if (TryParseRowAndColumnIndexes(task, out rowIndex, out columnIndex))
                                 {
-                                    rowIndex--;
-                                    columnIndex--;
-
                                     gameLogic.GetOpenCellsAfterPress(rowIndex, columnIndex);
                                 }
                                 break;
@@ -283,9 +335,6 @@ namespace TextUi
                             case "н":
                                 if (TryParseRowAndColumnIndexes(task, out rowIndex, out columnIndex))
                                 {
-                                    rowIndex--;
-                                    columnIndex--;
-
                                     cellsForPress = gameLogic.GetCellsListAvailableForPress(gameLogic.cells[rowIndex, columnIndex]);
 
                                     int cellsNearWhithoutFlags = gameLogic.GetMarkedMinesNearCell(gameLogic.cells[rowIndex, columnIndex]);
@@ -305,9 +354,6 @@ namespace TextUi
                             case "ф":
                                 if (TryParseRowAndColumnIndexes(task, out rowIndex, out columnIndex))
                                 {
-                                    rowIndex--;
-                                    columnIndex--;
-
                                     gameLogic.Mark(gameLogic.cells[rowIndex, columnIndex]);
                                 }
                                 break;
@@ -316,12 +362,9 @@ namespace TextUi
                                 break;
                         }
 
-                        Console.WriteLine();
                         WriteGameArea();
-                        Console.WriteLine();
                     }
                     break;
-
             }
         }
     }
