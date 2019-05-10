@@ -15,24 +15,64 @@ namespace TextUi
         private int rowCount;
         private int columnCount;
         private int minesCount;
+        private int remainedMines;
 
         private List<Cell> cellsForPress;
 
         public GameText(GameParameters gameParameters, GameLogic gameLogic)
         {
             this.gameParameters = gameParameters;
+            this.gameParameters.OnChangeGameParameters += SetRowColumnMinesCount;
+
             this.gameLogic = gameLogic;
             gameLogic.OnWinWithHighScore += AddHighScore;
+            gameLogic.OnMark += ChangeRemainMines;
+            gameLogic.OnExploded+= ChangeRemainMines;
 
+            SetRowColumnMinesCount();
+            remainedMines = minesCount;
+        }
+
+        private void SetRowColumnMinesCount()
+        {
             rowCount = gameParameters.RowCount;
             columnCount = gameParameters.ColumnCount;
             minesCount = gameParameters.MinesCount;
         }
 
-        private void SetGameParameters()
+        private void ChangeRemainMines(int remainedMines)
         {
+            this.remainedMines = remainedMines;
+        }
 
+        private void SetGameParameters(int gameType, out int rowCount, out int columnCount, out int minesCount)
+        {
+            switch (gameType)
+            {
+                case 1:
+                    rowCount = GameLogicConstants.LowLevelRowCount;
+                    columnCount = GameLogicConstants.LowLevelColumnCount;
+                    minesCount = GameLogicConstants.LowLevelMinesCount;
+                    break;
 
+                case 2:
+                    rowCount = GameLogicConstants.MediumLevelRowCount;
+                    columnCount = GameLogicConstants.MediumLevelColumnCount;
+                    minesCount = GameLogicConstants.MediumLevelMinesCount;
+                    break;
+
+                case 3:
+                    rowCount = GameLogicConstants.HighLevelRowCount;
+                    columnCount = GameLogicConstants.HighLevelColumnCount;
+                    minesCount = GameLogicConstants.HighLevelMinesCount;
+                    break;
+
+                default:
+                    rowCount = -1;
+                    columnCount = -1;
+                    minesCount = -1;
+                    break;
+            }
         }
 
         private void WornUnknownComand()
@@ -42,20 +82,10 @@ namespace TextUi
 
         public void WriteGameArea()
         {
-            int minesCaption;
             int timeCaption = gameLogic.CurrentTime;
-
-            if (gameLogic.IsGameContinue)
-            {
-                minesCaption = gameLogic.MinesCount - gameLogic.MarkedMinesCount;
-            }
-            else
-            {
-                minesCaption = gameLogic.MarkedMinesCount;
-            }
-
+                       
             Console.WriteLine();
-            Console.WriteLine("   Мины: {0}               Время: {1}", minesCaption, timeCaption);
+            Console.WriteLine("   Мины: {0}       (*_*)       Время: {1}", remainedMines, timeCaption);
             Console.WriteLine();
 
             int maxWroteColumnIndex = columnCount + 1;
@@ -214,7 +244,112 @@ namespace TextUi
             Console.ResetColor();
         }
 
+
+
         private bool TryParseRowAndColumnIndexes(string task, out int rowIndex, out int columnIndex)
+        {
+            int firstSpaceIndex = task.IndexOf(' ');
+            int lastSpaceIndex = task.LastIndexOf(' ');
+
+            if (firstSpaceIndex == 0 || lastSpaceIndex != firstSpaceIndex)
+            {
+                rowIndex = -1;
+                columnIndex = -1;
+                return false;
+            }
+
+            int nextIndex = 1;
+            string rowIndexText = task.Substring(0, firstSpaceIndex);
+            string columnIndexText = task.Substring(firstSpaceIndex + nextIndex, task.Length - firstSpaceIndex - nextIndex);
+
+            if (Int32.TryParse(rowIndexText, out rowIndex) && Int32.TryParse(columnIndexText, out columnIndex))
+            {
+                //Correct DisplayIndexes to Listindexes
+                rowIndex--;
+                columnIndex--;
+
+                if ((rowIndex >= 0 && rowIndex <= rowCount) && (columnIndex >= 0 && columnIndex <= columnCount))
+                {
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("Ошибка ввода данных: выход за границы индексов.");
+                    return false;
+                }
+            }
+            else
+            {
+                rowIndex = -1;
+                columnIndex = -1;
+                return false;
+            }
+        }
+
+        private bool TryParseBeginNewGame(string task, out int gameType, out int rowCount, out int columnCount, out int minesCount)
+        {
+            string mainCommand = "новая игра";
+            string сommand = task.Substring(0, mainCommand.Length);
+
+            if (!mainCommand.Equals(сommand))
+            {
+                return GetFalse(out gameType, out rowCount, out columnCount, out minesCount);
+            }
+
+            string gameParameters = task.Substring(mainCommand.Length, task.Length - mainCommand.Length);
+            string[] parameters = gameParameters.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (parameters.Length == 1)
+            {
+                if (Int32.TryParse(parameters[0], out gameType))
+                {
+                    if (gameType == 1 || gameType == 2 || gameType == 3)
+                    {
+                        rowCount = -1;
+                        columnCount = -1;
+                        minesCount = -1;
+
+                        return true;
+                    }
+                    else
+                    {
+                        return GetFalse(out gameType, out rowCount, out columnCount, out minesCount);
+                    }
+                }
+                else
+                {
+                    return GetFalse(out gameType, out rowCount, out columnCount, out minesCount);
+                }
+            }
+            else if (parameters.Length == 3)
+            {
+                if (Int32.TryParse(parameters[0], out rowCount) && Int32.TryParse(parameters[1], out columnCount) && Int32.TryParse(parameters[2], out minesCount))
+                {
+                    gameType = -1;
+                    return true;
+                }
+                else
+                {
+                    return GetFalse(out gameType, out rowCount, out columnCount, out minesCount);
+                }
+            }
+            else
+            {
+                return GetFalse(out gameType, out rowCount, out columnCount, out minesCount);
+            }
+        }
+
+        private static bool GetFalse(out int gameType, out int rowCount, out int columnCount, out int minesCount)
+        {
+            gameType = -1;
+            rowCount = -1;
+            columnCount = -1;
+            minesCount = -1;
+
+            return false;
+        }
+
+        private bool TryParseRowAndColumnIndexesFlagMark(string task, out int rowIndex, out int columnIndex)
         {
             int firstSpaceIndex = task.IndexOf(' ');
             int lastSpaceIndex = task.LastIndexOf(' ');
@@ -227,8 +362,8 @@ namespace TextUi
             }
 
             int nextIndex = 1;
-            string rowIndexText = task.Substring(firstSpaceIndex + nextIndex, lastSpaceIndex - firstSpaceIndex - nextIndex);
-            string columnIndexText = task.Substring(lastSpaceIndex + nextIndex, task.Length - lastSpaceIndex - nextIndex);
+            string rowIndexText = task.Substring(0, firstSpaceIndex);
+            string columnIndexText = task.Substring(firstSpaceIndex + nextIndex, lastSpaceIndex - firstSpaceIndex - nextIndex);
 
             if (Int32.TryParse(rowIndexText, out rowIndex) && Int32.TryParse(columnIndexText, out columnIndex))
             {
@@ -295,6 +430,10 @@ namespace TextUi
                     WriteCommonHelpInfo();
                     break;
 
+                case "0":
+                    WriteGameArea();
+                    break;
+
                 case "1":
                     Messages.ShowHelpCommands();
                     break;
@@ -311,59 +450,60 @@ namespace TextUi
                     Environment.Exit(0);
                     break;
 
-                case "новая":
+                case "новая игра":
                     gameLogic.RestartCurrentGame();
                     WriteGameArea();
                     break;
 
                 default:
+
+                    int rowIndex;
+                    int columnIndex;
+
+                    if (TryParseRowAndColumnIndexes(task, out rowIndex, out columnIndex))
                     {
-                        string firstLetter = task.Substring(0, 1);
-
-                        int rowIndex;
-                        int columnIndex;
-
-                        switch (firstLetter)
+                        if (!gameLogic.cells[rowIndex, columnIndex].IsPressed && gameLogic.cells[rowIndex, columnIndex].markOnTop != Cell.MarkOnTopCell.Flag)
                         {
-                            case "о":
-                                if (TryParseRowAndColumnIndexes(task, out rowIndex, out columnIndex))
+                            gameLogic.GetOpenCellsAfterPress(rowIndex, columnIndex);
+                        }
+                        else if (gameLogic.cells[rowIndex, columnIndex].IsPressed && gameLogic.cells[rowIndex, columnIndex].MineNearCount > 0)
+                        {
+
+                            cellsForPress = gameLogic.GetCellsListAvailableForPress(gameLogic.cells[rowIndex, columnIndex]);
+
+                            int cellsNearWhithoutFlags = gameLogic.GetMarkedMinesNearCell(gameLogic.cells[rowIndex, columnIndex]);
+
+                            if (cellsNearWhithoutFlags == gameLogic.cells[rowIndex, columnIndex].MineNearCount)
+                            {
+                                foreach (Cell cell in cellsForPress)
                                 {
-                                    gameLogic.GetOpenCellsAfterPress(rowIndex, columnIndex);
+                                    gameLogic.GetOpenCellsAfterPress(cell.RowIndex, cell.ColIndex);
                                 }
-                                break;
+                            }
 
-                            case "н":
-                                if (TryParseRowAndColumnIndexes(task, out rowIndex, out columnIndex))
-                                {
-                                    cellsForPress = gameLogic.GetCellsListAvailableForPress(gameLogic.cells[rowIndex, columnIndex]);
-
-                                    int cellsNearWhithoutFlags = gameLogic.GetMarkedMinesNearCell(gameLogic.cells[rowIndex, columnIndex]);
-
-                                    if (gameLogic.cells[rowIndex, columnIndex].IsPressed && cellsNearWhithoutFlags == gameLogic.cells[rowIndex, columnIndex].MineNearCount)
-                                    {
-                                        foreach (Cell cell in cellsForPress)
-                                        {
-                                            gameLogic.GetOpenCellsAfterPress(cell.RowIndex, cell.ColIndex);
-                                        }
-                                    }
-
-                                    cellsForPress.Clear();
-                                }
-                                break;
-
-                            case "ф":
-                                if (TryParseRowAndColumnIndexes(task, out rowIndex, out columnIndex))
-                                {
-                                    gameLogic.Mark(gameLogic.cells[rowIndex, columnIndex]);
-                                }
-                                break;
-                            default:
-                                WornUnknownComand();
-                                break;
+                            cellsForPress.Clear();
+                        }
+                    }
+                    else if (TryParseRowAndColumnIndexesFlagMark(task, out rowIndex, out columnIndex))
+                    {
+                        gameLogic.Mark(gameLogic.cells[rowIndex, columnIndex]);
+                    }
+                    else if (TryParseBeginNewGame(task, out int gameType, out int rowCount, out int columnCount, out int minesCount))
+                    {
+                        if (gameType != -1)
+                        {
+                            SetGameParameters(gameType, out rowCount, out columnCount, out minesCount);
                         }
 
-                        WriteGameArea();
+                        gameParameters.SetNewGameParameters(rowCount, columnCount, minesCount, false);
                     }
+                    else
+                    {
+                        WornUnknownComand();
+                    }
+
+                    WriteGameArea();
+
                     break;
             }
         }
