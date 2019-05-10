@@ -140,9 +140,11 @@ namespace Logic
 
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
+            string space = "   ";
+            string totalCaption = GetFormatCaption(GameLogicConstants.HighScoreBeginnerCaption) + space + GetFormatCaption(GameLogicConstants.HighScoreMediumCaption) + space + GetFormatCaption(GameLogicConstants.HighScoreExpertCaption);
 
-            builder.Append(string.Format("{0,5}{1,-25}{2,5}{3,-25}{4,5}{5,-25}", " ", "Простой", " ", "Средний", " ", "Сложный"));
+            StringBuilder builder = new StringBuilder();
+            builder.Append(totalCaption);
             builder.AppendLine();
             builder.AppendLine();
 
@@ -152,7 +154,7 @@ namespace Logic
                 string medium = GetHighScoreLinePart(i, mediums, mediumsCount);
                 string expert = GetHighScoreLinePart(i, experts, expertsCount);
 
-                string totalLine = beginer + medium + expert;
+                string totalLine = beginer + space + medium + space + expert;
 
                 builder.Append(totalLine);
                 builder.AppendLine();
@@ -161,22 +163,54 @@ namespace Logic
             return builder.ToString();
         }
 
+        private static string GetFormatCaption(string caption)
+        {
+            string beforText = "";
+            int beforCaptionSpace = beforText.Length;
+            int captionSpace = GameLogicConstants.NumberSpaceHighScore + GameLogicConstants.UserNameSpaceHighScore + GameLogicConstants.UserTimeSpaceHighScore;
+
+            SetSpaces(ref beforCaptionSpace, ref captionSpace, caption.Length);
+
+            return beforText.PadRight(beforCaptionSpace, ' ') + caption.PadRight(captionSpace, ' ');
+        }
+
         private static string GetHighScoreLinePart(int index, UserResult[] users, int usersCount)
         {
-            string user;
+            string userData;
+
+            int numberSpace = GameLogicConstants.NumberSpaceHighScore;
+            int userNameSpace = GameLogicConstants.UserNameSpaceHighScore;
+            int userTime = GameLogicConstants.UserTimeSpaceHighScore;
+
+            int correctionIndexForPrint = 1;
 
             if (usersCount > index)
             {
-                // user = string.Format("{0,-7}{1,-4}", users[i].Name, users[i].Time);
-                user = string.Format("{0,-5}{1,-13}{2,-7}{3,5}", index + 1, users[index].Name, users[index].Time, " ");
+                int userNameLength = users[index].Name.Length;
+                SetSpaces(ref numberSpace, ref userNameSpace, userNameLength);
+
+                userData = (index + correctionIndexForPrint).ToString().PadRight(numberSpace, ' ') + users[index].Name.PadRight(userNameSpace, ' ') + users[index].Time.ToString().PadLeft(userTime, ' ');
             }
             else
             {
-                user = string.Format("{0,-5}{1,-13}{2,-7}{3,5}", index + 1, "-", "-", " ");
-                // user = string.Format("{0}\t{1}\t{2,-15}", i + 1, "-", "-");
+                string freeName = "-";
+                int userNameLength = freeName.Length;
+                SetSpaces(ref numberSpace, ref userNameSpace, userNameLength);
+
+                userData = (index + correctionIndexForPrint).ToString().PadRight(numberSpace, ' ') + freeName.PadRight(userNameSpace, ' ') + freeName.PadLeft(userTime, ' ');
             }
 
-            return user;
+            return userData;
+        }
+
+        private static void SetSpaces(ref int numberSpace, ref int userNameSpace, int userNameLength)
+        {
+            int userNameFreeSpace = userNameSpace - userNameLength;
+            int userNameFreeSpaceBeforName = userNameFreeSpace / 2;
+            int userNameFreeSpaceAfterName = userNameFreeSpace - userNameFreeSpaceBeforName;
+
+            numberSpace += userNameFreeSpaceBeforName;
+            userNameSpace = userNameLength + userNameFreeSpaceAfterName;
         }
     }
 }

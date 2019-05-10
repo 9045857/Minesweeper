@@ -24,5 +24,13 @@ namespace Logic
         public const int PauseTime = 1000;
 
         public const string HighScoreFileName = "highScore";
+
+        public const string HighScoreBeginnerCaption = "Простой";
+        public const string HighScoreMediumCaption = "Средний";
+        public const string HighScoreExpertCaption = "Сложный";
+
+        public const int NumberSpaceHighScore = 3;
+        public const int UserNameSpaceHighScore = 15;
+        public const int UserTimeSpaceHighScore = 5;
     }
 }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TextUi
 {
@@ -35,9 +31,10 @@ namespace TextUi
             Console.WriteLine("    откроется прилегающая область свободная от мин (аналог нажатия левой и правой клавиш мыши в графической версии игры).");
             Console.WriteLine();
             Console.WriteLine("Пометить/убрать флажком ячейку с миной:");
-            Console.WriteLine("4 5 ф - пометить флажком ячейку в 4-ой строке 5-ом столбце. Если данная ячейка уже с флажком, то он исчезнет (ячейка будет доступна для нажатия)");
+            Console.WriteLine("4 5 ф - пометить флажком ячейку в 4-ой строке 5-ом столбце.");
             Console.WriteLine();
-            Console.WriteLine("Помеченные флажком ячейки не доступны для нажатия.");
+            Console.WriteLine("  - Если ячейка уже с флажком, то он исчезнет (ячейка будет доступна для нажатия).");
+            Console.WriteLine("  - Помеченные флажком ячейки не доступны для нажатия.");
             Console.WriteLine("-------------------------------------------------------------------------------");
         }
 
