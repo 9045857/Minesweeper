@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Gui
@@ -60,17 +53,16 @@ namespace Gui
             {
                 UserName = textBoxUserName.Text;
 
-                if (UserName.Length > GameOptionsConstants.UserNameMaxLengh)
+                if (UserName.Length > GameOptionsConstants.HighScoreUserNameMaxLengh)
                 {
-                    UserName = UserName.Substring(0, GameOptionsConstants.UserNameMaxLengh);
+                    UserName = UserName.Substring(0, GameOptionsConstants.HighScoreUserNameMaxLengh);
                 }
             }
 
             IsSaveHighScore = true;
-            
+
             OnSetUserName?.Invoke();
             Close();
-           // Dispose();
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
@@ -79,7 +71,6 @@ namespace Gui
             UserName = "";
             IsSaveHighScore = false;
             Close();
-            //  Dispose();
         }
 
         private void textBoxUserName_KeyDown(object sender, KeyEventArgs e)

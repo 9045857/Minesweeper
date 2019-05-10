@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Logic;
+using System;
 
 namespace TextUi
 {
     class Program
-    {        
+    {
         static void Main(string[] args)
         {
             Console.WriteLine("Игра \"Сапер\".");
@@ -23,7 +19,7 @@ namespace TextUi
                                          //Технически такая возможностьесь, но из-за сложности игры в текстовом формате, лучше без нее.
 
             GameParameters gameParameters = new GameParameters(rowCount, columnCount, minesCount, canQestionMark);
-            GameLogic  gameLogic = new GameLogic(gameParameters);
+            GameLogic gameLogic = new GameLogic(gameParameters);
             GameText gameText = new GameText(gameParameters, gameLogic);
 
             gameText.WriteGameArea();
@@ -32,7 +28,7 @@ namespace TextUi
             {
                 string command = Console.ReadLine();
                 gameText.Do(command);
-            }            
+            }
         }
     }
 }

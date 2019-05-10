@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Logic;
-using System.Windows.Forms;
+﻿using Logic;
+using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Gui
 {
@@ -42,7 +38,7 @@ namespace Gui
 
             infoPanel = pictureBoxSmileButton.Parent.Parent as Panel;
             gameAreaGraphics.OnSetGamePanelWidth += SetInfoPanelWidth;
-            gameAreaGraphics.OnMouseDownCells +=smileButtonImage_OnMouseDownCells;
+            gameAreaGraphics.OnMouseDownCells += smileButtonImage_OnMouseDownCells;
             gameAreaGraphics.OnMouseUpCells += smileButtonImage_OnMouseUpCells;
 
             this.bitmapsResources = bitmapsResources;
@@ -86,7 +82,7 @@ namespace Gui
             int minesCount = gameLogic.MinesCount;
             minesCountImage.Image = GetBitmapNumericDisplay(minesCount);
         }
-        
+
         private void RedrawMarkedMinesCount(int markMinesCount)
         {
             minesCountImage.Image = GetBitmapNumericDisplay(markMinesCount);
@@ -111,7 +107,7 @@ namespace Gui
             int minNumber = -99;
             int maxNumber = 999;
 
-            if (number < minNumber )
+            if (number < minNumber)
             {
                 Bitmap minusBitmap = bitmapsResources.clockMinus;
 
@@ -125,7 +121,7 @@ namespace Gui
                 return resultBitmap;
             }
 
-            if ( number > maxNumber)
+            if (number > maxNumber)
             {
                 number = maxNumber;
             }
@@ -162,7 +158,7 @@ namespace Gui
 
             return resultBitmap;
         }
-                          
+
         private void SmileButtonPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -185,7 +181,7 @@ namespace Gui
             gameLogic.RestartCurrentGame();
             RestartDislays();
         }
-     
+
         private void RestartDislays()
         {
             minesCountImage.Image = GetBitmapNumericDisplay(gameLogic.MinesCount);

@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Gui
 {
     class GameOptionsConstants
     {
-        public const int LowLevelRowCount = 9;
+        public const int LowLevelRowCount = 9;//TODO часть с данными о типовых играх брать из логики
         public const int LowLevelColumnCount = 9;
         public const int LowLevelMinesCount = 10;
 
@@ -94,7 +91,6 @@ namespace Gui
 
         public static string HighScoreCongratulation = string.Format("Отличный результат!{0}Добавим его в таблицу рекордов?", Environment.NewLine);
 
-        public const int UserNameMaxLengh = 6;
-
+        public const int HighScoreUserNameMaxLengh = 10;
     }
 }

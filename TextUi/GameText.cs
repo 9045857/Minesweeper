@@ -1,9 +1,6 @@
-﻿using System;
+﻿using Logic;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Logic;
 
 namespace TextUi
 {
@@ -36,7 +33,7 @@ namespace TextUi
             gameLogic.OnFinishAndWinGame += WinGame;
             gameLogic.OnExploded += LoseGame;
 
-            SetRowColumnMinesCount();            
+            SetRowColumnMinesCount();
         }
 
         private void SetRowColumnMinesCount()
@@ -203,8 +200,6 @@ namespace TextUi
                     break;
 
                 case Cell.MarkOnBottomCell.Mine:
-                    //Console.ForegroundColor = ConsoleColor.DarkRed;
-                    //Console.BackgroundColor = ConsoleColor.White;
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.Write("Ф");
                     break;
@@ -447,7 +442,7 @@ namespace TextUi
             Console.WriteLine();
             Console.WriteLine("4 - закрыть программу.");
             Console.WriteLine();
-            Console.WriteLine("{0} - рестарт игры.",MessagesAndConstants.NewGameCommand);
+            Console.WriteLine("{0} - рестарт игры.", MessagesAndConstants.NewGameCommand);
         }
 
         private void WinWithHighScore(int time)

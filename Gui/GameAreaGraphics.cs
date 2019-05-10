@@ -1,11 +1,7 @@
-﻿using System;
+﻿using Logic;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Drawing;
-using Logic;
+using System.Windows.Forms;
 
 namespace Gui
 {
@@ -332,9 +328,6 @@ namespace Gui
 
         private bool IsChangedCell(int newRowIndex, int newColumnIndex)
         {
-            //int rowIndex = GetCellRowOrColumnIndex(e.Y, gameAreaPictureBox.Height);
-            //int columnIndex = GetCellRowOrColumnIndex(e.X, gameAreaPictureBox.Width);
-
             return currentColumnIndex != newColumnIndex || newRowIndex != currentRowIndex;
         }
 

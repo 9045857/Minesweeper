@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Logic
+﻿namespace Logic
 {
-  public  class Cell
+    public class Cell
     {
         public bool isMineInCellSet;
 

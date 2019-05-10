@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Logic
 {
@@ -85,8 +80,6 @@ namespace Logic
             DeserialazeHighScore();
 
             SetNewGameParameters();
-
-          //  MessageBox.Show(highScore.ToString());
         }
 
         private void ChangeTime(int currentTime)

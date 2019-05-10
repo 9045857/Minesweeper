@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Logic
+﻿namespace Logic
 {
     public class GameParameters
     {
@@ -19,10 +13,10 @@ namespace Logic
         public delegate void GameParametersChangedHeadler();
         public event GameParametersChangedHeadler OnChangeGameParameters;
 
-        public int RowCount { get; /*private */set; }
-        public int ColumnCount { get; /*private*/ set; }
-        public int MinesCount { get; /*private */set; }
-        public bool IsPossibleMarkQuestion { get; /*private */set; }
+        public int RowCount { get; set; }
+        public int ColumnCount { get; set; }
+        public int MinesCount { get; set; }
+        public bool IsPossibleMarkQuestion { get; set; }
 
         public GameParameters(int rowCount, int columnCount, int minesCount, bool isPossibleMarkQuestion)
         {

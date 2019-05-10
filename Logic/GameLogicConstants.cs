@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Logic
+﻿namespace Logic
 {
     public class GameLogicConstants
     {
@@ -20,7 +14,6 @@ namespace Logic
         public const int HighLevelColumnCount = 30;
         public const int HighLevelMinesCount = 99;
 
-        //   public const int MaxGameTime = 999;
         public const int PauseTime = 1000;
 
         public const string HighScoreFileName = "highScore";
