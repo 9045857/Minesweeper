@@ -12,12 +12,6 @@ namespace TextUi
 
         public const string NewGameCommand = "новая игра";
 
-        public const int MinRowCount = 3;
-        public const int MaxRowCount = 50;
-
-        public const int MinColumnCount = 5;
-        public const int MaxColumnCount = 50;
-
         public static void ShowHelpCommands()
         {
             Console.WriteLine("-------------------------------------------------------------------------------");

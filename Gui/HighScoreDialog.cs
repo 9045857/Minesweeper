@@ -45,19 +45,7 @@ namespace Gui
 
         private void SetUserName()
         {
-            if (string.IsNullOrEmpty(textBoxUserName.Text))
-            {
-                UserName = "игрок";
-            }
-            else
-            {
-                UserName = textBoxUserName.Text;
-
-                if (UserName.Length > GameOptionsConstants.HighScoreUserNameMaxLengh)
-                {
-                    UserName = UserName.Substring(0, GameOptionsConstants.HighScoreUserNameMaxLengh);
-                }
-            }
+            UserName = textBoxUserName.Text;
 
             IsSaveHighScore = true;
 

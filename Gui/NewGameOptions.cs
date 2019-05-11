@@ -12,7 +12,11 @@ namespace Gui
 
         private BitmapsResources bitmapsResources;
 
-        private GameParameters gameParameters = new GameParameters();//важный параметр. Через его обновление происходит обновление игры с помощью событий
+        /// <summary>
+        /// Объект группы Логики.
+        /// Через обновление его параметров происходит обновление игры с помощью события.
+        /// </summary>
+        private GameParameters gameParameters = new GameParameters();
 
         public FormNewGameOptions(BitmapsResources bitmapsResources)
         {
@@ -34,47 +38,26 @@ namespace Gui
             Close();
 
             OnGetNewGameParameters?.Invoke();
-
             SetNewGameParametersWithCorrectionToPermissibleRange();
+
+            ChangeCustomDataIfNeed();
+        }
+
+        private void ChangeCustomDataIfNeed()
+        {
+            if (radioButtonCustom.Checked)
+            {
+                textBoxRowCount.Text = gameParameters.RowCount.ToString();
+                textBoxColumnCount.Text = gameParameters.ColumnCount.ToString();
+                textBoxMinesCount.Text = gameParameters.MinesCount.ToString();
+            }
         }
 
         private void SetNewGameParametersWithCorrectionToPermissibleRange()
         {
-            CorrectTextBoxesTextToPermissibleRange();
             gameParameters.SetNewGameParameters(RowCount, ColumnCount, MinesCount, IsPossibleMarkQuestion);
         }
-
-        private void CorrectTextBoxesTextToPermissibleRange()
-        {
-            if (RowCount < GameOptionsConstants.CustomLevelRowCountMin)
-            {
-                textBoxRowCount.Text = GameOptionsConstants.CustomLevelRowCountMin.ToString();
-            }
-            else if (RowCount > GameOptionsConstants.CustomLevelRowCountMax)
-            {
-                textBoxRowCount.Text = GameOptionsConstants.CustomLevelRowCountMax.ToString();
-            }
-
-            if (ColumnCount < GameOptionsConstants.CustomLevelColumnCountMin)
-            {
-                textBoxColumnCount.Text = GameOptionsConstants.CustomLevelColumnCountMin.ToString();
-            }
-            else if (ColumnCount > GameOptionsConstants.CustomLevelColumnCountMax)
-            {
-                textBoxColumnCount.Text = GameOptionsConstants.CustomLevelColumnCountMax.ToString();
-            }
-
-            if (MinesCount < GameOptionsConstants.CustomLevelMinesCountMin)
-            {
-                textBoxMinesCount.Text = GameOptionsConstants.CustomLevelMinesCountMin.ToString();
-            }
-            else if (MinesCount >= RowCount * ColumnCount)
-            {
-                int freeCellCount = 1;
-                textBoxMinesCount.Text = (RowCount * ColumnCount - freeCellCount).ToString();
-            }
-        }
-
+        
         public GameParameters GetGameParameters()
         {
             gameParameters.RowCount = RowCount;
@@ -113,7 +96,14 @@ namespace Gui
             {
                 if (IsInputCustomDataCorrect())
                 {
-                    return Convert.ToInt16(customOptionValue);
+                    if (Int32.TryParse(customOptionValue, out int data))
+                    {
+                        return data;
+                    }
+                    else
+                    {
+                        return lowLevelOptionValue;//возможно тут нужно все-таки анализироват данные сразу, и предлагать точную замену до передачи в логику
+                    }
                 }
                 else
                 {
@@ -126,7 +116,7 @@ namespace Gui
         {
             get
             {
-                return GetOptionCount(GameOptionsConstants.LowLevelRowCount, GameOptionsConstants.MediumLevelRowCount, GameOptionsConstants.HighLevelRowCount, textBoxRowCount.Text);
+                return GetOptionCount(GameLogicConstants.LowLevelRowCount, GameLogicConstants.MediumLevelRowCount, GameLogicConstants.HighLevelRowCount, textBoxRowCount.Text);
             }
         }
 
@@ -134,7 +124,7 @@ namespace Gui
         {
             get
             {
-                return GetOptionCount(GameOptionsConstants.LowLevelColumnCount, GameOptionsConstants.MediumLevelColumnCount, GameOptionsConstants.HighLevelColumnCount, textBoxColumnCount.Text);
+                return GetOptionCount(GameLogicConstants.LowLevelColumnCount, GameLogicConstants.MediumLevelColumnCount, GameLogicConstants.HighLevelColumnCount, textBoxColumnCount.Text);
             }
         }
 
@@ -142,7 +132,7 @@ namespace Gui
         {
             get
             {
-                return GetOptionCount(GameOptionsConstants.LowLevelMinesCount, GameOptionsConstants.MediumLevelMinesCount, GameOptionsConstants.HighLevelMinesCount, textBoxMinesCount.Text);
+                return GetOptionCount(GameLogicConstants.LowLevelMinesCount, GameLogicConstants.MediumLevelMinesCount, GameLogicConstants.HighLevelMinesCount, textBoxMinesCount.Text);
             }
         }
 

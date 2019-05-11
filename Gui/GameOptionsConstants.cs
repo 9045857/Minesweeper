@@ -5,46 +5,6 @@ namespace Gui
 {
     class GameOptionsConstants
     {
-        public const int LowLevelRowCount = 9;//TODO часть с данными о типовых играх брать из логики
-        public const int LowLevelColumnCount = 9;
-        public const int LowLevelMinesCount = 10;
-
-        public const int MediumLevelRowCount = 16;
-        public const int MediumLevelColumnCount = 16;
-        public const int MediumLevelMinesCount = 40;
-
-        public const int HighLevelRowCount = 16;
-        public const int HighLevelColumnCount = 30;
-        public const int HighLevelMinesCount = 99;
-
-        public const int CustomLevelMinesCountMin = 0;
-
-        public const int CustomLevelColumnCountMin = 9;
-        public const int CustomLevelColumnCountMax = 50;
-
-        public const int CustomLevelRowCountMin = 1;
-        public const int CustomLevelRowCountMax = 50;
-
-        public static bool IsMinesCountInPermissibleRange(int rowCount, int columnCount, int minesCount)
-        {
-            return (minesCount >= CustomLevelMinesCountMin) && (minesCount < rowCount * columnCount);
-        }
-
-        public static bool IsRowCountInPermissibleRange(int rowCount)
-        {
-            return IsValueInPermissibleRange(rowCount, CustomLevelRowCountMin, CustomLevelRowCountMax);
-        }
-
-        public static bool IsColumnCountInPermissibleRange(int columnCount)
-        {
-            return IsValueInPermissibleRange(columnCount,CustomLevelColumnCountMin,CustomLevelColumnCountMax);
-        }
-
-        private static bool IsValueInPermissibleRange(int value, int minValue, int maxValue)
-        {
-            return (value >= minValue) && (value <= maxValue);
-        }
-
         public const string CaptionAboutMessage = "Информация об игре \"Сапер\"";
         public const string CaptionHighScore = "Таблица рекордов";
 
@@ -90,7 +50,5 @@ namespace Gui
         }
 
         public static string HighScoreCongratulation = string.Format("Отличный результат!{0}Добавим его в таблицу рекордов?", Environment.NewLine);
-
-        public const int HighScoreUserNameMaxLengh = 10;
     }
 }

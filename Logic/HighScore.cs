@@ -89,8 +89,26 @@ namespace Logic
             }
         }
 
+        private string GetCheckedUserName(string userName)
+        {
+            if (string.IsNullOrEmpty(userName))
+            {
+                return GameLogicConstants.DefaultUserName;
+            }
+            else if (userName.Length > GameLogicConstants.HighScoreUserNameMaxLengh)
+            {
+                return userName.Substring(0, GameLogicConstants.HighScoreUserNameMaxLengh);
+            }
+            else
+            {
+                return userName;
+            }
+        }
+
         public void AddHighScore(string userName, int time, int rowCount, int columnCount, int minesCount)
         {
+            userName = GetCheckedUserName(userName);
+
             GameParameters.GameTypeLevel gameType = GetGameType(rowCount, columnCount, minesCount);
 
             switch (gameType)

@@ -329,7 +329,6 @@ namespace TextUi
                 if (Int32.TryParse(parameters[0], out rowCount) && Int32.TryParse(parameters[1], out columnCount) && Int32.TryParse(parameters[2], out minesCount))
                 {
                     gameType = -1;
-                    CheckAndCorrectBeginData(ref rowCount, ref columnCount, ref minesCount);
                     return true;
                 }
                 else
@@ -342,38 +341,7 @@ namespace TextUi
                 return GetFalse(out gameType, out rowCount, out columnCount, out minesCount);
             }
         }
-
-        private void CheckAndCorrectBeginData(ref int rowCount, ref int columnCount, ref int minesCount)
-        {
-            if (rowCount < MessagesAndConstants.MinRowCount)
-            {
-                rowCount = MessagesAndConstants.MinRowCount;
-            }
-            else if (rowCount > MessagesAndConstants.MaxRowCount)
-            {
-                rowCount = MessagesAndConstants.MaxRowCount;
-            }
-
-            if (columnCount < MessagesAndConstants.MinColumnCount)
-            {
-                columnCount = MessagesAndConstants.MinColumnCount;
-            }
-            else if (columnCount > MessagesAndConstants.MaxColumnCount)
-            {
-                columnCount = MessagesAndConstants.MaxColumnCount;
-            }
-
-            int minFreeCells = 1;
-            if (minesCount > rowCount * columnCount - minFreeCells)
-            {
-                minesCount = rowCount * columnCount - minFreeCells;
-            }
-            else if (minesCount < 1)
-            {
-                minesCount = 1;
-            }
-        }
-
+        
         private static bool GetFalse(out int gameType, out int rowCount, out int columnCount, out int minesCount)
         {
             gameType = -1;
@@ -493,6 +461,7 @@ namespace TextUi
                     break;
 
                 case "3":
+                    Console.WriteLine("-= Таблица рекордов =-");
                     Console.WriteLine(gameLogic.GetHighScore());
                     break;
 

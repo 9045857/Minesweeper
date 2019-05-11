@@ -13,9 +13,45 @@
         public delegate void GameParametersChangedHeadler();
         public event GameParametersChangedHeadler OnChangeGameParameters;
 
-        public int RowCount { get; set; }
-        public int ColumnCount { get; set; }
-        public int MinesCount { get; set; }
+        private int rowCount;
+        public int RowCount
+        {
+            get
+            {
+                return rowCount;
+            }
+            set
+            {
+                rowCount = GetRowCountAfterCheck(value);
+            }
+        }
+
+        private int columnCount;
+        public int ColumnCount
+        {
+            get
+            {
+                return columnCount;
+            }
+            set
+            {
+                columnCount = GetColumnCountAfterCheck(value);
+            }
+        }
+
+        private int minesCount;
+        public int MinesCount
+        {
+            get
+            {
+                return minesCount;
+            }
+            set
+            {
+                minesCount = GetMinesCountAfterCheck(value, RowCount, ColumnCount);
+            }
+        }
+
         public bool IsPossibleMarkQuestion { get; set; }
 
         public GameParameters(int rowCount, int columnCount, int minesCount, bool isPossibleMarkQuestion)
@@ -54,6 +90,51 @@
             SetGameParameters(rowCount, columnCount, minesCount, isPossibleMarkQuestion);
 
             OnChangeGameParameters?.Invoke();
+        }
+
+        private int GetRowCountAfterCheck(int rowCount)
+        {
+            if (rowCount < GameLogicConstants.CustomLevelRowCountMin)
+            {
+                return GameLogicConstants.CustomLevelRowCountMin;
+            }
+            else if (rowCount > GameLogicConstants.CustomLevelRowCountMax)
+            {
+                return GameLogicConstants.CustomLevelRowCountMax;
+            }
+
+            return rowCount;
+        }
+
+        private int GetColumnCountAfterCheck(int columnCount)
+        {
+            if (columnCount < GameLogicConstants.CustomLevelColumnCountMin)
+            {
+                return GameLogicConstants.CustomLevelColumnCountMin;
+            }
+            else if (columnCount > GameLogicConstants.CustomLevelColumnCountMax)
+            {
+                return GameLogicConstants.CustomLevelColumnCountMax;
+            }
+
+            return columnCount;
+        }
+
+        private int GetMinesCountAfterCheck(int minesCount, int rowCount, int columnCount)
+        {
+            int minMinesCount = GameLogicConstants.CustomLevelMinesCountMin;
+            int maxMinesCount = rowCount * columnCount - 1;
+
+            if (minesCount < minMinesCount)
+            {
+                return minMinesCount;
+            }
+            else if (minesCount > maxMinesCount)
+            {
+                return maxMinesCount;
+            }
+
+            return minesCount;
         }
 
         private void SetGameParameters(int rowCount, int columnCount, int minesCount, bool isPossibleMarkQuestion)

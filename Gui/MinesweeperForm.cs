@@ -40,7 +40,7 @@ namespace Gui
         }
 
         private void toolStripMenuItemNew_Click(object sender, EventArgs e)
-        {
+        {       
             formNewGameOptions.ShowDialog();
         }
 
