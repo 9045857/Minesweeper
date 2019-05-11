@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Gui
 {
-    class GameGraphics
+    public class GameGraphics
     {
         private GameLogic gameLogic;
         private GameAreaGraphics gameAreaGraphics;
@@ -57,6 +57,11 @@ namespace Gui
         public string GetHighScore()
         {
             return gameLogic.GetHighScore();
+        }
+
+        public void ClearHighScore()
+        {
+            gameLogic.ClearHighScore();
         }
     }
 }

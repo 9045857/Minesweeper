@@ -8,6 +8,7 @@ namespace Gui
     {
         private FormNewGameOptions formNewGameOptions;
         private HighScoreDialog highScoreDialog;
+        private HighScoreForm highScoreForm;
 
         private BitmapsResources bitmapsResources = new BitmapsResources();
         private GameGraphics mineswepperGame;
@@ -37,10 +38,11 @@ namespace Gui
         {
             gameParameters = formNewGameOptions.GetGameParameters();
             mineswepperGame = new GameGraphics(gameParameters, pictureBoxGameArea, bitmapsResources, pictureBoxSmileButton, pictureBoxMinesCount, pictureBoxTime, highScoreDialog);
+            highScoreForm = new HighScoreForm(mineswepperGame);
         }
 
         private void toolStripMenuItemNew_Click(object sender, EventArgs e)
-        {       
+        {
             formNewGameOptions.ShowDialog();
         }
 
@@ -51,7 +53,7 @@ namespace Gui
 
         private void toolStripMenuItemHighScore_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(mineswepperGame.GetHighScore(), GameOptionsConstants.CaptionHighScore, MessageBoxButtons.OK);
+            highScoreForm.ShowDialog();
         }
     }
 }

@@ -437,6 +437,7 @@ namespace TextUi
                 }
 
                 gameLogic.AddHighScore(userName, time, rowCount, columnCount, minesCount);
+                Console.WriteLine("Результат добавлен в таблицу рекордов.");
             }
         }
 

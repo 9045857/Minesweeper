@@ -105,6 +105,13 @@ namespace Logic
             }
         }
 
+        public void Clear()
+        {
+            beginnersCount = 0;
+            mediumsCount = 0;
+            expertsCount = 0; 
+        }
+
         public void AddHighScore(string userName, int time, int rowCount, int columnCount, int minesCount)
         {
             userName = GetCheckedUserName(userName);
@@ -153,7 +160,7 @@ namespace Logic
 
         public override string ToString()
         {
-            string space = "   ";
+            string space = "  | ";
             string totalCaption = GetFormatCaption(GameLogicConstants.HighScoreBeginnerCaption) + space + GetFormatCaption(GameLogicConstants.HighScoreMediumCaption) + space + GetFormatCaption(GameLogicConstants.HighScoreExpertCaption);
 
             StringBuilder builder = new StringBuilder();

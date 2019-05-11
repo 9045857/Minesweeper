@@ -7,10 +7,14 @@ namespace Gui
     {
         public const string CaptionAboutMessage = "Информация об игре \"Сапер\"";
         public const string CaptionHighScore = "Таблица рекордов";
+        public const string CaptionRemoveHighScore = "Удаление данных";
 
         public const string WarningCorrectlySetRowCount = "Некорректно задана высота.";
         public const string WarningCorrectlySetColumnCount = "Некорректно задана ширина.";
         public const string WarningCorrectlySetMinesCount = "Некорректно задано количество мин.";
+
+        public const string WarningRemoveHighScore = "Удаление без возможности восстановления!\nВы уверены, что хотите удалить все результаты?";
+        public const string RemoveHighScoreCaption = "Удаление рекордов.";
 
         public static string GetAboutText()
         {

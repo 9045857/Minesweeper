@@ -200,6 +200,12 @@ namespace Logic
             }
         }
 
+        public void ClearHighScore()
+        {
+            highScore.Clear();
+            SerialazeHighScore();
+        }
+
         private static string GetFileHighScoreName()
         {
             string fileName = GameLogicConstants.HighScoreFileName;
