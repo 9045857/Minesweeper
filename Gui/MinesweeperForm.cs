@@ -55,5 +55,10 @@ namespace Gui
         {
             highScoreForm.ShowDialog();
         }
+
+        private void toolStripMenuItemExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

@@ -157,20 +157,21 @@
             // toolStripMenuItemNew
             // 
             this.toolStripMenuItemNew.Name = "toolStripMenuItemNew";
-            this.toolStripMenuItemNew.Size = new System.Drawing.Size(128, 26);
+            this.toolStripMenuItemNew.Size = new System.Drawing.Size(216, 26);
             this.toolStripMenuItemNew.Text = "Новая";
             this.toolStripMenuItemNew.Click += new System.EventHandler(this.toolStripMenuItemNew_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(125, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(213, 6);
             // 
             // toolStripMenuItemExit
             // 
             this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
-            this.toolStripMenuItemExit.Size = new System.Drawing.Size(128, 26);
+            this.toolStripMenuItemExit.Size = new System.Drawing.Size(216, 26);
             this.toolStripMenuItemExit.Text = "Выход";
+            this.toolStripMenuItemExit.Click += new System.EventHandler(this.toolStripMenuItemExit_Click);
             // 
             // toolStripMenuItemInfo
             // 
