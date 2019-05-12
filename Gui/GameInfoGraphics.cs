@@ -130,7 +130,7 @@ namespace Gui
             int ten = 10;
             int hundredRank = number / hundred;
             int tenRank = (number - hundredRank * hundred) / ten;
-            int unitRank = number - hundredRank * hundred - tenRank * ten;//TODO check this on correct
+            int unitRank = number - hundredRank * hundred - tenRank * ten;
 
             Bitmap bitmapHandredRank;
             Bitmap bitmapTenRank;

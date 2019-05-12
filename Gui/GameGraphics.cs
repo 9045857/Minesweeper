@@ -43,7 +43,7 @@ namespace Gui
             this.highScoreDialog.ShowDialog();
         }
 
-        private void AddHighScore()//TODO нужно переделать. передавать то, что написано в диалоге без изменний, но возвращать нормальные
+        private void AddHighScore()
         {
             string userName = highScoreDialog.UserName;
             int time = highScoreDialog.GameTime;

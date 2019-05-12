@@ -261,7 +261,7 @@ namespace Gui
         {
             using (Graphics currentGameAreaGraphics = Graphics.FromImage(gameAreaImage))
             {
-                PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, gameLogic.cells[previousRowIndex, previousColumnIndex]);//TODO отработать ситуацию, когда текущие значения-1
+                PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, gameLogic.cells[previousRowIndex, previousColumnIndex]);
                 gameAreaPictureBox.Image = gameAreaImage;
 
                 isSituationBothMouseButtonDown = false;
