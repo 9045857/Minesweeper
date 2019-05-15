@@ -133,6 +133,7 @@
             // 
             // menuStripGame
             // 
+            this.menuStripGame.BackColor = System.Drawing.SystemColors.ControlLight;
             this.menuStripGame.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStripGame.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemMain,
@@ -157,19 +158,19 @@
             // toolStripMenuItemNew
             // 
             this.toolStripMenuItemNew.Name = "toolStripMenuItemNew";
-            this.toolStripMenuItemNew.Size = new System.Drawing.Size(216, 26);
+            this.toolStripMenuItemNew.Size = new System.Drawing.Size(128, 26);
             this.toolStripMenuItemNew.Text = "Новая";
             this.toolStripMenuItemNew.Click += new System.EventHandler(this.toolStripMenuItemNew_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(213, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(125, 6);
             // 
             // toolStripMenuItemExit
             // 
             this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
-            this.toolStripMenuItemExit.Size = new System.Drawing.Size(216, 26);
+            this.toolStripMenuItemExit.Size = new System.Drawing.Size(128, 26);
             this.toolStripMenuItemExit.Text = "Выход";
             this.toolStripMenuItemExit.Click += new System.EventHandler(this.toolStripMenuItemExit_Click);
             // 
@@ -185,14 +186,14 @@
             // toolStripMenuItemHighScore
             // 
             this.toolStripMenuItemHighScore.Name = "toolStripMenuItemHighScore";
-            this.toolStripMenuItemHighScore.Size = new System.Drawing.Size(216, 26);
+            this.toolStripMenuItemHighScore.Size = new System.Drawing.Size(214, 26);
             this.toolStripMenuItemHighScore.Text = "Таблица рекордов";
             this.toolStripMenuItemHighScore.Click += new System.EventHandler(this.toolStripMenuItemHighScore_Click);
             // 
             // toolStripMenuItemAbout
             // 
             this.toolStripMenuItemAbout.Name = "toolStripMenuItemAbout";
-            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(216, 26);
+            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(214, 26);
             this.toolStripMenuItemAbout.Text = "Об игре";
             this.toolStripMenuItemAbout.Click += new System.EventHandler(this.toolStripMenuItemAbout_Click);
             // 
