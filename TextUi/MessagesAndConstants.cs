@@ -63,7 +63,7 @@ namespace TextUi
             Console.WriteLine("-------------------------------------------------------------------------------");
         }
 
-        private static void ShowHelpStartGame()
+        public static void ShowHelpStartGame()
         {
             Console.WriteLine("-------------------------------------------------------------------------------");
             Console.WriteLine("-= Начать игру =-");
@@ -72,15 +72,16 @@ namespace TextUi
             Console.WriteLine("1 - легкий уровень: поле 9х9, 10 мин.");
             Console.WriteLine("2 - средний уровень: поле 10х10, 40 мин.");
             Console.WriteLine("3 - сложный уровень: поле 10х16, 99 мин.");
-            Console.WriteLine("Или можно создать свою игру:");
-            Console.WriteLine("Например, запуск игры на поле 10х15 с 20 минами: ");
-            Console.WriteLine("{0} 10 15 20", NewGameCommand);
             Console.WriteLine();
             Console.WriteLine("Запуск стандартной игры, например среднего уровня:");
             Console.WriteLine("{0} 2", NewGameCommand);
             Console.WriteLine();
             Console.WriteLine("Перезапуск игры:");
             Console.WriteLine("{0}", NewGameCommand);
+            Console.WriteLine();
+            Console.WriteLine("Создать свою игру:");
+            Console.WriteLine("Например, запуск игры на поле 10х15 с 20 минами: ");
+            Console.WriteLine("{0} 10 15 20", NewGameCommand);
             Console.WriteLine();
             Console.WriteLine("-------------------------------------------------------------------------------");
         }

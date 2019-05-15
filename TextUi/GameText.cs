@@ -341,7 +341,7 @@ namespace TextUi
                 return GetFalse(out gameType, out rowCount, out columnCount, out minesCount);
             }
         }
-        
+
         private static bool GetFalse(out int gameType, out int rowCount, out int columnCount, out int minesCount)
         {
             gameType = -1;
@@ -405,12 +405,12 @@ namespace TextUi
             Console.WriteLine("Информация. Варианты:.");
             Console.WriteLine("0 - печать поля.");
             Console.WriteLine("1 - управление/команды.");
-            Console.WriteLine("2 - правила игры.");
-            Console.WriteLine("3 - таблица рекордов.");
+            Console.WriteLine("2 - запуск/перезапуск новой игры.");
+            Console.WriteLine("3 - правила игры.");
+            Console.WriteLine("4 - таблица рекордов.");
             Console.WriteLine();
-            Console.WriteLine("4 - закрыть программу.");
+            Console.WriteLine("5 - закрыть программу.");
             Console.WriteLine();
-            Console.WriteLine("{0} - рестарт игры.", MessagesAndConstants.NewGameCommand);
         }
 
         private void WinWithHighScore(int time)
@@ -458,15 +458,19 @@ namespace TextUi
                     break;
 
                 case "2":
-                    MessagesAndConstants.ShowHelpRules();
+                    MessagesAndConstants.ShowHelpStartGame();
                     break;
 
                 case "3":
+                    MessagesAndConstants.ShowHelpRules();
+                    break;
+
+                case "4":
                     Console.WriteLine("-= Таблица рекордов =-");
                     Console.WriteLine(gameLogic.GetHighScore());
                     break;
 
-                case "4":
+                case "5":
                     Environment.Exit(0);
                     break;
 
