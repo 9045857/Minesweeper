@@ -38,6 +38,7 @@ namespace Gui
 
             infoPanel = pictureBoxSmileButton.Parent.Parent as Panel;
             infoPanel.Width = gameAreaGraphics.GamePanelAreaWidth;
+
             gameAreaGraphics.OnSetGamePanelWidth += SetInfoPanelWidth;
             gameAreaGraphics.OnMouseDownCells += smileButtonImage_OnMouseDownCells;
             gameAreaGraphics.OnMouseUpCells += smileButtonImage_OnMouseUpCells;
@@ -76,6 +77,7 @@ namespace Gui
             smileButtonImage.Image = bitmapsResources.smileButton;
             smileButtonImage.MouseUp += new MouseEventHandler(SmileButtonPictureBox_MouseUp);
             smileButtonImage.MouseDown += new MouseEventHandler(SmileButtonPictureBox_MouseDown);
+            smileButtonImage.MouseLeave += new EventHandler(SmileButtonPictureBox_MouseLeave);
 
             int startTime = 0;
             timeImage.Image = GetBitmapNumericDisplay(startTime);
@@ -160,11 +162,38 @@ namespace Gui
             return resultBitmap;
         }
 
-        private void SmileButtonPictureBox_MouseUp(object sender, MouseEventArgs e)
+        private bool isSmileButtonDown = false;
+
+        private void SmileButtonPictureBox_MouseLeave(object sender, EventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            if (isSmileButtonDown)
             {
                 smileButtonImage.Image = bitmapsResources.smileButton;
+                isSmileButtonDown = false;
+            }
+        }
+
+        private bool IsMouseOnSmileButton(object sender,MouseEventArgs e)
+        {
+            if (e.X < 0 || e.Y < 0)
+            {
+                return false;
+            }
+
+            if (e.X > (sender as PictureBox).Width || e.Y > (sender as PictureBox).Height)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private void SmileButtonPictureBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (isSmileButtonDown&&e.Button == MouseButtons.Left&&IsMouseOnSmileButton(sender,e))
+            {
+                smileButtonImage.Image = bitmapsResources.smileButton;
+                isSmileButtonDown = false;
                 RestartGame();
             }
         }
@@ -174,6 +203,7 @@ namespace Gui
             if (e.Button == MouseButtons.Left)
             {
                 smileButtonImage.Image = bitmapsResources.smileButtonPressed;
+                isSmileButtonDown = true;
             }
         }
 
