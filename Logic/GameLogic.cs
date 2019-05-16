@@ -518,13 +518,13 @@ namespace Logic
                     }
                 }
             }
-
-            int maxCellsCountFreeZoneNearStartCell = 8;
+                      
             int startCellCount = 1;
+            int startFreeZoneCount = startFreeZone.Count;
             int freeCellsCount = RowCount * ColumnCount - MinesCount;
-            int cellsCountFreeZoneNearStartCell = freeCellsCount - startCellCount;
+            int cellsCountFreeZoneWithoutStartCell = freeCellsCount - startCellCount;
 
-            if (cellsCountFreeZoneNearStartCell >= maxCellsCountFreeZoneNearStartCell)
+            if (cellsCountFreeZoneWithoutStartCell >= startFreeZoneCount)
             {
                 foreach (Cell element in startFreeZone)
                 {
@@ -532,18 +532,18 @@ namespace Logic
                     element.IsMineHere = false;
                 }
             }
-            else if (cellsCountFreeZoneNearStartCell != 0)
+            else if (cellsCountFreeZoneWithoutStartCell != 0)
             {
                 //сформируем список случайных индексов
 
                 List<int> randomIndexFreeCells = new List<int>();
-                for (int i = 0; i < maxCellsCountFreeZoneNearStartCell; i++)
+                for (int i = 0; i < startFreeZoneCount; i++)
                 {
                     randomIndexFreeCells.Add(i);
                 }
 
-                int removeRandomIndexCount = maxCellsCountFreeZoneNearStartCell - cellsCountFreeZoneNearStartCell;
-                int currentRandomIndexFreeCellsCount = maxCellsCountFreeZoneNearStartCell;
+                int removeRandomIndexCount = startFreeZoneCount - cellsCountFreeZoneWithoutStartCell;
+                int currentRandomIndexFreeCellsCount = startFreeZoneCount;
 
                 Random random = new Random();
 
@@ -555,8 +555,11 @@ namespace Logic
                     currentRandomIndexFreeCellsCount--;
                 }
 
-                for (int i = 0; i < cellsCountFreeZoneNearStartCell; i++)
+                for (int i = 0; i < cellsCountFreeZoneWithoutStartCell; i++)
                 {
+                    int i_temp = i;
+                    int rifc_temp =randomIndexFreeCells[i];
+
                     startFreeZone[randomIndexFreeCells[i]].isMineInCellSet = true;
                     startFreeZone[randomIndexFreeCells[i]].IsMineHere = false;
                 }

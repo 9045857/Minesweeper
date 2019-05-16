@@ -18,6 +18,8 @@ namespace Gui
 
         private Panel infoPanel;
 
+        private readonly object lockDrawDispley = new object();
+
         public GameInfoGraphics
         (
             GameLogic gameLogic,
@@ -98,68 +100,71 @@ namespace Gui
 
         private Bitmap GetBitmapNumericDisplay(int number)
         {
-            int numbersCount = 3;
-            int numberWidth = bitmapsResources.numbers[0].Width;
-            int numberHeight = bitmapsResources.numbers[0].Height;
-
-            int bitmapWidth = numbersCount * numberWidth;
-            int bitmapHeight = numberHeight;
-
-            Bitmap resultBitmap = new Bitmap(bitmapWidth, bitmapHeight);
-
-            int minNumber = -99;
-            int maxNumber = 999;
-
-            if (number < minNumber)
+            lock (lockDrawDispley)
             {
-                Bitmap minusBitmap = bitmapsResources.clockMinus;
+                int numbersCount = 3;
+                int numberWidth = bitmapsResources.numbers[0].Width;
+                int numberHeight = bitmapsResources.numbers[0].Height;
+
+                int bitmapWidth = numbersCount * numberWidth;
+                int bitmapHeight = numberHeight;
+
+                Bitmap resultBitmap = new Bitmap(bitmapWidth, bitmapHeight);
+
+                int minNumber = -99;
+                int maxNumber = 999;
+
+                if (number < minNumber)
+                {
+                    Bitmap minusBitmap = bitmapsResources.clockMinus;
+
+                    using (Graphics graphics = Graphics.FromImage(resultBitmap))
+                    {
+                        graphics.DrawImage(minusBitmap, new Rectangle(0, 0, numberWidth, numberHeight));
+                        graphics.DrawImage(minusBitmap, new Rectangle(numberWidth, 0, numberWidth, numberHeight));
+                        graphics.DrawImage(minusBitmap, new Rectangle(numberWidth + numberWidth, 0, numberWidth, numberHeight));
+                    }
+
+                    return resultBitmap;
+                }
+
+                if (number > maxNumber)
+                {
+                    number = maxNumber;
+                }
+
+                int hundred = 100;
+                int ten = 10;
+                int hundredRank = number / hundred;
+                int tenRank = (number - hundredRank * hundred) / ten;
+                int unitRank = number - hundredRank * hundred - tenRank * ten;
+
+                Bitmap bitmapHandredRank;
+                Bitmap bitmapTenRank;
+                Bitmap bitmapUnitRank;
+
+                if (number >= 0)
+                {
+                    bitmapHandredRank = bitmapsResources.numbers[hundredRank];
+                    bitmapTenRank = bitmapsResources.numbers[tenRank];
+                    bitmapUnitRank = bitmapsResources.numbers[unitRank];
+                }
+                else
+                {
+                    bitmapHandredRank = bitmapsResources.clockMinus;
+                    bitmapTenRank = bitmapsResources.numbers[Math.Abs(tenRank)];
+                    bitmapUnitRank = bitmapsResources.numbers[Math.Abs(unitRank)];
+                }
 
                 using (Graphics graphics = Graphics.FromImage(resultBitmap))
                 {
-                    graphics.DrawImage(minusBitmap, new Rectangle(0, 0, numberWidth, numberHeight));
-                    graphics.DrawImage(minusBitmap, new Rectangle(numberWidth, 0, numberWidth, numberHeight));
-                    graphics.DrawImage(minusBitmap, new Rectangle(numberWidth + numberWidth, 0, numberWidth, numberHeight));
+                    graphics.DrawImage(bitmapHandredRank, new Rectangle(0, 0, numberWidth, numberHeight));
+                    graphics.DrawImage(bitmapTenRank, new Rectangle(numberWidth, 0, numberWidth, numberHeight));
+                    graphics.DrawImage(bitmapUnitRank, new Rectangle(numberWidth + numberWidth, 0, numberWidth, numberHeight));
                 }
 
                 return resultBitmap;
             }
-
-            if (number > maxNumber)
-            {
-                number = maxNumber;
-            }
-
-            int hundred = 100;
-            int ten = 10;
-            int hundredRank = number / hundred;
-            int tenRank = (number - hundredRank * hundred) / ten;
-            int unitRank = number - hundredRank * hundred - tenRank * ten;
-
-            Bitmap bitmapHandredRank;
-            Bitmap bitmapTenRank;
-            Bitmap bitmapUnitRank;
-
-            if (number >= 0)
-            {
-                bitmapHandredRank = bitmapsResources.numbers[hundredRank];
-                bitmapTenRank = bitmapsResources.numbers[tenRank];
-                bitmapUnitRank = bitmapsResources.numbers[unitRank];
-            }
-            else
-            {
-                bitmapHandredRank = bitmapsResources.clockMinus;
-                bitmapTenRank = bitmapsResources.numbers[Math.Abs(tenRank)];
-                bitmapUnitRank = bitmapsResources.numbers[Math.Abs(unitRank)];
-            }
-
-            using (Graphics graphics = Graphics.FromImage(resultBitmap))
-            {
-                graphics.DrawImage(bitmapHandredRank, new Rectangle(0, 0, numberWidth, numberHeight));
-                graphics.DrawImage(bitmapTenRank, new Rectangle(numberWidth, 0, numberWidth, numberHeight));
-                graphics.DrawImage(bitmapUnitRank, new Rectangle(numberWidth + numberWidth, 0, numberWidth, numberHeight));
-            }
-
-            return resultBitmap;
         }
 
         private bool isSmileButtonDown = false;
