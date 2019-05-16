@@ -222,24 +222,24 @@ namespace Gui
                     {
                         if (isMouseLeftButtonDown && isMouseRightButtonDown)
                         {
+                            OnMouseUpCells?.Invoke();
+
                             PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, gameLogic.cells[rowIndex, columnIndex]);
 
                             isMouseRightButtonDown = false;
                             isMouseLeftButtonDown = false;
 
-                            gameAreaPictureBox.Image = gameAreaImage;
-
-                            OnMouseUpCells?.Invoke();
+                            gameAreaPictureBox.Image = gameAreaImage;                          
 
                             return;
                         }
                         else if (isSituationBothMouseButtonDown)
                         {
+                            OnMouseUpCells?.Invoke();
+
                             isSituationBothMouseButtonDown = false;
                             isMouseLeftButtonDown = false;
-                            isMouseRightButtonDown = false;
-
-                            OnMouseUpCells?.Invoke();
+                            isMouseRightButtonDown = false;                           
 
                             return;
                         }
