@@ -37,6 +37,7 @@ namespace Gui
             this.gameAreaGraphics = gameAreaGraphics;
 
             infoPanel = pictureBoxSmileButton.Parent.Parent as Panel;
+            infoPanel.Width = gameAreaGraphics.GamePanelAreaWidth;
             gameAreaGraphics.OnSetGamePanelWidth += SetInfoPanelWidth;
             gameAreaGraphics.OnMouseDownCells += smileButtonImage_OnMouseDownCells;
             gameAreaGraphics.OnMouseUpCells += smileButtonImage_OnMouseUpCells;

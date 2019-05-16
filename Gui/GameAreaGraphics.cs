@@ -17,6 +17,8 @@ namespace Gui
         private PictureBox gameAreaPictureBox;
         private Bitmap gameAreaImage;
 
+        public int GamePanelAreaWidth { get; private set; }
+
         private readonly Color backFormColor;
         public Color CellTopColor { get; set; }
 
@@ -809,12 +811,14 @@ namespace Gui
             gamePanel.Height = panelHeight + gamePanel.Margin.Left + pixelsForCorrectionSize;
             gamePanel.Width = panelWidth + gamePanel.Margin.Top + pixelsForCorrectionSize;
 
+            GamePanelAreaWidth = gamePanel.Width;
+
             OnSetGamePanelWidth?.Invoke(gamePanel.Width);
 
             gameAreaPictureBox.Size = new Size(panelWidth, panelHeight);
 
             gameAreaPictureBox.Image = currentGameAreaBitmap;
             gameAreaImage = currentGameAreaBitmap;
-        }
+        }        
     }
 }
