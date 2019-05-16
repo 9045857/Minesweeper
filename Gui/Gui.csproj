@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6D53F2FA-3B8E-4983-AD3F-AB133F99DDC9}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Gui</RootNamespace>
+    <AssemblyName>Gui</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BitmapsResources.cs" />
+    <Compile Include="GameAreaGraphics.cs" />
+    <Compile Include="GameGraphics.cs" />
+    <Compile Include="GameInfoGraphics.cs" />
+    <Compile Include="GameOptionsConstants.cs" />
+    <Compile Include="HighScoreDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HighScoreDialog.Designer.cs">
+      <DependentUpon>HighScoreDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HighScoreForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HighScoreForm.Designer.cs">
+      <DependentUpon>HighScoreForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MinesweeperForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MinesweeperForm.Designer.cs">
+      <DependentUpon>MinesweeperForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewGameOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewGameOptions.Designer.cs">
+      <DependentUpon>NewGameOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="HighScoreDialog.resx">
+      <DependentUpon>HighScoreDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HighScoreForm.resx">
+      <DependentUpon>HighScoreForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MinesweeperForm.resx">
+      <DependentUpon>MinesweeperForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewGameOptions.resx">
+      <DependentUpon>NewGameOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field03.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field23.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field33.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field43.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field53.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mineBombed3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StartButton3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\question.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\question1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine31.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileButtonAttantion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileButtonCry.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileButtonPressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock000.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconMine.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StartButton31.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\field031.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\question2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clockMinus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconColorMine.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Logic\Logic.csproj">
+      <Project>{fc80fe61-c499-4bc2-86ed-3ba849b18927}</Project>
+      <Name>Logic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileButton1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileButtonAttantion1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileButtonCry1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileButtonPressed1.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
