@@ -57,9 +57,9 @@ namespace Logic
             return false;
         }
 
-        private static void InsertUserResultInUsers(string userName, int time, UserResult[] users, int usersCount)
+        private static void InsertUserResultInUsers(string userName, int time, UserResult[] users, int usersCount)//TODO этот метод падает при полном массиве
         {            
-            int i = 0;
+            int i = 1;
             while ((usersCount - 1 - i >= 0) && (time < users[usersCount - 1 - i].Time))
             {
                 users[usersCount - i] = users[usersCount - i - 1];

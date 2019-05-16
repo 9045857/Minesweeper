@@ -229,5 +229,10 @@ namespace Gui
         {
             LoadPictureBoxStandartCellColor(bitmapsResources.minesNearCount[0]);
         }
+
+        private void radioButtonCustom_CheckedChanged(object sender, EventArgs e)
+        {
+         //   Inputdata
+        }
     }
 }

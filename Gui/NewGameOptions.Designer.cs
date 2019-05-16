@@ -49,15 +49,15 @@
             this.labelColumnCountHigh = new System.Windows.Forms.Label();
             this.labelRowCountHigh = new System.Windows.Forms.Label();
             this.checkBoxMark = new System.Windows.Forms.CheckBox();
-            this.pictureBoxCellColor = new System.Windows.Forms.PictureBox();
             this.colorDialogCellColor = new System.Windows.Forms.ColorDialog();
             this.groupBoxCellColor = new System.Windows.Forms.GroupBox();
             this.radioButtonCustomColor = new System.Windows.Forms.RadioButton();
             this.radioButtonStandartColor = new System.Windows.Forms.RadioButton();
             this.pictureBoxStandartCellColor = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCellColor)).BeginInit();
+            this.pictureBoxCellColor = new System.Windows.Forms.PictureBox();
             this.groupBoxCellColor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStandartCellColor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCellColor)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonNewGame
@@ -132,6 +132,7 @@
             this.radioButtonCustom.TabIndex = 6;
             this.radioButtonCustom.Text = "Особый";
             this.radioButtonCustom.UseVisualStyleBackColor = true;
+            this.radioButtonCustom.CheckedChanged += new System.EventHandler(this.radioButtonCustom_CheckedChanged);
             // 
             // labelRowCountCaption
             // 
@@ -253,16 +254,6 @@
             this.checkBoxMark.Text = "Включить (?)";
             this.checkBoxMark.UseVisualStyleBackColor = true;
             // 
-            // pictureBoxCellColor
-            // 
-            this.pictureBoxCellColor.Location = new System.Drawing.Point(125, 53);
-            this.pictureBoxCellColor.Name = "pictureBoxCellColor";
-            this.pictureBoxCellColor.Size = new System.Drawing.Size(22, 22);
-            this.pictureBoxCellColor.TabIndex = 22;
-            this.pictureBoxCellColor.TabStop = false;
-            this.pictureBoxCellColor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxCellColor_MouseDown);
-            this.pictureBoxCellColor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxCellColor_MouseUp);
-            // 
             // groupBoxCellColor
             // 
             this.groupBoxCellColor.Controls.Add(this.radioButtonCustomColor);
@@ -308,6 +299,16 @@
             this.pictureBoxStandartCellColor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxStandartCellColor_MouseDown);
             this.pictureBoxStandartCellColor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
+            // pictureBoxCellColor
+            // 
+            this.pictureBoxCellColor.Location = new System.Drawing.Point(125, 53);
+            this.pictureBoxCellColor.Name = "pictureBoxCellColor";
+            this.pictureBoxCellColor.Size = new System.Drawing.Size(22, 22);
+            this.pictureBoxCellColor.TabIndex = 22;
+            this.pictureBoxCellColor.TabStop = false;
+            this.pictureBoxCellColor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxCellColor_MouseDown);
+            this.pictureBoxCellColor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxCellColor_MouseUp);
+            // 
             // FormNewGameOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -341,10 +342,10 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Новая игра";
             this.Load += new System.EventHandler(this.FormNewGameOptions_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCellColor)).EndInit();
             this.groupBoxCellColor.ResumeLayout(false);
             this.groupBoxCellColor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStandartCellColor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCellColor)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
