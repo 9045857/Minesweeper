@@ -268,5 +268,8 @@
   <ItemGroup>
     <None Include="Resources\smileButtonCry1.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileButtonPressed1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

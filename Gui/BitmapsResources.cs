@@ -50,11 +50,11 @@ namespace Gui
         //public Bitmap smileButton = new Bitmap(Properties.Resources.smileButton);
         //public Bitmap smileButtonCry = new Bitmap(Properties.Resources.smileButtonCry);
         //public Bitmap smileButtonAttention = new Bitmap(Properties.Resources.smileButtonAttention);
+        //public Bitmap smileButtonPressed = new Bitmap(Properties.Resources.smileButtonPressed);
 
+        public Bitmap smileButtonPressed = new Bitmap(Properties.Resources.smileButtonPressed1);
         public Bitmap smileButtonAttention = new Bitmap(Properties.Resources.smileButtonAttention1);
         public Bitmap smileButton = new Bitmap(Properties.Resources.smileButton1);
         public Bitmap smileButtonCry = new Bitmap(Properties.Resources.smileButtonCry1);
-
-        public Bitmap smileButtonPressed = new Bitmap(Properties.Resources.smileButtonPressed);
     }
 }
