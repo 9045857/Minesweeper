@@ -47,9 +47,14 @@ namespace Gui
         public Bitmap cellStart = new Bitmap(Properties.Resources.cellStart1);
         //public Bitmap cellStart =new Bitmap(Properties.Resources.cellStart);
 
-        public Bitmap smileButton = new Bitmap(Properties.Resources.smileButton);
+        //public Bitmap smileButton = new Bitmap(Properties.Resources.smileButton);
+        //public Bitmap smileButtonCry = new Bitmap(Properties.Resources.smileButtonCry);
+        //public Bitmap smileButtonAttention = new Bitmap(Properties.Resources.smileButtonAttention);
+
+        public Bitmap smileButtonAttention = new Bitmap(Properties.Resources.smileButtonAttention1);
+        public Bitmap smileButton = new Bitmap(Properties.Resources.smileButton1);
+        public Bitmap smileButtonCry = new Bitmap(Properties.Resources.smileButtonCry1);
+
         public Bitmap smileButtonPressed = new Bitmap(Properties.Resources.smileButtonPressed);
-        public Bitmap smileButtonCry = new Bitmap(Properties.Resources.smileButtonCry);
-        public Bitmap smileButtonAttention = new Bitmap(Properties.Resources.smileButtonAttention);
     }
 }

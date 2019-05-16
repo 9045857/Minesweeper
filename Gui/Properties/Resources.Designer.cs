@@ -373,6 +373,16 @@ namespace Gui.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap smileButton1 {
+            get {
+                object obj = ResourceManager.GetObject("smileButton1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap smileButtonAttention {
             get {
                 object obj = ResourceManager.GetObject("smileButtonAttention", resourceCulture);
@@ -383,9 +393,29 @@ namespace Gui.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap smileButtonAttention1 {
+            get {
+                object obj = ResourceManager.GetObject("smileButtonAttention1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap smileButtonCry {
             get {
                 object obj = ResourceManager.GetObject("smileButtonCry", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap smileButtonCry1 {
+            get {
+                object obj = ResourceManager.GetObject("smileButtonCry1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -211,11 +211,20 @@
   <data name="smileButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\smileButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="smileButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\smileButton1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="smileButtonAttention" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\smileButtonAttantion.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="smileButtonAttention1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\smileButtonAttantion1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="smileButtonCry" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\smileButtonCry.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="smileButtonCry1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\smileButtonCry1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="smileButtonPressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\smileButtonPressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

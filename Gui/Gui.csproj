@@ -259,5 +259,14 @@
       <Name>Logic</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileButton1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileButtonAttantion1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileButtonCry1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
