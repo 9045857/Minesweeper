@@ -208,6 +208,9 @@
   <data name="jump" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\jump.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Jumper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Jumper.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="loss" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\loss.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

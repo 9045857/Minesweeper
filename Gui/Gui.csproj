@@ -292,5 +292,8 @@
   <ItemGroup>
     <None Include="Resources\funnyJumpBig.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Jumper.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

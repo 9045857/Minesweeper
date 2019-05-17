@@ -363,6 +363,16 @@ namespace Gui.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Jumper {
+            get {
+                object obj = ResourceManager.GetObject("Jumper", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap loss {
             get {
                 object obj = ResourceManager.GetObject("loss", resourceCulture);
