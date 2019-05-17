@@ -277,5 +277,14 @@
   <ItemGroup>
     <None Include="Resources\loss.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hunny.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\jump.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\applause.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

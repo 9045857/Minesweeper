@@ -57,7 +57,8 @@ namespace Gui
         public Bitmap smileButton = new Bitmap(Properties.Resources.smileButton1);
         public Bitmap smileButtonCry = new Bitmap(Properties.Resources.smileButtonCry1);
 
-        public Image dynamicWin = Properties.Resources.win;
+        //public Image dynamicWin = Properties.Resources.win;//simple
+        public Image dynamicWin = Properties.Resources.hunny;// good
         public Image dynamicLoss = Properties.Resources.loss;
     }
 }

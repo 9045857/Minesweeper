@@ -63,6 +63,16 @@ namespace Gui.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap applause {
+            get {
+                object obj = ResourceManager.GetObject("applause", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cell0 {
             get {
                 object obj = ResourceManager.GetObject("cell0", resourceCulture);
@@ -306,6 +316,26 @@ namespace Gui.Properties {
         internal static System.Drawing.Bitmap flag {
             get {
                 object obj = ResourceManager.GetObject("flag", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap hunny {
+            get {
+                object obj = ResourceManager.GetObject("hunny", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap jump {
+            get {
+                object obj = ResourceManager.GetObject("jump", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
