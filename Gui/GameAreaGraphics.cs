@@ -805,7 +805,7 @@ namespace Gui
                     gameAreaPictureBox.Image = gameAreaImage;
                 }
 
-                if (gameLogic.isExploded)
+                if (gameLogic.IsExploded)
                 {
                     OnDrawExplodedGameArea?.Invoke();
                 }

@@ -7,43 +7,32 @@ namespace Logic
         public delegate void TimeChange(int currentTime);
         public event TimeChange OnTimeChange;
 
-        private Thread timeThread;
-        ManualResetEvent threadValid = new ManualResetEvent(false);
-
         private readonly int pauseTime = GameLogicConstants.PauseTime;
 
         public int CurrentTime { get; private set; }
 
+        private Timer timer;
+
         public GameTimer()
         {
-            timeThread = new Thread(ChangeTime);
-            timeThread.IsBackground = true;
-
-            timeThread.Start();
+            timer = new Timer(new TimerCallback(ChangeTime), null, Timeout.Infinite, Timeout.Infinite);
         }
 
-        private void ChangeTime()
+        private void ChangeTime(object o)
         {
-            while (true)
-            {
-                threadValid.WaitOne();
-
-                OnTimeChange?.Invoke(CurrentTime);
-
-                Thread.Sleep(pauseTime);
-                CurrentTime++;
-            }
+            CurrentTime++;
+            OnTimeChange?.Invoke(CurrentTime);
         }
 
         public void Start()
         {
             CurrentTime = 0;
-            threadValid.Set();
+            timer.Change(pauseTime, pauseTime);
         }
 
         public void Stop()
         {
-            threadValid.Reset();
+            timer.Change(Timeout.Infinite, Timeout.Infinite);
         }
     }
 }

@@ -28,9 +28,9 @@ namespace Logic
         public delegate void TimeChange(int currentTime);
         public event TimeChange OnTimeChange;
 
-        public Cell[,] cells;
+        public Cell[,] cells;//TODO это может быть public?
 
-        public GameParameters gameParameters;
+        public GameParameters gameParameters;//TODO это может быть public?
 
         private GameTimer time;
         public int CurrentTime { get; private set; }
@@ -56,7 +56,7 @@ namespace Logic
 
         public bool AreMinesSet { get; private set; }
 
-        public bool isExploded;
+        public bool IsExploded { get; set; }
         private bool isFinishAndWinGame;
 
         private HighScore highScore;
@@ -65,7 +65,7 @@ namespace Logic
         {
             get
             {
-                return RowCount * ColumnCount != PressedCellsAndFoundMinesCount && !isExploded && !isFinishAndWinGame;
+                return RowCount * ColumnCount != PressedCellsAndFoundMinesCount && !IsExploded && !isFinishAndWinGame;
             }
         }
 
@@ -117,7 +117,7 @@ namespace Logic
         private void SetBeginConditions()
         {
             AreMinesSet = false;
-            isExploded = false;
+            IsExploded = false;
             isFinishAndWinGame = false;
 
             MarkedMinesCount = 0;
@@ -345,7 +345,7 @@ namespace Logic
         {
             List<Cell> resultCells = new List<Cell>();
 
-            if (isExploded)
+            if (IsExploded)
             {
                 return resultCells;
             }
@@ -357,7 +357,7 @@ namespace Logic
                     if (cells[rowIndex, columnIndex].IsMineHere)
                     {
                         resultCells = GetRemainingCellsAfteMinePress(rowIndex, columnIndex);
-                        isExploded = true;
+                        IsExploded = true;
 
                         time.Stop();
                         OnExploded?.Invoke(MinesCount - FoundMinesCount);
@@ -401,13 +401,13 @@ namespace Logic
                 int rowIndex = random.Next(RowCount);
                 int colIndex = random.Next(ColumnCount);
 
-                while (cells[rowIndex, colIndex].isMineInCellSet)
+                while (cells[rowIndex, colIndex].IsMineInCellSet)
                 {
                     rowIndex = random.Next(RowCount);
                     colIndex = random.Next(ColumnCount);
                 }
 
-                cells[rowIndex, colIndex].isMineInCellSet = true;
+                cells[rowIndex, colIndex].IsMineInCellSet = true;
                 cells[rowIndex, colIndex].IsMineHere = true;
             }
         }
@@ -418,9 +418,9 @@ namespace Logic
             {
                 for (int j = 0; j < ColumnCount; j++)
                 {
-                    if (!cells[i, j].isMineInCellSet)
+                    if (!cells[i, j].IsMineInCellSet)
                     {
-                        cells[i, j].isMineInCellSet = true;
+                        cells[i, j].IsMineInCellSet = true;
                         cells[i, j].IsMineHere = false;
                     }
                 }
@@ -507,7 +507,7 @@ namespace Logic
                 {
                     if (i == startRow && j == startCol)
                     {
-                        cells[i, j].isMineInCellSet = true;
+                        cells[i, j].IsMineInCellSet = true;
                         cells[i, j].IsMineHere = false;
                     }
                     else
@@ -516,7 +516,7 @@ namespace Logic
                     }
                 }
             }
-                      
+
             int startCellCount = 1;
             int startFreeZoneCount = startFreeZone.Count;
             int freeCellsCount = RowCount * ColumnCount - MinesCount;
@@ -526,7 +526,7 @@ namespace Logic
             {
                 foreach (Cell element in startFreeZone)
                 {
-                    element.isMineInCellSet = true;
+                    element.IsMineInCellSet = true;
                     element.IsMineHere = false;
                 }
             }
@@ -556,9 +556,9 @@ namespace Logic
                 for (int i = 0; i < cellsCountFreeZoneWithoutStartCell; i++)
                 {
                     int i_temp = i;
-                    int rifc_temp =randomIndexFreeCells[i];
+                    int rifc_temp = randomIndexFreeCells[i];
 
-                    startFreeZone[randomIndexFreeCells[i]].isMineInCellSet = true;
+                    startFreeZone[randomIndexFreeCells[i]].IsMineInCellSet = true;
                     startFreeZone[randomIndexFreeCells[i]].IsMineHere = false;
                 }
             }

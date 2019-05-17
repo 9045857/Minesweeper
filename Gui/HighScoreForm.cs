@@ -5,7 +5,7 @@ namespace Gui
 {
     public partial class HighScoreForm : Form
     {
-        GameGraphics gameGraphics;
+        private GameGraphics gameGraphics;
 
         public HighScoreForm(GameGraphics gameGraphics)
         {
@@ -14,7 +14,7 @@ namespace Gui
         }
 
         private void HighScoreForm_Load(object sender, EventArgs e)
-        {           
+        {
             textBoxHighScore.Text = gameGraphics.GetHighScore();
         }
 
@@ -29,7 +29,7 @@ namespace Gui
         }
 
         private void buttonClear_Click(object sender, EventArgs e)
-        {            
+        {
             if (MessageBox.Show(GameOptionsConstants.WarningRemoveHighScore, GameOptionsConstants.CaptionRemoveHighScore, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 gameGraphics.ClearHighScore();

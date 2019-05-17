@@ -8,7 +8,6 @@ namespace Gui
         public delegate void SetUserNameEvent();
         public event SetUserNameEvent OnSetUserName;
 
-
         public bool IsSaveHighScore { get; private set; }
 
         public HighScoreDialog()

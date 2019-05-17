@@ -1,8 +1,6 @@
 ﻿using Logic;
 using System.Drawing;
-using System.Threading;
 using System.Windows.Forms;
-
 
 namespace Gui
 {
@@ -18,7 +16,6 @@ namespace Gui
 
         private bool isWinWithHighScore;
         private int gameTime;
-
 
         public GameGraphics
         (

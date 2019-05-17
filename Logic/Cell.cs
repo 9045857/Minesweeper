@@ -2,7 +2,7 @@
 {
     public class Cell
     {
-        public bool isMineInCellSet;
+        public bool IsMineInCellSet { get; set; }
 
         public enum MarkOnBottomCell
         {
@@ -37,7 +37,7 @@
 
         public void SetBeginConditions()
         {
-            isMineInCellSet = false;
+            IsMineInCellSet = false;
             IsPressed = false;
             markOnTop = MarkOnTopCell.Empty;
         }
