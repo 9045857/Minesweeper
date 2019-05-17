@@ -1,7 +1,8 @@
 ﻿using Logic;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Threading;
+using System.Windows.Forms;
+
 
 namespace Gui
 {
@@ -11,11 +12,13 @@ namespace Gui
         private GameAreaGraphics gameAreaGraphics;
         private GameInfoGraphics gameInfoGraphics;
         private HighScoreDialog highScoreDialog;
+
         private PictureBox dynamicImage;
         private BitmapsResources bitmapsResources;
 
         private bool isWinWithHighScore;
         private int gameTime;
+
 
         public GameGraphics
         (
@@ -30,7 +33,6 @@ namespace Gui
         {
             gameLogic = new GameLogic(gameParameters);
             gameLogic.OnWinWithHighScore += OnWinWithHighScore;
-            //  gameLogic.OnFinishAndWinGame += DrawDynamicWinFinal;
 
             gameAreaGraphics = new GameAreaGraphics(gameAreaPictureBox, gameLogic, bitmapsResources);
             gameAreaGraphics.OnDrawExplodedGameArea += DrawDynamicLossFinal;
@@ -91,21 +93,10 @@ namespace Gui
             this.gameTime = gameTime;
         }
 
-        //private void ShowHighScoreDialog()
-        //{
-        //    DoDynamicWin();
-
-
-
-        //    dynamicImage.Visible = false;
-        //}
-
         private void DoDynamicWin()
         {
             dynamicImage.Image = bitmapsResources.dynamicWin;
             dynamicImage.Visible = true;
-
-            //TODO сделать задерку 0,5-1 сек для анимации.
         }
 
         private void AddHighScore()

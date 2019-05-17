@@ -57,7 +57,7 @@ namespace Gui
         {
             gameParameters.SetNewGameParameters(RowCount, ColumnCount, MinesCount, IsPossibleMarkQuestion);
         }
-        
+
         public GameParameters GetGameParameters()
         {
             gameParameters.RowCount = RowCount;
@@ -206,6 +206,22 @@ namespace Gui
         {
             LoadPictureBoxCellColor(BackColor, bitmapsResources.cellStart);
             LoadPictureBoxStandartCellColor(bitmapsResources.cellStart);
+
+            DisableCustomTextBoxes();
+        }
+
+        private void DisableCustomTextBoxes()
+        {
+            textBoxRowCount.Enabled = false;
+            textBoxColumnCount.Enabled = false;
+            textBoxMinesCount.Enabled = false;
+        }
+
+        private void AbleCustomTextBoxes()
+        {
+            textBoxRowCount.Enabled = true;
+            textBoxColumnCount.Enabled = true;
+            textBoxMinesCount.Enabled = true;
         }
 
         private void pictureBoxCellColor_MouseDown(object sender, MouseEventArgs e)
@@ -232,7 +248,22 @@ namespace Gui
 
         private void radioButtonCustom_CheckedChanged(object sender, EventArgs e)
         {
-         //   Inputdata
+            AbleCustomTextBoxes();
+        }
+
+        private void radioButtonLow_CheckedChanged(object sender, EventArgs e)
+        {
+            DisableCustomTextBoxes();
+        }
+
+        private void radioButtonMedium_CheckedChanged(object sender, EventArgs e)
+        {
+            DisableCustomTextBoxes();
+        }
+
+        private void radioButtonHigh_CheckedChanged(object sender, EventArgs e)
+        {
+            DisableCustomTextBoxes();
         }
     }
 }

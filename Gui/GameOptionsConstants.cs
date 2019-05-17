@@ -19,7 +19,7 @@ namespace Gui
         public const string WinMessageCaption = "ПОБЕДА!";
         public const string WinMessage = "Поздравляем с победой!\nВаш результат: ";
         public const string LossMessageCaption = "Поражение.";
-        public const string LossMessage = "К сожалению Вы проиграли...\nВ другой раз обязательно выиграете!";
+        public const string LossMessage = "К сожалению, Вы проиграли...";
 
         public static string GetAboutText()
         {

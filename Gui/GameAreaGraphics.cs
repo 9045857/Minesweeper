@@ -113,6 +113,7 @@ namespace Gui
             gameAreaPictureBox.MouseUp += new MouseEventHandler(GameAreaPictureBox_MouseUp);
             gameAreaPictureBox.MouseDown += new MouseEventHandler(GameAreaPictureBox_MouseDown);
             gameAreaPictureBox.MouseMove += new MouseEventHandler(GameAreaPictureBox_MouseMove);
+            gameAreaPictureBox.MouseWheel += new MouseEventHandler(GameAreaPictureBox_MouseWheel);
 
             SetRowColumnMinesCount();
 
@@ -265,6 +266,38 @@ namespace Gui
             }
         }
 
+        private void GameAreaPictureBox_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (!gameLogic.IsGameContinue)
+            {
+                return;
+            }
+
+            int rowIndex = GetCellRowOrColumnIndex(e.Y, gameAreaPictureBox.Height);
+            int columnIndex = GetCellRowOrColumnIndex(e.X, gameAreaPictureBox.Width);
+
+            int middleButtonAngelRotation = 20;
+
+            if (e.Delta >= middleButtonAngelRotation || e.Delta <= -middleButtonAngelRotation)
+            {
+                if (IsMouseOnGameArea(rowIndex, columnIndex))
+                {
+                    Cell cell = gameLogic.cells[rowIndex, columnIndex];
+
+                    using (Graphics currentGameAreaGraphics = Graphics.FromImage(gameAreaImage))
+                    {
+                        FillTwoMouseBottonsPressCellsListAdnDrawThey(currentGameAreaGraphics, cell);
+
+                        OnMouseUpCells?.Invoke();
+
+                        PressCellsNearRightLeftMouseButtonsUp(currentGameAreaGraphics, gameLogic.cells[rowIndex, columnIndex]);
+
+                        gameAreaPictureBox.Image = gameAreaImage;
+                    }
+                }
+            }
+        }
+
         private void PressUpAfterMouseGoOutGameArea()
         {
             using (Graphics currentGameAreaGraphics = Graphics.FromImage(gameAreaImage))
@@ -289,28 +322,33 @@ namespace Gui
         {
             if (isMouseLeftButtonDown && isMouseRightButtonDown)
             {
-                cellsNearRightLeftMouseButtons = gameLogic.GetCellsListAvailableForPress(cell);
-
-                foreach (Cell element in cellsNearRightLeftMouseButtons)
-                {
-                    int rowIndex = element.RowIndex;
-                    int columnIndex = element.ColIndex;
-
-                    if (element.markOnTop == Cell.MarkOnTopCell.Question)
-                    {
-                        DrawCell(currentGameAreaGraphics, backFormColor, rowIndex, columnIndex, bitmapsResources.questionPressCell);
-                    }
-                    else
-                    {
-                        DrawCell(currentGameAreaGraphics, backFormColor, rowIndex, columnIndex, bitmapsResources.minesNearCount[0]);
-                    }
-                }
+                FillTwoMouseBottonsPressCellsListAdnDrawThey(currentGameAreaGraphics, cell);
 
                 return true;
             }
             else
             {
                 return false;
+            }
+        }
+
+        private void FillTwoMouseBottonsPressCellsListAdnDrawThey(Graphics currentGameAreaGraphics, Cell cell)
+        {
+            cellsNearRightLeftMouseButtons = gameLogic.GetCellsListAvailableForPress(cell);
+
+            foreach (Cell element in cellsNearRightLeftMouseButtons)
+            {
+                int rowIndex = element.RowIndex;
+                int columnIndex = element.ColIndex;
+
+                if (element.markOnTop == Cell.MarkOnTopCell.Question)
+                {
+                    DrawCell(currentGameAreaGraphics, backFormColor, rowIndex, columnIndex, bitmapsResources.questionPressCell);
+                }
+                else
+                {
+                    DrawCell(currentGameAreaGraphics, backFormColor, rowIndex, columnIndex, bitmapsResources.minesNearCount[0]);
+                }
             }
         }
 

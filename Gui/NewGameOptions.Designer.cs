@@ -81,6 +81,7 @@
             this.radioButtonLow.TabStop = true;
             this.radioButtonLow.Text = "Новичок";
             this.radioButtonLow.UseVisualStyleBackColor = true;
+            this.radioButtonLow.CheckedChanged += new System.EventHandler(this.radioButtonLow_CheckedChanged);
             // 
             // radioButtonMedium
             // 
@@ -91,6 +92,7 @@
             this.radioButtonMedium.TabIndex = 1;
             this.radioButtonMedium.Text = "Любитель";
             this.radioButtonMedium.UseVisualStyleBackColor = true;
+            this.radioButtonMedium.CheckedChanged += new System.EventHandler(this.radioButtonMedium_CheckedChanged);
             // 
             // radioButtonHigh
             // 
@@ -101,6 +103,7 @@
             this.radioButtonHigh.TabIndex = 2;
             this.radioButtonHigh.Text = "Профессионал";
             this.radioButtonHigh.UseVisualStyleBackColor = true;
+            this.radioButtonHigh.CheckedChanged += new System.EventHandler(this.radioButtonHigh_CheckedChanged);
             // 
             // textBoxRowCount
             // 

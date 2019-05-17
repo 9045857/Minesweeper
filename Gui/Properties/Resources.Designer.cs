@@ -323,6 +323,26 @@ namespace Gui.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap funnyJump {
+            get {
+                object obj = ResourceManager.GetObject("funnyJump", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap funnyJumpBig {
+            get {
+                object obj = ResourceManager.GetObject("funnyJumpBig", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap hunny {
             get {
                 object obj = ResourceManager.GetObject("hunny", resourceCulture);
