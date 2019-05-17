@@ -57,9 +57,12 @@ namespace Logic
             return false;
         }
 
-        private static void InsertUserResultInUsers(string userName, int time, UserResult[] users, int usersCount)//TODO этот метод падает при полном массиве
-        {            
-            int i = 1;
+        private static void InsertUserResultInUsers(string userName, int time, UserResult[] users, int usersCount)
+        {
+            int maxUsersCount = users.Length;
+
+            int i = maxUsersCount == usersCount ? 1 : 0;
+
             while ((usersCount - 1 - i >= 0) && (time < users[usersCount - 1 - i].Time))
             {
                 users[usersCount - i] = users[usersCount - i - 1];
@@ -109,7 +112,7 @@ namespace Logic
         {
             beginnersCount = 0;
             mediumsCount = 0;
-            expertsCount = 0; 
+            expertsCount = 0;
         }
 
         public void AddHighScore(string userName, int time, int rowCount, int columnCount, int minesCount)
@@ -174,7 +177,7 @@ namespace Logic
                 string medium = GetHighScoreLinePart(i, mediums, mediumsCount);
                 string expert = GetHighScoreLinePart(i, experts, expertsCount);
 
-                string totalLine = beginer + space + medium + space + expert;
+                string totalLine = string.Concat(beginer, space, medium, space, expert);
 
                 builder.Append(totalLine);
                 builder.AppendLine();

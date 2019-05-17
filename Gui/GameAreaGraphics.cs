@@ -10,6 +10,12 @@ namespace Gui
         public delegate void GetGamePanelWidth(int width);
         public event GetGamePanelWidth OnSetGamePanelWidth;
 
+        public delegate void DrawExplodedGameArea();
+        public event DrawExplodedGameArea OnDrawExplodedGameArea;
+
+        public delegate void DrawWinFinishGameArea();
+        public event DrawWinFinishGameArea OnDrawWinGameArea;
+
         public delegate void CheckCells();
         public event CheckCells OnMouseDownCells;
         public event CheckCells OnMouseUpCells;
@@ -25,8 +31,8 @@ namespace Gui
         private readonly BitmapsResources bitmapsResources;
         private readonly int cellSideLength;
 
-        GameLogic gameLogic;
-        List<Cell> cellsNearRightLeftMouseButtons = new List<Cell>();
+        private GameLogic gameLogic;
+        private List<Cell> cellsNearRightLeftMouseButtons = new List<Cell>();
 
         private int rowCount;
         private int columnCount;
@@ -231,7 +237,7 @@ namespace Gui
                             isMouseRightButtonDown = false;
                             isMouseLeftButtonDown = false;
 
-                            gameAreaPictureBox.Image = gameAreaImage;                          
+                            gameAreaPictureBox.Image = gameAreaImage;
 
                             return;
                         }
@@ -241,7 +247,7 @@ namespace Gui
 
                             isSituationBothMouseButtonDown = false;
                             isMouseLeftButtonDown = false;
-                            isMouseRightButtonDown = false;                           
+                            isMouseRightButtonDown = false;
 
                             return;
                         }
@@ -482,8 +488,6 @@ namespace Gui
                             gameAreaPictureBox.Image = gameAreaImage;
                         }
                     }
-
-
                 }
             }
         }
@@ -762,6 +766,15 @@ namespace Gui
                     }
                     gameAreaPictureBox.Image = gameAreaImage;
                 }
+
+                if (gameLogic.isExploded)
+                {
+                    OnDrawExplodedGameArea?.Invoke();
+                }
+                else if (!gameLogic.IsGameContinue)
+                {
+                    OnDrawWinGameArea?.Invoke();
+                }
             }
         }
 
@@ -819,6 +832,6 @@ namespace Gui
 
             gameAreaPictureBox.Image = currentGameAreaBitmap;
             gameAreaImage = currentGameAreaBitmap;
-        }        
+        }
     }
 }

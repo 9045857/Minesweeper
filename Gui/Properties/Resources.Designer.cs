@@ -313,6 +313,16 @@ namespace Gui.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap loss {
+            get {
+                object obj = ResourceManager.GetObject("loss", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap mine {
             get {
                 object obj = ResourceManager.GetObject("mine", resourceCulture);
@@ -436,6 +446,16 @@ namespace Gui.Properties {
         internal static System.Drawing.Bitmap smileButtonPressed1 {
             get {
                 object obj = ResourceManager.GetObject("smileButtonPressed1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap win {
+            get {
+                object obj = ResourceManager.GetObject("win", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -32,7 +32,7 @@ namespace Logic
 
         public GameParameters gameParameters;
 
-        private GameTime time;
+        private GameTimer time;
         public int CurrentTime { get; private set; }
         public int TotalPlayingTime { get; private set; }
 
@@ -74,7 +74,7 @@ namespace Logic
             this.gameParameters = gameParameters;
             this.gameParameters.OnChangeGameParameters += gameParameters_Changed;
 
-            time = new GameTime();
+            time = new GameTimer();
             time.OnTimeChange += ChangeTime;
 
             DeserialazeHighScore();
@@ -169,16 +169,14 @@ namespace Logic
         {
             isFinishAndWinGame = true;
             time.Stop();
-            OnFinishAndWinGame?.Invoke();
 
-            CheckResultOnHighScore();
-        }
-
-        private void CheckResultOnHighScore()
-        {
             if (highScore.IsHighScoreGameResult(CurrentTime, RowCount, ColumnCount, MinesCount))
             {
                 OnWinWithHighScore?.Invoke(CurrentTime);
+            }
+            else
+            {
+                OnFinishAndWinGame?.Invoke();
             }
         }
 

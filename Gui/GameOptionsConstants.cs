@@ -16,6 +16,11 @@ namespace Gui
         public const string WarningRemoveHighScore = "Удаление без возможности восстановления!\nВы уверены, что хотите удалить все результаты?";
         public const string RemoveHighScoreCaption = "Удаление рекордов.";
 
+        public const string WinMessageCaption = "ПОБЕДА!";
+        public const string WinMessage = "Поздравляем с победой!\nВаш результат: ";
+        public const string LossMessageCaption = "Поражение.";
+        public const string LossMessage = "К сожалению Вы проиграли...\nВ другой раз обязательно выиграете!";
+
         public static string GetAboutText()
         {
             StringBuilder builder = new StringBuilder();

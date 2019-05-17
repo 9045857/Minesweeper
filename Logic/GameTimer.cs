@@ -2,7 +2,7 @@
 
 namespace Logic
 {
-    class GameTime
+    class GameTimer
     {
         public delegate void TimeChange(int currentTime);
         public event TimeChange OnTimeChange;
@@ -14,7 +14,7 @@ namespace Logic
 
         public int CurrentTime { get; private set; }
 
-        public GameTime()
+        public GameTimer()
         {
             timeThread = new Thread(ChangeTime);
             timeThread.IsBackground = true;
