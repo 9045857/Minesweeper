@@ -123,7 +123,7 @@
         private int GetMinesCountAfterCheck(int minesCount, int rowCount, int columnCount)
         {
             int minMinesCount = GameLogicConstants.CustomLevelMinesCountMin;
-            int maxMinesCount = rowCount * columnCount - 1;
+            int maxMinesCount = rowCount * columnCount * GameLogicConstants.CustomLevelMinesCountPercentageFromCellsCountMax / 100;
 
             if (minesCount < minMinesCount)
             {

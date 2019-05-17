@@ -96,7 +96,7 @@ namespace Gui
             {
                 if (IsInputCustomDataCorrect())
                 {
-                    if (Int32.TryParse(customOptionValue, out int data))
+                    if (int.TryParse(customOptionValue, out int data))
                     {
                         return data;
                     }
@@ -207,7 +207,14 @@ namespace Gui
             LoadPictureBoxCellColor(BackColor, bitmapsResources.cellStart);
             LoadPictureBoxStandartCellColor(bitmapsResources.cellStart);
 
-            DisableCustomTextBoxes();
+            if (radioButtonCustom.Checked)
+            {
+                AbleCustomTextBoxes();
+            }
+            else
+            {
+                DisableCustomTextBoxes();
+            } 
         }
 
         private void DisableCustomTextBoxes()

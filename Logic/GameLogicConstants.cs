@@ -14,13 +14,8 @@
         public const int HighLevelColumnCount = 30;
         public const int HighLevelMinesCount = 99;
 
-        //public const int MinRowCount = 3;
-        //public const int MaxRowCount = 50;
-
-        //public const int MinColumnCount = 5;
-        //public const int MaxColumnCount = 50;
-
         public const int CustomLevelMinesCountMin = 0;
+        public const int CustomLevelMinesCountPercentageFromCellsCountMax = 50;
 
         public const int CustomLevelColumnCountMin = 9;
         public const int CustomLevelColumnCountMax = 50;

@@ -304,7 +304,7 @@ namespace TextUi
 
             if (parameters.Length == oneElementInArray)
             {
-                if (Int32.TryParse(parameters[0], out gameType))
+                if (int.TryParse(parameters[0], out gameType))
                 {
                     if (gameType == 1 || gameType == 2 || gameType == 3)
                     {
@@ -326,7 +326,7 @@ namespace TextUi
             }
             else if (parameters.Length == threeElementsInArray)
             {
-                if (Int32.TryParse(parameters[0], out rowCount) && Int32.TryParse(parameters[1], out columnCount) && Int32.TryParse(parameters[2], out minesCount))
+                if (int.TryParse(parameters[0], out rowCount) && int.TryParse(parameters[1], out columnCount) && int.TryParse(parameters[2], out minesCount))
                 {
                     gameType = -1;
                     return true;
@@ -375,7 +375,7 @@ namespace TextUi
                 return false;
             }
 
-            if (Int32.TryParse(words[0], out rowIndex) && Int32.TryParse(words[1], out columnIndex))
+            if (int.TryParse(words[0], out rowIndex) && int.TryParse(words[1], out columnIndex))
             {
                 //Correct DisplayIndexes to Listindexes
                 rowIndex--;
