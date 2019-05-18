@@ -1,7 +1,6 @@
 ﻿using Logic;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Threading;
 
 namespace Gui
 {
