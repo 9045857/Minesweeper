@@ -61,7 +61,6 @@ namespace Gui
        // public Image dynamicWin = Properties.Resources.hunny;// good
         //public Image dynamicWin = Properties.Resources.funnyJumpBig;// good
         public Image dynamicWin = Properties.Resources.Jumper;// good
-
         public Image dynamicLoss = Properties.Resources.loss;
     }
 }

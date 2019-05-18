@@ -1,6 +1,7 @@
 ﻿using Logic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Gui
 {
@@ -11,11 +12,16 @@ namespace Gui
         private GameInfoGraphics gameInfoGraphics;
         private HighScoreDialog highScoreDialog;
 
+        private FinalDynamicTimer dynamicTimer;
+        private delegate void CallTimer();
+
         private PictureBox dynamicImage;
         private BitmapsResources bitmapsResources;
 
         private bool isWinWithHighScore;
         private int gameTime;
+        private bool isWin;
+        private bool isLoss;
 
         public GameGraphics
         (
@@ -48,35 +54,74 @@ namespace Gui
             dynamicImage.Visible = false;
 
             this.bitmapsResources = bitmapsResources;
+
+            dynamicTimer = new FinalDynamicTimer();
+            dynamicTimer.OnStartAnimation += DoDynamic;
+            dynamicTimer.OnStopAnimation += StopDynamic;
+        }
+
+        private void DoDynamic()
+        {
+            if (dynamicImage.InvokeRequired)
+            {
+                var d = new CallTimer(DoDynamic);
+                dynamicImage.Invoke(d);
+            }
+            else
+            {
+                if (isWin)
+                {
+                    dynamicImage.Image = bitmapsResources.dynamicWin;
+                    isWin = false;
+                }
+                else if (isLoss)
+                {
+                    dynamicImage.Image = bitmapsResources.dynamicLoss;
+                    isLoss = false;
+                }
+
+                dynamicImage.Visible = true;
+            }
+        }
+
+        private void StopDynamic()
+        {
+            if (dynamicImage.InvokeRequired)
+            {
+                var d = new CallTimer(StopDynamic);
+                dynamicImage.Invoke(d);
+            }
+            else
+            {
+                if (isWinWithHighScore)
+                {
+                    this.highScoreDialog.GameTime = gameTime;
+                    this.highScoreDialog.ShowDialog();
+                    isWinWithHighScore = false;
+                }
+
+                dynamicImage.Visible = false;
+            }
         }
 
         private void DrawDynamicWinFinal()
         {
-            DoDynamicWin();
+            isWin = true;
 
-            if (isWinWithHighScore)
-            {
-                this.highScoreDialog.GameTime = gameTime;
-                this.highScoreDialog.ShowDialog();
-                isWinWithHighScore = false;
-            }
-            else
-            {
-                string congratulation = string.Concat(GameOptionsConstants.WinMessage, gameLogic.CurrentTime, " сек.");
-                MessageBox.Show(congratulation, GameOptionsConstants.WinMessageCaption);
-            }
+            int beforAnimationTime = 200;
+            int animationTime = 3000;
 
-            dynamicImage.Visible = false;
+            dynamicTimer.Start(beforAnimationTime, animationTime);
         }
 
         private void DrawDynamicLossFinal()
         {
-            dynamicImage.Image = bitmapsResources.dynamicLoss;
-            dynamicImage.Visible = true;
+            isLoss = true;
 
-            MessageBox.Show(GameOptionsConstants.LossMessage, GameOptionsConstants.LossMessageCaption);
+            int beforAnimationTime = 200;
+            int animationTime = 2300;
 
-            dynamicImage.Visible = false;
+            dynamicTimer.Start(beforAnimationTime, animationTime);
         }
 
         public void SetCellTopColor(Color color)
@@ -88,12 +133,6 @@ namespace Gui
         {
             isWinWithHighScore = true;
             this.gameTime = gameTime;
-        }
-
-        private void DoDynamicWin()
-        {
-            dynamicImage.Image = bitmapsResources.dynamicWin;
-            dynamicImage.Visible = true;
         }
 
         private void AddHighScore()

@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitmapsResources.cs" />
+    <Compile Include="FinalDynamicTimer.cs" />
     <Compile Include="GameAreaGraphics.cs" />
     <Compile Include="GameGraphics.cs" />
     <Compile Include="GameInfoGraphics.cs" />
