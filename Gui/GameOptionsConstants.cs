@@ -9,9 +9,14 @@ namespace Gui
         public const string CaptionHighScore = "Таблица рекордов";
         public const string CaptionRemoveHighScore = "Удаление данных";
 
-        public const string WarningCorrectlySetRowCount = "Некорректно задана высота.";
-        public const string WarningCorrectlySetColumnCount = "Некорректно задана ширина.";
-        public const string WarningCorrectlySetMinesCount = "Некорректно задано количество мин.";
+        public const string WarningCorrectlySetRowCount = "Ошибочный формат. Задайте количество строк целым числом.";
+        public const string WarningRowCountOutRange = "Количество строк должно быть в диапазоне:";
+
+        public const string WarningCorrectlySetColumnCount = "Ошибочный формат. Задайте количество столбцов целым числом.";
+        public const string WarningColumnCountOutRange = "Количество столбцов должно быть в диапазоне:";
+        
+        public const string WarningCorrectlySetMinesCount = "Ошибочный формат. Задайте количество мин целым числом.";
+        public const string WarningMinesCountOutRange = "Количество мин должно быть в диапазоне:";
 
         public const string WarningRemoveHighScore = "Удаление без возможности восстановления!\nВы уверены, что хотите удалить все результаты?";
         public const string RemoveHighScoreCaption = "Удаление рекордов.";

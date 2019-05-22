@@ -28,9 +28,9 @@ namespace Logic
         public delegate void TimeChange(int currentTime);
         public event TimeChange OnTimeChange;
 
-        public Cell[,] cells;//TODO это может быть public?
+        public Cell[,] cells;//TODO как это переделать в свойство?
 
-        public GameParameters gameParameters;//TODO это может быть public?
+        public GameParameters CurrentGameParameters { get; set; }
 
         private GameTimer time;
         public int CurrentTime { get; private set; }
@@ -71,8 +71,8 @@ namespace Logic
 
         public GameLogic(GameParameters gameParameters)
         {
-            this.gameParameters = gameParameters;
-            this.gameParameters.OnChangeGameParameters += gameParameters_Changed;
+            this.CurrentGameParameters = gameParameters;
+            this.CurrentGameParameters.OnChangeGameParameters += gameParameters_Changed;
 
             time = new GameTimer();
             time.OnTimeChange += ChangeTime;
@@ -90,10 +90,10 @@ namespace Logic
 
         private void SetNewGameParameters()
         {
-            RowCount = gameParameters.RowCount;
-            ColumnCount = gameParameters.ColumnCount;
-            MinesCount = gameParameters.MinesCount;
-            isPossibleMarkQuestion = gameParameters.IsPossibleMarkQuestion;
+            RowCount = CurrentGameParameters.RowCount;
+            ColumnCount = CurrentGameParameters.ColumnCount;
+            MinesCount = CurrentGameParameters.MinesCount;
+            isPossibleMarkQuestion = CurrentGameParameters.IsPossibleMarkQuestion;
 
             if (!Equals(cells, null) && (cells.GetLength(0) == RowCount && cells.GetLength(1) == ColumnCount))
             {

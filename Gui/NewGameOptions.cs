@@ -144,23 +144,52 @@ namespace Gui
             }
         }
 
+        private bool IsValueOutRange(int value, int numberMin, int numberMax)
+        {
+            return value < numberMin || value > numberMax;
+        }
+
         private bool IsInputCustomDataCorrect()
         {
-            if (!int.TryParse(textBoxRowCount.Text, out int rowCount))
+            int rowCount;
+            int columnCount;
+
+            if (!int.TryParse(textBoxRowCount.Text, out rowCount))
             {
                 MessageBox.Show(GameOptionsConstants.WarningCorrectlySetRowCount);
                 return false;
             }
+            else if (IsValueOutRange(rowCount, GameLogicConstants.CustomLevelRowCountMin, GameLogicConstants.CustomLevelRowCountMax))
+            {
+                string message = string.Format("{0} [{1} - {2}]", GameOptionsConstants.WarningRowCountOutRange, GameLogicConstants.CustomLevelRowCountMin, GameLogicConstants.CustomLevelRowCountMax);
+                MessageBox.Show(message);
+                return false;
+            }
 
-            if (!int.TryParse(textBoxColumnCount.Text, out int columnCount))
+            if (!int.TryParse(textBoxColumnCount.Text, out columnCount))
             {
                 MessageBox.Show(GameOptionsConstants.WarningCorrectlySetColumnCount);
                 return false;
             }
+            else if (IsValueOutRange(columnCount, GameLogicConstants.CustomLevelColumnCountMin, GameLogicConstants.CustomLevelColumnCountMax))
+            {
+                string message = string.Format("{0} [{1} - {2}]", GameOptionsConstants.WarningColumnCountOutRange, GameLogicConstants.CustomLevelColumnCountMin, GameLogicConstants.CustomLevelColumnCountMax);
+                MessageBox.Show(message);
+                return false;
+            }
+
+            int minesCountMin = 0;
+            int minesCountMax = rowCount * columnCount * GameLogicConstants.CustomLevelMinesCountPercentageFromCellsCountMax / 100;
 
             if (!int.TryParse(textBoxMinesCount.Text, out int minesCount))
             {
                 MessageBox.Show(GameOptionsConstants.WarningCorrectlySetMinesCount);
+                return false;
+            }
+            else if (IsValueOutRange(minesCount, minesCountMin, minesCountMax))
+            {
+                string message = string.Format("{0} [{1} - {2}]", GameOptionsConstants.WarningMinesCountOutRange, minesCountMin, minesCountMax);
+                MessageBox.Show(message);
                 return false;
             }
 
@@ -214,7 +243,7 @@ namespace Gui
             else
             {
                 DisableCustomTextBoxes();
-            } 
+            }
         }
 
         private void DisableCustomTextBoxes()
